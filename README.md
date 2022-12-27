@@ -25,12 +25,12 @@ Another option is to consume `packages/ui` directly from source without building
 For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
 
 ```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/**/*.{js,ts,jsx,tsx}",
-  ]
+content: [
+  // app content
+  `src/**/*.{js,ts,jsx,tsx}`,
+  // include packages if not transpiling
+  "../../packages/**/*.{js,ts,jsx,tsx}",
+];
 ```
 
 ### Utilities

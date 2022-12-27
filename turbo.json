@@ -13,6 +13,9 @@
     },
     "clean": {
       "cache": false
+    },
+    "test": {
+      "outputs": []
     }
   }
 }

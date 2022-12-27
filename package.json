@@ -1,25 +1,19 @@
 {
-  "name": "fvst-monorepo",
-  "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
+    "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "next": "13.1.1",
+    "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
-    "turbo": "latest"
+    "prettier": "^2.8.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "turbo": "^1.6.3"
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "dependencies": {},
-  "packageManager": "pnpm@7.20.0"
+  "packageManager": "pnpm@7.15.0"
 }

@@ -1,0 +1,63 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Restore typescript cache
+        uses: actions/cache@v3
+        with:
+          path: ./tsconfig.tsbuildinfo
+          key: ${{ matrix.node-version }}-typescript-cache-${{ github.head_ref }}
+          restore-keys: |
+            ${{ matrix.node-version }}-typescript-cache-refs/heads/stage
+            ${{ matrix.node-version }}-typescript-cache-refs/heads/main
+
+      - name: Restore jest cache
+        uses: actions/cache@v3
+        with:
+          path: .jest
+          key: ${{ matrix.node-version }}-jest-cache-${{ github.head_ref }}
+          restore-keys: |
+            ${{ matrix.node-version }}-jest-cache-refs/heads/stage
+            ${{ matrix.node-version }}-jest-cache-refs/heads/main
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run format
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test

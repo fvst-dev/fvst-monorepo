@@ -1,21 +1,18 @@
-import type { Config } from 'jest';
+import { JestConfigWithTsJest } from 'ts-jest';
 
-const config: Config = {
-  roots: ['<rootDir>/src'],
-  testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
+const config: JestConfigWithTsJest = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-
+  testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
   projects: ['<rootDir>', '<rootDir>/apps/*'],
 
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
-
-  // The directory where Jest should output its coverage files
-  coverageDirectory: 'coverage',
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',

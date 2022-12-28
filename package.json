@@ -11,12 +11,15 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "test": "turbo run test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "next": "13.1.1",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
+    "jest-config-custom": "*",
+    "husky": "^8.0.0",
+    "next": "13.1.1",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "turbo": "^1.6.3"
@@ -24,6 +27,5 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
   "packageManager": "npm@9.2.0"
 }

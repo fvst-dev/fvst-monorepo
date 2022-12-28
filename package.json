@@ -27,5 +27,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@9.2.0"
+  "packageManager": "npm@9.2.0",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
 }

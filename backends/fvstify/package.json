@@ -1,0 +1,23 @@
+{
+  "name": "fvstify",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "tap \"test/**/*.test.js\"",
+    "start": "fastify start -l info app.js",
+    "dev": "fastify start -w -l info -P main.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.2.0",
+    "@prisma/client": "^4.8.0",
+    "@trpc/server": "^10.7.0",
+    "fastify": "^4.10.2",
+    "fastify-cli": "^5.7.0",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "prisma": "^4.8.0",
+    "typescript": "^4.9.4"
+  }
+}

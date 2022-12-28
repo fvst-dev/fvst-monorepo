@@ -18,11 +18,11 @@
     "@types/react-dom": "^18.0.9",
     "concurrently": "^7.2.2",
     "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-custom": "*",
     "react": "^18.2.0",
-    "tailwind-config": "workspace:*",
+    "tailwind-config": "*",
     "tailwindcss": "^3.2.4",
-    "tsconfig": "workspace:*",
+    "tsconfig": "*",
     "tsup": "^6.1.3",
     "typescript": "^4.9.4"
   }

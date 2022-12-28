@@ -1,5 +1,10 @@
 {
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
@@ -11,10 +16,14 @@
   "devDependencies": {
     "next": "13.1.1",
     "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-custom": "*",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "turbo": "^1.6.3"
   },
-  "packageManager": "pnpm@7.15.0"
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "packageManager": "npm@9.2.0"
 }

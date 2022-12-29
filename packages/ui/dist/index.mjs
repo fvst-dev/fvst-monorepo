@@ -11,7 +11,7 @@ var Button = () => {
         children: [
           'Read the docs',
           /* @__PURE__ */ jsx('span', {
-            className: 'ml-2 bg-gradient-to-r from-brandred to-brandblue bg-clip-text text-transparent',
+            className: 'from-brandred to-brandblue ml-2 bg-gradient-to-r bg-clip-text text-transparent',
             children: '\u2192',
           }),
         ],

@@ -2,11 +2,6 @@
   "name": "fvstify",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P main.ts"
-  },
   "dependencies": {
     "@fastify/cors": "^8.2.0",
     "@prisma/client": "^4.8.0",

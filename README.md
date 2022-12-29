@@ -22,7 +22,7 @@ This example is setup to build `packages/ui` and output the transpiled source an
 
 Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update your `tailwind.config.js` to be aware of your package locations, so it can find all usages of the `tailwindcss` class names.
 
-For example, in [tailwind.config.js](tooling/tailwind-config/tailwind.config.js):
+For example, in [tailwind.config.js](ux/tailwind-config/tailwind.config.js):
 
 ```js
 content: [

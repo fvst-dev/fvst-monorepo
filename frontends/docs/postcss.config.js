@@ -1,10 +1,7 @@
+const config = require('tailwind-config/tailwind.config.js');
 module.exports = {
   plugins: {
-    tailwindcss: {
-      config: {
-        content: [`src/**/*.{js,ts,jsx,tsx}`, `src/**/*.{js,ts,jsx,tsx}`],
-      },
-    },
+    tailwindcss: { config },
     autoprefixer: {},
   },
 };

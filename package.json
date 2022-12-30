@@ -4,7 +4,7 @@
     "frontends/*",
     "backends/*",
     "tooling/*",
-    "ux/*"
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",

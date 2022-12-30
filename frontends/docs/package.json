@@ -26,6 +26,7 @@
     "tailwind-config": "*",
     "tailwindcss": "^3.2.4",
     "tsconfig": "*",
+    "@tooling/jest": "*",
     "typescript": "^4.9.4"
   }
 }

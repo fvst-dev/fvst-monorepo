@@ -13,7 +13,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write --ignore-unknown ./src",
+    "format": "prettier --write src",
     "test": "jest",
     "migrate-dev": "prisma migrate dev",
     "migrate": "prisma migrate deploy",

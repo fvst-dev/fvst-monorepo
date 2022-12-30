@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ./src"
   },
   "dependencies": {
     "next": "13.1.1",
@@ -23,6 +24,7 @@
     "tailwind-config": "*",
     "tailwindcss": "^3.2.4",
     "@tooling/tsconfig": "*",
+    "@tooling/prettier": "*",
     "@tooling/eslint-config-custom": "*",
     "typescript": "^4.9.4"
   }

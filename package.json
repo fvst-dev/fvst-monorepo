@@ -7,27 +7,24 @@
     "packages/*"
   ],
   "scripts": {
+    "prepare": "husky install",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "test": "turbo run test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install"
+    "format": "turbo run format"
   },
   "devDependencies": {
     "husky": "^8.0.0",
-    "next": "13.1.1",
-    "prettier": "^2.8.1",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.6.3",
-    "typescript": "^4.9.4"
+    "lint-staged": "^13.1.0",
+    "turbo": "^1.6.3"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "packageManager": "npm@9.2.0",
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "turbo run format --"
   }
 }

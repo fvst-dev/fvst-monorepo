@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write ./src",
     "test": "jest"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "tailwindcss": "^3.2.4",
     "@tooling/tsconfig": "*",
     "@tooling/jest": "*",
+    "@tooling/prettier": "*",
     "@tooling/eslint-config-custom": "*",
     "typescript": "^4.9.4"
   }

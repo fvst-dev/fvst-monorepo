@@ -1,43 +1,20 @@
-# Turborepo Tailwind CSS starter
+# Monorepo started template
 
-This is an official npm starter turborepo.
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "npx eslint --cache --cache-location=./.eslintcache --cache-strategy=content ./src",
+    "lint:prettier": "prettier --check \"src/**/*.{ts,tsx,md,js,jsx}\"",
+    "lint:typescript": "tsc --noEmit -p ./tsconfig.check.json",
 
-## What's inside?
+    "format": "npm run format:prettier && npm run format:eslint",
+    "format:prettier": "prettier --write \"src/**/*.{ts,tsx,md,js,jsx}\"",
+    "format:eslint": "npx eslint ./src --fix",
 
-This Turborepo includes the following packages/apps:
+    "build": "NODE_ENV=production webpack",
+    "build:dev": "NODE_ENV=development webpack",
+    "build:start": "cd dist && PORT=8080 npx serve",
 
-### Apps and Packages
+    "start": "NODE_ENV=development webpack serve --open",
+    "start:live": "NODE_ENV=development webpack serve --open --live-reload --hot",
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is setup to build `packages/ui` and output the transpiled source and compiled styles to `dist/`. This was chosen to make sharing one `tailwind.config.js` as easy as possible, and to ensure only the CSS that is used by the current application and its dependencies is generated.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update your `tailwind.config.js` to be aware of your package locations, so it can find all usages of the `tailwindcss` class names.
-
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
-
-```js
-content: [
-  // app content
-  `src/**/*.{js,ts,jsx,tsx}`,
-  // include packages if not transpiling
-  '../../packages/**/*.{js,ts,jsx,tsx}',
-];
-```
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+    "test": "jest --coverage --maxWorkers=40% --maxConcurrency=5",
+    "test:ci": "jest --coverage --maxWorkers=2"

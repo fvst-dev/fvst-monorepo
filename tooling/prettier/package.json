@@ -1,0 +1,13 @@
+{
+  "name": "@tooling/prettier",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "files": [
+    ".prettierrc.js"
+  ],
+  "dependencies": {
+    "prettier": "^2.8.1",
+    "prettier-plugin-tailwindcss": "^0.1.13"
+  }
+}

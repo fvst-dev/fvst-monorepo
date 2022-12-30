@@ -1,5 +1,0 @@
-# Ignore artifacts:
-build
-node_modules
-.next
-coverage

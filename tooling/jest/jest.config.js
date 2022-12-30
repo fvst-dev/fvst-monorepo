@@ -1,13 +1,10 @@
-import { JestConfigWithTsJest } from 'ts-jest';
-
-const config: JestConfigWithTsJest = {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
-  projects: ['<rootDir>', '<rootDir>/apps/*'],
 
   clearMocks: true,
 
@@ -17,4 +14,3 @@ const config: JestConfigWithTsJest = {
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
 };
-export default config;

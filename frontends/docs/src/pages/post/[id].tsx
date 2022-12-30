@@ -1,7 +1,7 @@
 import NextError from 'next/error';
 import { useRouter } from 'next/router';
-import { NextPageWithLayout } from '~/pages/_app';
-import { RouterOutput, trpc } from '~/utils/trpc';
+import { NextPageWithLayout } from '../_app';
+import { RouterOutput, trpc } from '../../utils/trpc';
 
 type PostByIdOutput = RouterOutput['post']['byId'];
 
@@ -25,12 +25,7 @@ const PostViewPage: NextPageWithLayout = () => {
   const postQuery = trpc.post.byId.useQuery({ id });
 
   if (postQuery.error) {
-    return (
-      <NextError
-        title={postQuery.error.message}
-        statusCode={postQuery.error.data?.httpStatus ?? 500}
-      />
-    );
+    return <NextError title={postQuery.error.message} statusCode={500} />;
   }
 
   if (postQuery.status !== 'success') {

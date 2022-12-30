@@ -3,7 +3,8 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**"],
+      "env": ["VERCEL_URL", "PORT", "NODE_ENV"]
     },
     "lint": {
       "outputs": []

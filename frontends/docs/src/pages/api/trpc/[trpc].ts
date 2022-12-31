@@ -15,10 +15,10 @@ export default trpcNext.createNextApiHandler({
    * @link https://trpc.io/docs/error-handling
    */
   onError({ error }) {
-    if (error.code === 'INTERNAL_SERVER_ERROR') {
-      // send to bug reporting
-      console.error('Something went wrong', error);
-    }
+    // if (error.code === 'INTERNAL_SERVER_ERROR') {
+    // send to bug reporting
+    console.error('Something went wrong', error);
+    // }
   },
   /**
    * Enable query batching

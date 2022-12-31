@@ -1,7 +1,7 @@
+import { NextPage } from 'next';
 import NextError from 'next/error';
 import { useRouter } from 'next/router';
-import { NextPageWithLayout } from '~/pages/_app';
-import { RouterOutput, trpc } from '~/utils/trpc';
+import { RouterOutput, trpc } from '../../utils/trpc';
 
 type PostByIdOutput = RouterOutput['post']['byId'];
 
@@ -20,7 +20,7 @@ function PostItem(props: { post: PostByIdOutput }) {
   );
 }
 
-const PostViewPage: NextPageWithLayout = () => {
+const PostViewPage: NextPage = () => {
   const id = useRouter().query.id as string;
   const postQuery = trpc.post.byId.useQuery({ id });
 

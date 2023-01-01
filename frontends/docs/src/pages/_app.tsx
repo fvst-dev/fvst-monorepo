@@ -1,11 +1,11 @@
+import '../client/styles/globals.css';
+
 import type { AppType, AppProps } from 'next/app';
 
-import { DefaultLayout } from '../components/DefaultLayout';
-import { trpc } from '../utils/trpc';
-import '../styles/globals.css';
-import 'ui-component/styles.css';
+import { DefaultLayout } from '../client/features/layout/DefaultLayout';
+import { trpc } from '../client/utils/trpc';
 
-const MyApp = (({ Component, pageProps }: AppProps) => {
+const Fvst = (({ Component, pageProps }: AppProps) => {
   return (
     <DefaultLayout>
       <Component {...pageProps} />
@@ -13,4 +13,4 @@ const MyApp = (({ Component, pageProps }: AppProps) => {
   );
 }) as AppType;
 
-export default trpc.withTRPC(MyApp);
+export default trpc.withTRPC(Fvst);

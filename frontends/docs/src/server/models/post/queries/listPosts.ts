@@ -20,7 +20,7 @@ export const listPosts = async (limit: number, cursor: Cursor) => {
         }
       : undefined,
     orderBy: {
-      createdAt: 'desc',
+      createdAt: 'asc',
     },
   });
   let nextCursor: Cursor = undefined;
@@ -32,7 +32,7 @@ export const listPosts = async (limit: number, cursor: Cursor) => {
   }
 
   return {
-    items: items.reverse(),
+    items: items,
     nextCursor,
   };
 };

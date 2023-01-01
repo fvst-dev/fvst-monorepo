@@ -25,6 +25,6 @@
   },
   "packageManager": "npm@9.2.0",
   "lint-staged": {
-    "**/*": "turbo run format --"
+    "**/*": "turbo run precommit:format --"
   }
 }

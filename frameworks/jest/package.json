@@ -1,12 +1,10 @@
 {
-  "name": "@tooling/jest",
+  "name": "@framework/jest",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "files": [
-    "base.json",
-    "nextjs.json",
-    "react-library.json"
+    "jest.config.js"
   ],
   "dependencies": {
     "jest": "^29.3.1",

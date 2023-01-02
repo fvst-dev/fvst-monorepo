@@ -1,5 +1,5 @@
 {
-  "extends": "@tooling/tsconfig/nextjs.json",
+  "extends": "@tooling/typescript/nextjs.json",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

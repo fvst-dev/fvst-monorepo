@@ -1,5 +1,1 @@
-const config = require('@tooling/jest/jest.config');
-
-module.exports = {
-  ...config,
-};
+module.exports = require('@framework/jest/jest.config');

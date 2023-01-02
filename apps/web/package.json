@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@apps/web",
   "version": "10.7.0",
   "private": true,
   "scripts": {
@@ -23,7 +23,7 @@
     "@trpc/next": "^10.7.0",
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
-    "autoprefixer": "^10.4.13",
+    "@framework/tailwind": "*",
     "next": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -33,14 +33,12 @@
   },
   "devDependencies": {
     "@tooling/eslint-config-custom": "*",
-    "@tooling/jest": "*",
+    "@tooling/typescript": "*",
+    "@framework/jest": "*",
     "@types/node": "^18.7.20",
     "@types/react": "^18.0.9",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
     "prisma": "^4.7.1",
-    "tsx": "^3.9.0",
-    "typescript": "^4.8.3"
+    "tsx": "^3.9.0"
   },
   "publishConfig": {
     "access": "restricted"

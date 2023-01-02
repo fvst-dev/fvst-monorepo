@@ -10,7 +10,7 @@
     "outDir": "dist",
     "strict": true,
     "lib": ["esnext"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

@@ -1,6 +1,6 @@
-import { inferAsyncReturnType } from '@trpc/server';
-import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
-import { PrismaClient } from '@prisma/client';
+import { inferAsyncReturnType } from "@trpc/server";
+import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

@@ -1,10 +1,10 @@
 {
   "private": true,
   "workspaces": [
-    "frontends/*",
-    "backends/*",
+    "apps/*",
     "tooling/*",
-    "packages/*"
+    "packages/*",
+    "frameworks/*"
   ],
   "scripts": {
     "prepare": "husky install",

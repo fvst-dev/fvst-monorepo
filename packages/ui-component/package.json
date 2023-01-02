@@ -20,7 +20,7 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "react": "^18.2.0",
-    "tailwind-config": "*",
+    "@framework/tailwind": "*",
     "tailwindcss": "^3.2.4",
     "tsconfig": "*",
     "tsup": "^6.1.3",

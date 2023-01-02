@@ -31,7 +31,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.7.4",
-    "@packages/ui-component": "*",
+    "@package/ui-component": "*",
     "zod": "^3.20.2"
   },
   "devDependencies": {

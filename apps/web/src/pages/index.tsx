@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import { Button } from '@packages/ui-component';
+import { Button } from '@package/ui-component';
 
 import AddPost from '../client/features/home/AddPost';
 import ListPosts from '../client/features/home/ListPosts';

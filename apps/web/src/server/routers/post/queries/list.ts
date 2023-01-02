@@ -16,5 +16,5 @@ export const list = publicProcedure
      * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
      */
     const { cursor, limit } = input;
-    return listPosts(limit, cursor);
+    return await listPosts(limit, cursor);
   });

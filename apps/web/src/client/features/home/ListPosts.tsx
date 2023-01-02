@@ -10,7 +10,7 @@ const styles = {
 
 const ListPosts: React.FC = () => {
   const utils = trpc.useContext();
-  const postsQuery = trpc.post.list?.useInfiniteQuery(
+  const postsQuery = trpc.post.list.useInfiniteQuery(
     {
       limit: 5,
     },

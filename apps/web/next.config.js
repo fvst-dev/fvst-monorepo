@@ -1,5 +1,7 @@
 // @ts-check
 const { env } = require('./src/server/env');
+const packageJSON = require('./package.json');
+const transpilePackages = Object.keys(packageJSON.dependencies).filter((it) => it.includes('@package/'));
 
 /**
  * Don't be scared of the generics here.
@@ -25,4 +27,5 @@ module.exports = getConfig({
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },
+  transpilePackages,
 });

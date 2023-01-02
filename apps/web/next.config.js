@@ -1,9 +1,8 @@
 // @ts-check
 const { env } = require('./src/server/env');
 const packageJSON = require('./package.json');
-const transpiledPackages = Object.keys(packageJSON.dependencies).filter((it) => it.includes('@package/'));
+const transpilePackages = Object.keys(packageJSON.dependencies).filter((it) => it.includes('@package/'));
 
-const withTM = require('next-transpile-modules')(transpiledPackages);
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -19,15 +18,14 @@ function getConfig(config) {
 /**
  * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
-module.exports = withTM(
-  getConfig({
-    /**
-     * Dynamic configuration available for the browser and server.
-     * Note: requires `ssr: true` or a `getInitialProps` in `_app.tsx`
-     * @link https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
-     */
-    publicRuntimeConfig: {
-      NODE_ENV: env.NODE_ENV,
-    },
-  })
-);
+module.exports = getConfig({
+  /**
+   * Dynamic configuration available for the browser and server.
+   * Note: requires `ssr: true` or a `getInitialProps` in `_app.tsx`
+   * @link https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
+   */
+  publicRuntimeConfig: {
+    NODE_ENV: env.NODE_ENV,
+  },
+  transpilePackages,
+});

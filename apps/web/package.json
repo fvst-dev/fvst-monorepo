@@ -6,7 +6,7 @@
     "dev": "npm run db:dev && next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "npm run lint:prettier && npm run lint:next && npm run lint:typescript",
+    "lint": "prisma generate && npm run lint:prettier && npm run lint:next && npm run lint:typescript",
     "lint:next": "next lint",
     "lint:typescript": "tsc --noEmit",
     "lint:prettier": "prettier --check ./src",

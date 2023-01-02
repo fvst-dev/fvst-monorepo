@@ -32,7 +32,7 @@ export const listPosts = async (limit: number, cursor: Cursor) => {
   }
 
   return {
-    items: items,
+    items,
     nextCursor,
   };
 };

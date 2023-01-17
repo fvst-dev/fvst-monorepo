@@ -37,7 +37,7 @@ const ListPosts: React.FC = () => {
       <div className={styles.listContainer}>
         {postsQuery.data?.pages.map((page, index) => (
           <Fragment key={index}>
-            {page.items.map((item) => (
+            {page.items.map((item: typeof page['items'][number]) => (
               <div className={styles.listItem} key={item.id}>
                 <div className="px-6 py-4">
                   <div className="mb-2 bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-xl font-bold text-transparent">

@@ -15,6 +15,7 @@
     "test": "jest",
     "db:dev": "prisma migrate dev && prisma generate && prisma db seed",
     "db:prod": "prisma generate && prisma migrate deploy",
+    "db:generate": "prisma generate",
     "precommit:format": "prettier --write --ignore-unknown "
   },
   "prisma": {

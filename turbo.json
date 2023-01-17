@@ -2,11 +2,15 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "db:generate"],
       "outputs": ["dist/**", ".next/**"],
       "env": ["VERCEL_URL", "PORT", "NODE_ENV"]
     },
+    "db:generate": {
+      "cache": false
+    },
     "lint": {
+      "dependsOn": ["db:generate"],
       "outputs": []
     },
     "format": {

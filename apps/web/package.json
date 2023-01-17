@@ -6,7 +6,8 @@
     "dev": "npm run db:dev && next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "prisma generate && npm run lint:prettier && npm run lint:next && npm run lint:typescript",
+    "lint": "npm run lint:prisma && npm run lint:prettier && npm run lint:next && npm run lint:typescript",
+    "lint:prisma": "prisma validate",
     "lint:next": "next lint",
     "lint:typescript": "tsc --noEmit",
     "lint:prettier": "prettier --check ./src",
@@ -14,6 +15,7 @@
     "test": "jest",
     "db:dev": "prisma migrate dev && prisma generate && prisma db seed",
     "db:prod": "prisma generate && prisma migrate deploy",
+    "db:generate": "prisma generate",
     "precommit:format": "prettier --write --ignore-unknown "
   },
   "prisma": {

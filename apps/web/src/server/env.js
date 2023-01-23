@@ -17,5 +17,4 @@ if (!env.success) {
   console.error('❌ Invalid environment variables:', JSON.stringify(env.error.format(), null, 4));
   process.exit(1);
 }
-
 module.exports.env = env.data;

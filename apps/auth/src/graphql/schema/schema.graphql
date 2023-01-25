@@ -1,0 +1,21 @@
+type Query {
+  isValidToken(token: String!): Boolean!
+}
+
+type Mutation {
+  loginWithUsernameAndPassword(
+    username: String!
+    password: String!
+  ): LoginResult!
+  createUser(username: String!, password: String!): CreateUserResult!
+}
+
+type LoginResult {
+  success: Boolean!
+  token: String
+}
+
+type CreateUserResult {
+  success: Boolean!
+  token: String
+}

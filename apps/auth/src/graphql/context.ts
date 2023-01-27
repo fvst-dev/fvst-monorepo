@@ -13,7 +13,7 @@ const extractPayloadWithVerification = (token: string) => {
 };
 
 const cache = new LRU({
-  ttl: 10_000,
+  ttl: 60_000,
   max: 1000,
 });
 
@@ -58,6 +58,9 @@ const authorization = async (req: IncomingMessage): Promise<AuthContext> => {
   const [, token] = authorization.split(" ");
 
   const payload = extractPayloadWithVerification(token);
+  if (!payload.session) {
+    throw new Error("Invalid token payload");
+  }
 
   const session = await sessionExistsLoader.load(payload.session);
   if (!session) {

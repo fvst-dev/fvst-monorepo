@@ -1,12 +1,13 @@
 import { Resolvers } from "../graphql/generated/schema";
 import { prisma, User } from "../utils/prisma";
 import { signJwt } from "../utils/jwt";
+import { Context } from "../graphql/context";
 
 export type LoginResultParent = {
   user: User | null;
 };
 
-const loginResultResolvers: Resolvers["LoginResult"] = {
+const loginResultResolvers: Resolvers<Context>["LoginResult"] = {
   success: (parent) => !!parent.user,
   token: async (parent) => {
     if (!parent.user) {

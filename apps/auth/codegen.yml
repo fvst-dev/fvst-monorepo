@@ -6,6 +6,10 @@ generates:
       - "typescript"
       - "typescript-resolvers"
     config:
+      federation: true
+      contextType: "../context#Context"
       mappers:
         LoginResult: ../../resolvers/LoginResult#LoginResultParent
         CreateUserResult: ../../resolvers/CreateUserResult#CreateUserResultParent
+      scalars:
+        DateTime: Date

@@ -1,0 +1,6 @@
+federation_version: 2
+subgraphs:
+  auth:
+    routing_url: http://localhost:4001/
+    schema:
+      file: ../auth/src/graphql/schema/schema.graphql

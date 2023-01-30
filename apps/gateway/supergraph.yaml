@@ -4,3 +4,7 @@ subgraphs:
     routing_url: http://localhost:4001/
     schema:
       file: ../auth/src/graphql/schema/schema.graphql
+  demo:
+    routing_url: http://localhost:4002/
+    schema:
+      file: ../demo/src/graphql/schema/schema.graphql

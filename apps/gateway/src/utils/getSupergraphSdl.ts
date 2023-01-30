@@ -4,7 +4,8 @@ import { IntrospectAndCompose } from "@apollo/gateway";
 
 const getSupergraphSdl = () => {
   if (NODE_ENV === "production") {
-    return readFileSync(__dirname + "/../../supergraph.graphql").toString();
+    // TODO: production should use use static supergraph schema, but there is a issue with generating this file with dynamic subgraph urls
+    // return readFileSync(__dirname + "/../../supergraph.graphql").toString();
   }
 
   return new IntrospectAndCompose({

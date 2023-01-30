@@ -15,7 +15,7 @@ export default async (
     },
   });
 
-  if (!user || (await checkPasswordHash(input.password, user.password))) {
+  if (!user || !(await checkPasswordHash(input.password, user.password))) {
     return { user: null };
   }
 

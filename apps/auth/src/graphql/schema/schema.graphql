@@ -1,13 +1,22 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+scalar DateTime
+
 type Query {
   isValidToken(token: String!): Boolean!
+  me: User
 }
 
 type Mutation {
-  loginWithUsernameAndPassword(
-    username: String!
-    password: String!
-  ): LoginResult!
+  loginWithUsernameAndPassword(username: String!, password: String!): LoginResult!
   createUser(username: String!, password: String!): CreateUserResult!
+}
+
+type User @key(fields: "id") {
+  id: ID!
+  username: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type LoginResult {

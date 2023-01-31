@@ -1,12 +1,12 @@
-import { Resolvers } from "../graphql/generated/schema";
-import { prisma, User } from "../utils/prisma";
-import { signJwt } from "../utils/jwt";
+import { Resolvers } from '../graphql/generated/schema';
+import { prisma, User } from '../utils/prisma';
+import { signJwt } from '../utils/jwt';
 
 export type CreateUserResultParent = {
   user: User | null;
 };
 
-const createUserResultResolvers: Resolvers["CreateUserResult"] = {
+const createUserResultResolvers: Resolvers['CreateUserResult'] = {
   success: (parent) => !!parent.user,
   token: async (parent) => {
     if (!parent.user) {

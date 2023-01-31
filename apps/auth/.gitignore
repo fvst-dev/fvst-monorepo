@@ -2,6 +2,8 @@
 
 .env
 
+/src/prisma/client/
+
 # dependencies
 /node_modules
 /.pnp

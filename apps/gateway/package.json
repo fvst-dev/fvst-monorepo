@@ -1,0 +1,28 @@
+{
+  "name": "@apps/gateway",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon -r dotenv/config ./src/index.ts",
+    "start": "node ./dist/index.js",
+    "gen_supergraph_config": "APOLLO_ELV2_LICENSE=accept node dist/utils/generateSupergraphConfig.js | rover supergraph compose --config - > supergraph.graphql",
+    "format": "npm run format:prettier",
+    "format:prettier": "prettier --write ./src",
+    "lint": "npm run lint:prettier && npm run lint:typescript",
+    "lint:typescript": "tsc --noEmit",
+    "lint:prettier": "prettier --check ./src"
+  },
+  "dependencies": {
+    "@apollo/gateway": "^2.2.3",
+    "@apollo/rover": "^0.11.0",
+    "@apollo/server": "^4.3.1",
+    "dataloader": "^2.1.0",
+    "graphql": "^16.6.0",
+    "lru-cache": "^7.14.1",
+    "yaml": "^2.2.1",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "dotenv": "^16.0.3"
+  }
+}

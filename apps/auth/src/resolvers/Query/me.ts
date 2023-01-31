@@ -1,9 +1,7 @@
-import { Maybe, ResolversTypes } from "../../graphql/generated/schema";
-import { Context } from "../../graphql/context";
+import { Maybe, ResolversTypes } from '../../graphql/generated/schema';
+import { Context } from '../../graphql/context';
 
-export default async (
-  context: Context
-): Promise<Maybe<ResolversTypes["User"]>> => {
+export default async (context: Context): Promise<Maybe<ResolversTypes['User']>> => {
   if (!context.userId) {
     return null;
   }

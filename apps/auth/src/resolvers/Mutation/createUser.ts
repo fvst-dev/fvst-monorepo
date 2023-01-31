@@ -1,6 +1,6 @@
-import { MutationCreateUserArgs } from "../../graphql/generated/schema";
-import { getPasswordHash } from "../../utils/password";
-import { Context } from "../../graphql/context";
+import { MutationCreateUserArgs } from '../../graphql/generated/schema';
+import { getPasswordHash } from '../../utils/password';
+import { Context } from '../../graphql/context';
 
 export default async (input: MutationCreateUserArgs, context: Context) => {
   // TODO: validate input

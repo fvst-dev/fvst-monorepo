@@ -1,4 +1,4 @@
-import { allow, deny, shield } from "graphql-shield";
+import { allow, deny, shield } from 'graphql-shield';
 
 // TODO: add actual rules for allowing resolvers
 

@@ -1,5 +1,4 @@
-extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
 
 scalar DateTime
 
@@ -9,10 +8,7 @@ type Query {
 }
 
 type Mutation {
-  loginWithUsernameAndPassword(
-    username: String!
-    password: String!
-  ): LoginResult!
+  loginWithUsernameAndPassword(username: String!, password: String!): LoginResult!
   createUser(username: String!, password: String!): CreateUserResult!
 }
 

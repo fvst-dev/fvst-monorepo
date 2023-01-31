@@ -1,7 +1,7 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-import { PORT } from "./utils/config";
-import schema from "./graphql/schema";
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { PORT } from './utils/config';
+import schema from './graphql/schema';
 
 (async () => {
   const server = new ApolloServer({

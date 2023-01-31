@@ -1,12 +1,12 @@
-import { parse, stringify } from "yaml";
-import { readFileSync } from "fs";
-import { SUBGRAPH_AUTH_URL, SUBGRAPH_DEMO_URL } from "./config";
+import { parse, stringify } from 'yaml';
+import { readFileSync } from 'fs';
+import { SUBGRAPH_AUTH_URL, SUBGRAPH_DEMO_URL } from './config';
 
 const CONFIG_FILE = `${__dirname}/../../supergraph.yaml`;
 
 const routingEnvMap = new Map([
-  ["auth", SUBGRAPH_AUTH_URL],
-  ["demo", SUBGRAPH_DEMO_URL],
+  ['auth', SUBGRAPH_AUTH_URL],
+  ['demo', SUBGRAPH_DEMO_URL],
 ]);
 
 type SuperGraphConfig = {
@@ -40,7 +40,7 @@ const updateRoutingUrls = (config: SuperGraphConfig) => {
   };
 };
 
-const file = readFileSync(CONFIG_FILE, "utf8");
+const file = readFileSync(CONFIG_FILE, 'utf8');
 
 const config = parse(file);
 

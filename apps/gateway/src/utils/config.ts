@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   PORT: z.coerce.number().default(4000),
-  NODE_ENV: z.enum(["development", "test", "production"]),
+  NODE_ENV: z.enum(['development', 'test', 'production']),
   SUBGRAPH_AUTH_URL: z.string().url(),
   SUBGRAPH_DEMO_URL: z.optional(z.string().url()),
 });
@@ -10,10 +10,7 @@ const envSchema = z.object({
 const env = envSchema.safeParse(process.env);
 
 if (!env.success) {
-  console.error(
-    "❌ Invalid environment variables:",
-    JSON.stringify(env.error.format(), null, 4)
-  );
+  console.error('❌ Invalid environment variables:', JSON.stringify(env.error.format(), null, 4));
   process.exit(1);
 }
 

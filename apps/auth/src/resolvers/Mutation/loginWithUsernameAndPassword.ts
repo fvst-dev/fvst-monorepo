@@ -1,14 +1,11 @@
-import {
-  MutationLoginWithUsernameAndPasswordArgs,
-  ResolversTypes,
-} from "../../graphql/generated/schema";
-import { checkPasswordHash } from "../../utils/password";
-import { Context } from "../../graphql/context";
+import { MutationLoginWithUsernameAndPasswordArgs, ResolversTypes } from '../../graphql/generated/schema';
+import { checkPasswordHash } from '../../utils/password';
+import { Context } from '../../graphql/context';
 
 export default async (
   input: MutationLoginWithUsernameAndPasswordArgs,
   context: Context
-): Promise<ResolversTypes["LoginResult"]> => {
+): Promise<ResolversTypes['LoginResult']> => {
   const user = await context.prisma.user.findFirst({
     where: {
       username: input.username,

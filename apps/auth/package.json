@@ -11,8 +11,13 @@
     "codegen": "graphql-codegen --config codegen.yml",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
-    "format": "npm run format:prisma",
-    "format:prisma": "prisma format"
+    "format": "npm run format:prisma && npm run format:prettier",
+    "format:prisma": "prisma format",
+    "format:prettier": "prettier --write ./src",
+    "lint": "npm run lint:prisma && npm run lint:prettier && npm run lint:typescript",
+    "lint:prisma": "DATABASE_URL=\"postgresql://user:pass@not-real:1234/fvst?schema=public\" prisma validate",
+    "lint:typescript": "tsc --noEmit",
+    "lint:prettier": "prettier --check ./src"
   },
   "dependencies": {
     "@apollo/server": "^4.3.1",

@@ -1,8 +1,8 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 
-const ISSUER = "auth";
-const EXPIRES_IN = "365d";
-const SECRET = "secret";
+const ISSUER = 'auth';
+const EXPIRES_IN = '365d';
+const SECRET = 'secret'; // TODO: config
 
 export type Payload = {
   /**

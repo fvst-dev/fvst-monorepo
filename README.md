@@ -11,14 +11,15 @@
 
 ## NPM Scripts
 
-| Command        | Description                                  |
-| -------------- | -------------------------------------------- |
-| npm run lint   | Runs prettier, eslint and tsc (checks types) |
-| npm run format | Runs prettier and eslint --fix               |
-| npm run docker | Runs the docker composes in each package     |
-| npm run dev    | Starts the dev environment for all apps      |
-| npm run build  | Builds all the apps and packages             |
-| npm run test   | Runs the test suite                          |
+| Command               | Description                                  |
+| --------------------- | -------------------------------------------- |
+| npm run lint          | Runs prettier, eslint and tsc (checks types) |
+| npm run format        | Runs prettier and eslint --fix               |
+| npm run docker        | Runs the docker composes in each package     |
+| npm run dev           | Starts the dev environment for all apps      |
+| npm run build         | Builds all the apps and packages             |
+| npm run test          | Runs the test suite                          |
+| npm run publishSchema | Runs the schema publish to apollo            |
 
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "npx eslint --cache --cache-location=./.eslintcache --cache-strategy=content ./src",
@@ -38,3 +39,11 @@
 
     "test": "jest --coverage --maxWorkers=40% --maxConcurrency=5",
     "test:ci": "jest --coverage --maxWorkers=2"
+
+## Graphql schema management
+
+1. Put schemas into APP_NAME/src/graphql/schema/schema.graphql files
+2. Configure PORT in .env for the app
+3. Configure a env name for yourself in .env (APOLLO_GRAPH_REF value). The code after @ must be unique for your dev box
+4. Run the npm run publishSchema (this publishes the schema for your env to apollo studio)
+5. Run docker compose file. It will expose the sandbox on port 4000

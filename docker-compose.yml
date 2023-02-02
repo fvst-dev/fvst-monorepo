@@ -20,6 +20,19 @@ services:
     command: redis-server --save 20 1 --loglevel warning
     volumes:
       - redis:/data
+
+  gateway:
+    image: ghcr.io/apollographql/router:v1.4.0
+    restart: always
+    environment:
+      APOLLO_GRAPH_REF: ${APOLLO_GRAPH_REF}
+      APOLLO_KEY: ${APOLLO_KEY}
+    command: -c settings/router.yml
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./apps/apollo-gateway/config:/dist/settings
+
 volumes:
   postgres:
   redis:

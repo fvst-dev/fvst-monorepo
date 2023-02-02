@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": ["^build", "db:generate", "codegen"],
       "outputs": ["dist/**", ".next/**"],
-      "env": ["VERCEL_URL", "PORT", "NODE_ENV"]
+      "env": ["VERCEL_URL", "PORT", "NODE_ENV", "DATABASE_URL"]
     },
     "db:generate": {
       "cache": false

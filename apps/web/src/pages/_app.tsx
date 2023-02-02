@@ -1,16 +1,15 @@
-import '../client/styles/globals.css';
+import { type AppType } from 'next/app';
+import { type Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 
-import type { AppType, AppProps } from 'next/app';
+import '../styles/globals.css';
 
-import { DefaultLayout } from '../client/features/layout/DefaultLayout';
-import { trpc } from '../client/utils/trpc';
-
-const Fvst = (({ Component, pageProps }: AppProps) => {
+const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
-    <DefaultLayout>
+    <SessionProvider session={session}>
       <Component {...pageProps} />
-    </DefaultLayout>
+    </SessionProvider>
   );
-}) as AppType;
+};
 
-export default trpc.withTRPC(Fvst);
+export default MyApp;

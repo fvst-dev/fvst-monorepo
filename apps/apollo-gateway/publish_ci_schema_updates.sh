@@ -18,7 +18,7 @@ for d in */ ; do
     echo "=============================================================="
     echo "App $APP_NAME is configured to use endpoint $ENDPOINT and this schema file $SCHEMA_FILE"
 
-    rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT--schema $SCHEMA_FILE --name $APP_NAME
+    ~/.rover/bin/rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT--schema $SCHEMA_FILE --name $APP_NAME
 
     echo "=============================================================="
 done

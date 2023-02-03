@@ -45,5 +45,6 @@ jobs:
       - name: Sync schema
         run: |
           export APOLLO_GRAPH_REF="fvst-main@${GITHUB_REF##*/}"
+          export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

@@ -6,7 +6,7 @@ for d in */ ; do
 
     GRAPH_REF="fvst-main@pr-$PR_NUMBER"
 
-    ENDPOINT="https://$APP_NAME-fvst-monorepo-pr-$PR_NUMBER.up.railway.app"
+    ENDPOINT="https://service-$APP_NAME-fvst-monorepo-pr-$PR_NUMBER.up.railway.app"
 
     if [ ! -f "$SCHEMA_FILE" ]; then 
         continue;
@@ -15,7 +15,7 @@ for d in */ ; do
     echo "=============================================================="
     echo "App $APP_NAME is configured to use endpoint $ENDPOINT and this schema file $SCHEMA_FILE"
 
-    ~/.rover/bin/rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT --schema $SCHEMA_FILE --name service-$APP_NAME
+    ~/.rover/bin/rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT --schema $SCHEMA_FILE --name $APP_NAME
 
     echo "=============================================================="
 done

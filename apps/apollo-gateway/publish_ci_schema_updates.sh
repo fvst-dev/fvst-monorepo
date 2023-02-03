@@ -4,12 +4,9 @@ for d in */ ; do
     APP_NAME=$(echo $d | sed 's/.$//')
     SCHEMA_FILE=$APP_NAME/src/graphql/schema/schema.graphql
 
-    BRANCH_OR_PR="pr-21"
+    GRAPH_REF="fvst-main@pr-$PR_NUMBER"
 
-    GRAPH_REF="fvst-main@$BRANCH_OR_PR"
-
-    ENDPOINT="https://$APP_NAME-fvst-monorepo-$BRANCH_OR_PR.up.railway.app"
-
+    ENDPOINT="https://$APP_NAME-fvst-monorepo-pr-$PR_NUMBER.up.railway.app"
 
     if [ ! -f "$SCHEMA_FILE" ]; then 
         continue;
@@ -18,7 +15,7 @@ for d in */ ; do
     echo "=============================================================="
     echo "App $APP_NAME is configured to use endpoint $ENDPOINT and this schema file $SCHEMA_FILE"
 
-    ~/.rover/bin/rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT --schema $SCHEMA_FILE --name $APP_NAME
+    ~/.rover/bin/rover subgraph publish $GRAPH_REF --routing-url $ENDPOINT --schema $SCHEMA_FILE --name service-$APP_NAME
 
     echo "=============================================================="
 done

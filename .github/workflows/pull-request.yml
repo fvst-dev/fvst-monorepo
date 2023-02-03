@@ -46,5 +46,6 @@ jobs:
         run: |
           export APOLLO_GRAPH_REF="fvst-main@${GITHUB_REF##*/}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
+          export PR_NUMBER=${{github.event.pull_request.number}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

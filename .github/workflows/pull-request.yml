@@ -46,6 +46,7 @@ jobs:
         run: |
           mkdir ~/.railway
           echo ${{secrets.RAILWAY_TOKEN}} | base64 --decode > ~/.railway/config.json
+          echo | railway link 64af130d-0ed9-49af-be8d-e3e0b58468f0
           railway environment fvst-monorepo-${GITHUB_REF##*/}
 
       - name: Configure Apollo Gateway

@@ -50,21 +50,21 @@ jobs:
 
       - name: Switch railway environment
         run: |
-          echo "Switching to fvst-monorepo-${GITHUB_REF##*/}"
-          railway environment fvst-monorepo-${GITHUB_REF##*/}
+          echo "Switching to fvst-monorepo-pr-${{ github.event.number }}"
+          railway environment fvst-monorepo-pr-${{ github.event.number }}
 
       - name: Configure Apollo Gateway
         run: |
           pwd
           ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="fvst-main@${GITHUB_REF##*/}"
+          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="fvst-main@pr-${{ github.event.number }}"
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="fvst-main@${GITHUB_REF##*/}"
+          export APOLLO_GRAPH_REF="fvst-main@$pr-${{ github.event.number }}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
           export PR_NUMBER=${{github.event.pull_request.number}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh

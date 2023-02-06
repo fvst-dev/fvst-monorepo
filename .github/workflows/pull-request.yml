@@ -39,6 +39,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install railway
+        run: curl -fsSL https://railway.app/install.sh | sh
+
       - name: Login to railway
         run: |
           mkdir ~/.railway

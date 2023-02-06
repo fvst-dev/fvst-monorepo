@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         "fvst-orange": "#ffaa4d",
+        "fvst-purple": "#290076",
       },
     },
   },

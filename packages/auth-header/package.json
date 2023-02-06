@@ -1,5 +1,5 @@
 {
-  "name": "@package/next-auth",
+  "name": "@package/auth-header",
   "version": "10.7.0",
   "private": true,
   "dependencies": {

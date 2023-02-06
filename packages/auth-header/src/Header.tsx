@@ -99,9 +99,8 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ReactHeader() {
-  const { data: session, status } = useSession();
-  const loading = status === "loading";
+export default function Header() {
+  const { data: session } = useSession();
   return (
     <Popover className="relative bg-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -303,6 +302,10 @@ export default function ReactHeader() {
               <a
                 href="/api/auth/signin"
                 className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn();
+                }}
               >
                 Sign in
               </a>
@@ -442,6 +445,10 @@ export default function ReactHeader() {
                   <a
                     href="/api/auth/signin"
                     className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signIn();
+                    }}
                   >
                     Sign in
                   </a>

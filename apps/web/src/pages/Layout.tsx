@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import ReactHeader from '@package/next-auth/src/ReactHeader';
+import Header from '@package/auth-header/src/Header';
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
-      <ReactHeader />
+      <Header />
       <main>{children}</main>
     </>
   );

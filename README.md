@@ -1,5 +1,35 @@
 # FVST
 
+## Initial Setup instructions
+
+### Install Railway CLI
+
+```
+npm i -g @railway/cli
+railway login
+```
+
+### Install rover CLI (for schema repository sync)
+
+```
+npm install -g @apollo/rover
+```
+
+### Copy .env.example into .env in the root of the project and configure your values
+
+### Add the following secrets to your github repository:
+
+- APOLLO_KEY
+- RAILWAY_TOKEN
+
+The railway token can be retrieved like so:
+
+```
+cat ~/.railway/config.json | base64
+```
+
+if you do not see an output, or see an error, follow previous instructions to do railway login
+
 ## Folder explanations
 
 | Folder name | What goes inside of it                                                                                                                               |

@@ -57,7 +57,7 @@ jobs:
         run: |
           pwd
           ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="fvst-main@pr-${{ github.event.number }}"
+          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="fvst-main@pr-${{ github.event.number }}" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh

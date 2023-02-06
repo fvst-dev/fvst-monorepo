@@ -42,7 +42,7 @@ jobs:
       - name: Login to railway
         run: |
           mkdir ~/.railway
-          echo {{secrets.RAILWAY_KEY}} | base64 --decode > ~/.railway/config.json
+          echo ${{secrets.RAILWAY_KEY}} | base64 --decode > ~/.railway/config.json
 
       - name: Configure Apollo Gateway
         run: railway -s apollo-gateway variables get APOLLO_GRAPH_REF

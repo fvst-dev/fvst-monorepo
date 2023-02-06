@@ -49,7 +49,9 @@ jobs:
           echo | railway link 64af130d-0ed9-49af-be8d-e3e0b58468f0
 
       - name: Switch railway environment
-        run: railway environment fvst-monorepo-${GITHUB_REF##*/}
+        run: |
+          echo "Switching to fvst-monorepo-${GITHUB_REF##*/}"
+          railway environment fvst-monorepo-${GITHUB_REF##*/}
 
       - name: Configure Apollo Gateway
         run: |

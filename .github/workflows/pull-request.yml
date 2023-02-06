@@ -43,6 +43,7 @@ jobs:
         run: |
           mkdir ~/.railway
           echo ${{secrets.RAILWAY_KEY}} | base64 --decode > ~/.railway/config.json
+          railway environment fvst-monorepo-${GITHUB_REF##*/}
 
       - name: Configure Apollo Gateway
         run: railway -s apollo-gateway variables get APOLLO_GRAPH_REF

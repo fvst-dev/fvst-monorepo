@@ -1,7 +1,5 @@
 /usr/bin/expect <<!
 
-echo $RAILWAY_TOKEN
-
 spawn railway init
 expect "Project"
 send "\n"

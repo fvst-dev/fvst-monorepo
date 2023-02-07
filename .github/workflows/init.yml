@@ -34,7 +34,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install dependencies
-        run: apt-get update && apt-get install expect
+        run: sudo apt-get update && sudo apt-get install expect
       - name: Make init executable
         run: chmod +x ./.github/scripts/setup_railway_env.sh
       - name: Run railway setup

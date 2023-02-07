@@ -21,7 +21,9 @@ jobs:
   configure-secrets:
     runs-on: ubuntu-latest
     steps:
-      - name: Add Apollo Studio Key to $GITHUB_REPOSITORY
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Add Apollo Studio Key
         run: gh secret set SAMPLE_SECRET --app actions --body asdasdasd
 
   greet:

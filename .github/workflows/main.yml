@@ -2,7 +2,7 @@ name: Branch Push
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
 env:
   RAILWAY_ENV: stage

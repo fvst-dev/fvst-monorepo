@@ -1,6 +1,6 @@
 /usr/bin/expect <<!
 
-env
+echo $RAILWAY_TOKEN
 
 spawn railway init
 expect "Project"
@@ -22,3 +22,4 @@ send "\033\[B"
 expect "redis"
 send "\n"
 expect eof
+!

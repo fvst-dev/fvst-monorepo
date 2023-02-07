@@ -1,5 +1,7 @@
 /usr/bin/expect <<!
 
+env
+
 spawn railway init
 expect "Project"
 send "\n"

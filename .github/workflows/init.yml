@@ -37,5 +37,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install expect
       - name: Make init executable
         run: chmod +x ./.github/scripts/setup_railway_env.sh
+
+      - name: Install railway
+        run: curl -fsSL https://railway.app/install.sh | sh
+
       - name: Run railway setup
         run: ./.github/scripts/setup_railway_env.sh

@@ -1,6 +1,6 @@
 version: "3"
 services:
-  postgres:
+  postgres_auth:
     image: postgres:15.1
     restart: always
     environment:
@@ -8,7 +8,19 @@ services:
       POSTGRES_PASSWORD: fvst
       POSTGRES_DB: fvst
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-auth:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  postgres_web:
+    image: postgres:15.1
+    restart: always
+    environment:
+      POSTGRES_USER: fvst
+      POSTGRES_PASSWORD: fvst
+      POSTGRES_DB: fvst
+    volumes:
+      - postgres-web:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -34,5 +46,6 @@ services:
       - ./apps/apollo-gateway/config:/dist/settings
 
 volumes:
-  postgres:
+  postgres-auth:
+  postgres-web:
   redis:

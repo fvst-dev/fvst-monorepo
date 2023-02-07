@@ -6,24 +6,24 @@
     "dev": "npm run db:dev && next dev --port 3001",
     "build": "next build",
     "start": "next start",
+    "test": "jest",
+    "db:dev": "prisma migrate dev && prisma generate",
+    "db:prod": "prisma generate && prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "precommit:format": "prettier --write --ignore-unknown",
     "lint": "npm run lint:prisma && npm run lint:prettier && npm run lint:next && npm run lint:typescript",
     "lint:prisma": "prisma validate",
     "lint:next": "next lint",
     "lint:typescript": "tsc --noEmit",
     "lint:prettier": "prettier --check ./src",
-    "format": "prettier --write ./src",
-    "test": "jest",
-    "db:dev": "prisma migrate dev && prisma generate && prisma db seed",
-    "db:prod": "prisma generate && prisma migrate deploy",
-    "db:generate": "prisma generate",
-    "precommit:format": "prettier --write --ignore-unknown "
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "format": "npm run format:prisma && npm run format:prettier",
+    "format:prisma": "prisma format",
+    "format:prettier": "prettier --write ./src"
   },
   "dependencies": {
     "@framework/tailwind": "*",
-    "@package/ui-component": "*",
+    "@next-auth/prisma-adapter": "^1.0.5",
+    "@package/auth-header": "*",
     "@prisma/client": "^4.9.0",
     "@tanstack/react-query": "^4.3.8",
     "@trpc/client": "^10.7.0",
@@ -31,6 +31,7 @@
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
     "next": "^13.0.0",
+    "next-auth": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.7.4",
@@ -43,6 +44,7 @@
     "@types/node": "^18.7.20",
     "@types/react": "^18.0.9",
     "prisma": "^4.7.1",
+    "tailwindcss": "^3.2.4",
     "tsx": "^3.9.0"
   },
   "publishConfig": {

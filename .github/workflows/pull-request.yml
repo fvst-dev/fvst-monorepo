@@ -46,26 +46,27 @@ jobs:
         run: |
           mkdir ~/.railway
           echo ${{secrets.RAILWAY_TOKEN}} | base64 --decode > ~/.railway/config.json
-          echo | railway link 64af130d-0ed9-49af-be8d-e3e0b58468f0
+          echo | railway link ${{secrets.RAILWAY_PROJECT_ID}}
 
       - name: Switch railway environment
         run: |
-          echo "Switching to fvst-monorepo-pr-${{ github.event.number }}"
-          railway environment fvst-monorepo-pr-${{ github.event.number }}
+          echo "Switching to ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}"
+          railway environment ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}
 
       - name: Configure Apollo Gateway
         run: |
           pwd
           ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="fvst-main@pr-${{ github.event.number }}" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
+          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@pr-${{ github.event.number }}" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="fvst-main@$pr-${{ github.event.number }}"
+          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$pr-${{ github.event.number }}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
           export PR_NUMBER=${{github.event.pull_request.number}}
+          export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

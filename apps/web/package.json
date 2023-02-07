@@ -6,6 +6,11 @@
     "dev": "npm run db:dev && next dev --port 3001",
     "build": "next build",
     "start": "next start",
+    "test": "jest",
+    "db:dev": "prisma migrate dev && prisma generate",
+    "db:prod": "prisma generate && prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "precommit:format": "prettier --write --ignore-unknown",
     "lint": "npm run lint:prisma && npm run lint:prettier && npm run lint:next && npm run lint:typescript",
     "lint:prisma": "prisma validate",
     "lint:next": "next lint",
@@ -13,12 +18,7 @@
     "lint:prettier": "prettier --check ./src",
     "format": "npm run format:prisma && npm run format:prettier",
     "format:prisma": "prisma format",
-    "format:prettier": "prettier --write ./src",
-    "test": "jest",
-    "db:dev": "prisma migrate dev && prisma generate",
-    "db:prod": "prisma generate && prisma migrate deploy",
-    "db:generate": "prisma generate",
-    "precommit:format": "prettier --write --ignore-unknown "
+    "format:prettier": "prettier --write ./src"
   },
   "dependencies": {
     "@framework/tailwind": "*",

@@ -8,8 +8,8 @@ on:
       apollo-studio-graph-name:
         description: "Apollo Studio Supergraph Name"
         required: true
-      railway-api-key:
-        description: "Railway API Key"
+      railway-token:
+        description: "Railway Token"
         required: true
       github-token:
         description: "Github Token"
@@ -17,17 +17,23 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ github.event.inputs.github-token }}
+  RAILWAY_TOKEN: ${{github.event.inputs.railway-token }}
 jobs:
   configure-secrets:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Add Apollo Studio Key
-        run: gh secret set SAMPLE_SECRET --app actions --body asdasdasd
+      - name: Add Railway API Token
+        run: gh secret set RAILWAY_TOKEN --app actions --body ${{github.event.inputs.railway-token }}
+      - name: Add Github Token
+        run: gh secret set GITHUB_TOKEN --app actions --body ${{github.event.inputs.github-token}}
 
-  greet:
+  configure-railway:
     runs-on: ubuntu-latest
+    needs: configure-secrets
     steps:
-      - name: Send greeting
-        run: echo "Hello ${{ github.event.inputs.apollo-studio-graph-name }}"
+      - name: Make init executable
+        run: chmod +x ./github/scripts/setup_railway_env.sh
+      - name: Run railway setup
+        run: ./github/scripts/setup_railway_env.sh

@@ -6,6 +6,7 @@ on:
 
 env:
   RAILWAY_ENV: stage
+  RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
 
 jobs:
   verify:
@@ -44,12 +45,6 @@ jobs:
 
       - name: Install railway
         run: curl -fsSL https://railway.app/install.sh | sh
-
-      - name: Login to railway
-        run: |
-          mkdir ~/.railway
-          echo ${{secrets.RAILWAY_TOKEN}} | base64 --decode > ~/.railway/config.json
-          echo | railway link ${{secrets.RAILWAY_PROJECT_ID}}
 
       - name: Switch railway environment
         run: |

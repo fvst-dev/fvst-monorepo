@@ -66,7 +66,7 @@ jobs:
         run: |
           export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$pr-${{ github.event.number }}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export PR_NUMBER=${{github.event.pull_request.number}}
+          export RAILWAY_ENV=pr-${{github.event.pull_request.number}}
           export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

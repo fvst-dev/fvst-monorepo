@@ -2,25 +2,32 @@
 
 ## Initial Setup instructions
 
-### Install Railway CLI
+**_1 Install Railway CLI_**
 
 ```
 npm i -g @railway/cli
 railway login
 ```
 
-### Install rover CLI (for schema repository sync)
+**_2 Install rover CLI (for schema repository sync)_**
 
 ```
 npm install -g @apollo/rover
 ```
 
-### Copy .env.example into .env in the root of the project and configure your values
+**_3 Copy .env.example into .env in the root of the project and configure your values_**
 
-### Add the following secrets to your github repository:
+**_4 Configure all services in Railway via their UI_**
 
-- APOLLO_KEY
-- RAILWAY_TOKEN
+**_5 Open an account at apollo studio and create a supergraph_**
+
+**_6 Add the following secrets to your github repository:_**
+
+- APOLLO_KEY (from step 5)
+- RAILWAY_TOKEN (see below)
+- APOLLO_GRAPH_NAME (from step 5)
+- RAILWAY_PROJECT_ID
+- RAILWAY_PROJECT_NAME
 
 The railway token can be retrieved like so:
 
@@ -29,6 +36,27 @@ cat ~/.railway/config.json | base64
 ```
 
 if you do not see an output, or see an error, follow previous instructions to do railway login
+
+## Local Development with gateway
+
+Before starting the gateway, please run
+
+```
+npm run publishSchema
+```
+
+This will publish the current schema with your env name to apollo studio. After that, gateway can be started locally.
+
+The gateway is part of the local docker compose file. After you populate the .env file, you can start the docker compose (from root directory of the project, so docker can pass the variables from .env to the container).
+Once started, it will start listening on port 4000 and you can link your frontend to that port.
+
+If you change the schema of any of the apps, run
+
+```
+npm run publishSchema
+```
+
+and wait a few seconds. The gatway will resync the schema from apollo studio and you will get the latest one. No restarts are required in case of schema changes.
 
 ## Folder explanations
 

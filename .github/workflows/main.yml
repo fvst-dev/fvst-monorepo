@@ -53,14 +53,14 @@ jobs:
 
       - name: Switch railway environment
         run: |
-          echo "Switching to ${{secrets.RAILWAY_PROJECT_NAME}}-$RAILWAY_ENV"
-          railway environment ${{secrets.RAILWAY_PROJECT_NAME}}-$RAILWAY_ENV
+          echo "Switching to $RAILWAY_ENV"
+          railway environment $RAILWAY_ENV
 
       - name: Configure Apollo Gateway
         run: |
           pwd
           ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@RAILWAY_ENV" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
+          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$RAILWAY_ENV" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh

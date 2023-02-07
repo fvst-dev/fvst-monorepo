@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  RAILWAY_ENV: ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -50,8 +53,8 @@ jobs:
 
       - name: Switch railway environment
         run: |
-          echo "Switching to ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}"
-          railway environment ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}
+          echo "Switching to $RAILWAY_ENV"
+          railway environment $RAILWAY_ENV
 
       - name: Configure Apollo Gateway
         run: |
@@ -66,7 +69,7 @@ jobs:
         run: |
           export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$pr-${{ github.event.number }}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export RAILWAY_ENV=pr-${{github.event.pull_request.number}}
+          export RAILWAY_ENV=$RAILWAY_ENV
           export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

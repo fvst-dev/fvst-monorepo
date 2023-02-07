@@ -2,26 +2,31 @@
 
 ## Initial Setup instructions
 
-**_1 Install Railway CLI_**
+> NB! Before starting, you need accounts with
+>
+> - https://railway.app
+> - https://studio.apollographql.com/login
+
+**_1. Install Railway CLI_**
 
 ```
 npm i -g @railway/cli
 railway login
 ```
 
-**_2 Install rover CLI (for schema repository sync)_**
+**_2. Install rover CLI (for schema repository sync)_**
 
 ```
 npm install -g @apollo/rover
 ```
 
-**_3 Copy .env.example into .env in the root of the project and configure your values_**
+**_3. Copy .env.example into .env in the root of the project and configure your values_**
 
-**_4 Configure all services in Railway via their UI_**
+**_4. Configure all services in Railway via their UI_**
 
-**_5 Open an account at apollo studio and create a supergraph_**
+**_5. Create (or ask to get added to a team with an existing) a supergraph_**
 
-**_6 Add the following secrets to your github repository:_**
+**_6. Add the following secrets to your github repository:_**
 
 - APOLLO_KEY (from step 5)
 - RAILWAY_TOKEN (see below)

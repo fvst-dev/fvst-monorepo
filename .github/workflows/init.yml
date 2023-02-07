@@ -21,8 +21,8 @@ jobs:
   configure-secrets:
     runs-on: ubuntu-latest
     steps:
-      - name: Add Apollo Studio Key to $GITHUB_REPOSITORY'
-        run: gh api --method PUT /repos/$GITHUB_REPOSITORY/actions/secrets/SAMPLE_KEY -f encrypted_value='c2VjcmV0'
+      - name: Add Apollo Studio Key to $GITHUB_REPOSITORY
+        run: gh secret set SAMPLE_SECRET --app actions --body asdasdasd
 
   greet:
     runs-on: ubuntu-latest

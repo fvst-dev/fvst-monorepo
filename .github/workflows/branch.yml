@@ -1,8 +1,11 @@
 name: Pull Request
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches: [master]
+
+env:
+  RAILWAY_ENV: stage
 
 jobs:
   verify:
@@ -50,23 +53,23 @@ jobs:
 
       - name: Switch railway environment
         run: |
-          echo "Switching to ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}"
-          railway environment ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}
+          echo "Switching to ${{secrets.RAILWAY_PROJECT_NAME}}-$RAILWAY_ENV"
+          railway environment ${{secrets.RAILWAY_PROJECT_NAME}}-$RAILWAY_ENV
 
       - name: Configure Apollo Gateway
         run: |
           pwd
           ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@pr-${{ github.event.number }}" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
+          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@RAILWAY_ENV" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$pr-${{ github.event.number }}"
+          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$RAILWAY_ENV"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export RAILWAY_ENV=pr-${{github.event.pull_request.number}}
+          export RAILWAY_ENV=$RAILWAY_ENV
           export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh

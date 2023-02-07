@@ -67,7 +67,7 @@ jobs:
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$pr-${{ github.event.number }}"
+          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@pr-${{ github.event.number }}"
           export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
           export RAILWAY_ENV=$RAILWAY_ENV
           export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}

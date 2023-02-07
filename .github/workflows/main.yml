@@ -1,8 +1,8 @@
 name: Branch Push
 
-on:
-  push:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
 
 env:
   RAILWAY_ENV: stage

@@ -34,6 +34,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Make init executable
-        run: chmod +x ./github/scripts/setup_railway_env.sh
+        run: chmod +x ./.github/scripts/setup_railway_env.sh
       - name: Run railway setup
-        run: ./github/scripts/setup_railway_env.sh
+        run: ./.github/scripts/setup_railway_env.sh

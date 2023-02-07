@@ -3,7 +3,6 @@
 ## Initial Setup instructions
 
 **_1 Install Railway CLI_**
-
 ```
 npm i -g @railway/cli
 railway login

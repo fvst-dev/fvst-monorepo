@@ -20,4 +20,3 @@ send "\033\[B"
 expect "redis"
 send "\n"
 expect eof
-

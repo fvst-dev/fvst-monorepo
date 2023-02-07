@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npm run db:dev && next dev --port 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "npm run db:prod && next start",
     "test": "jest",
     "db:dev": "prisma migrate dev && prisma generate",
     "db:prod": "prisma generate && prisma migrate deploy",

@@ -26,8 +26,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Add Railway API Token
         run: gh secret set RAILWAY_TOKEN --app actions --body ${{github.event.inputs.railway-token }}
-      - name: Add Github Token
-        run: gh secret set GITHUB_TOKEN --app actions --body ${{github.event.inputs.github-token}}
 
   configure-railway:
     runs-on: ubuntu-latest

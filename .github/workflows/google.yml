@@ -33,15 +33,15 @@ jobs:
         with:
           version: ">= 417.0.0"
 
+      - name: "Create Project"
+        run: |
+          gcloud projects create fvst-staging --name "FVST Staging" --organization==647530911223
+          gcloud config set project fvst-staging
+
       - name: "Install support components"
         run: |
           gcloud components install alpha 
           gcloud components install beta
-
-      - name: "Create Project"
-        run: |
-          gcloud projects create fvst-staging --name "FVST Staging" --folder=647530911223
-          gcloud config set project fvst-staging
 
       - name: "Configure billing"
         run: |

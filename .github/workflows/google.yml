@@ -40,7 +40,7 @@ jobs:
 
       - name: "Create Project"
         run: |
-          gcloud projects create fvst-staging --name "FVST Staging" --folder=fvst
+          gcloud projects create fvst-staging --name "FVST Staging" --folder=647530911223
           gcloud config set project fvst-staging
 
       - name: "Configure billing"

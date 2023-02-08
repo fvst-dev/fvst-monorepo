@@ -14,7 +14,7 @@ jobs:
       - name: "Unpack Key"
         id: "google-key"
         run: |
-          export GOOGLE_CLOUD_TOKEN=(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
           echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
           echo $GOOGLE_CLOUD_TOKEN
 

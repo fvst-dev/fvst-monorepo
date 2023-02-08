@@ -12,12 +12,15 @@ jobs:
       - uses: "actions/checkout@v3"
 
       - name: "Unpack Key"
-        run: echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode > /tmp/gcloud.json
+        run: |
+          echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode > /tmp/gcloud.json
+          echo /tmp/gcloud.json
 
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: /tmp/gcloud.json
+          credentials_json: "/tmp/gcloud.json"
+
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
         with:

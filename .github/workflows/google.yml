@@ -23,7 +23,7 @@ jobs:
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: $(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"

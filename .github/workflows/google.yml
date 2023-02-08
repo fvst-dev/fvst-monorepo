@@ -14,12 +14,13 @@ jobs:
       - name: "Unpack Key"
         run: |
           echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode > /tmp/gcloud.json
-          echo /tmp/gcloud.json
+          export GOOGLE_CLOUD_TOKEN=(cat /tmp/gcloud.json)
+          echo "::set-env name=GOOGLE_CLOUD_TOKEN::$GOOGLE_CLOUD_TOKEN"
 
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "/tmp/gcloud.json"
+          credentials_json: $GOOGLE_CLOUD_TOKEN
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"

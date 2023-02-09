@@ -33,6 +33,9 @@ jobs:
         with:
           version: ">= 417.0.0"
 
+      - name: Info
+        run: gcloud info
+
       - name: "Create Project"
         run: |
           gcloud sql instances list

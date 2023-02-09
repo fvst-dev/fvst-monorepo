@@ -39,7 +39,7 @@ jobs:
       - name: "Create Project"
         run: |
           gcloud sql instances list
-          gcloud projects create fvst-staging2 --name "FVST Staging" --folder=647530911223 --set-as-default
+          gcloud projects create fvst-staging2 --name "FVST Staging" --folder=370540016741 --set-as-default
 
       - name: "Install support components"
         run: |

@@ -21,9 +21,6 @@ jobs:
           GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
           echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
 
-      - name: "Test Token"
-        run: echo ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
-
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
@@ -39,8 +36,7 @@ jobs:
 
       - name: "Create Project"
         run: |
-          gcloud sql instances list
-          gcloud projects create fvst-staging3 --name "FVST Staging" --folder=370540016741 --set-as-default
+          gcloud projects create fvst-staging-5 --name "FVST Staging" --folder=370540016741 --set-as-default
 
       - name: "Install support components"
         run: |
@@ -50,7 +46,7 @@ jobs:
       - name: "Configure billing"
         run: |
           gcloud services enable cloudbilling.googleapis.com
-          gcloud alpha billing projects link fvst-staging3 --billing-account 01AEBE-A2F4CA-DC0648
+          gcloud alpha billing projects link fvst-staging-5 --billing-account 01AEBE-A2F4CA-DC0648
 
       - name: "Turn on features"
         run: gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com

@@ -7,7 +7,7 @@ on:
 env:
   BILLING_ACCOUNT: "01AEBE-A2F4CA-DC0648"
   REGION: "europe-north1"
-  PROJECT: "fvst-staging-6"
+  PROJECT: "fvst-staging-7"
 
 jobs:
   verify:
@@ -43,24 +43,23 @@ jobs:
 
       - name: "Install support components"
         run: |
-          gcloud components install alpha 
-          gcloud components install beta
+          gcloud --project $PROJECT components install alpha 
+          gcloud --project $PROJECT components install beta
 
       - name: "Configure billing"
         run: |
-          gcloud services enable cloudbilling.googleapis.com
-          gcloud alpha billing projects link $PROJECT--billing-account 01AEBE-A2F4CA-DC0648
+          gcloud --project $PROJECT services enable cloudbilling.googleapis.com
+          gcloud alpha billing projects link $PROJECT --billing-account 01AEBE-A2F4CA-DC0648
 
       - name: "Turn on features"
         run: |
-          gcloud config set project $PROJECT
-          gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
+          gcloud --project $PROJECT services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
 
       - name: "Provision PostgreSQL"
-        run: gcloud sql instances create fvst-primary-db --database-version=POSTGRES_14 --cpu=1 --memory=4GB --region=$REGION --root-password=fvst
+        run: gcloud --project $PROJECT sql instances create fvst-primary-db --database-version=POSTGRES_14 --cpu=1 --memory=4GB --region=$REGION --root-password=fvst
 
       - name: "Create Database"
-        run: gcloud sql databases create fvst --instance=fvst-primary-db
+        run: gcloud --project $PROJECT sql databases create fvst --instance=fvst-primary-db
 
       - name: "Create Database User"
-        run: gcloud sql users create fvst --instance=fvst-primary-db --password=fvst
+        run: gcloud --project $PROJECT sql users create fvst --instance=fvst-primary-db --password=fvst

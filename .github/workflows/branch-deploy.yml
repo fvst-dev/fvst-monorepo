@@ -35,7 +35,9 @@ jobs:
           version: ">= 417.0.0"
 
       - name: Info
-        run: gcloud info
+        run: |
+          gcloud info
+          gcloud config set project $PROJECT
 
       - name: Login to artifact repository
         run: gcloud auth configure-docker

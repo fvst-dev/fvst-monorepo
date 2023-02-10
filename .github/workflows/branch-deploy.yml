@@ -70,10 +70,10 @@ jobs:
       - name: Build Docker
         run: |
           cd apps/${{matrix.service}} 
-          docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG
+          docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
       - name: Push to repo
-        run: docker push gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated

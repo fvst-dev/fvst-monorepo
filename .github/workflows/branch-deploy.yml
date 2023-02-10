@@ -79,4 +79,6 @@ jobs:
         run: docker push gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG
 
       - name: Deploy
-        run: gcloud run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+        run: |
+          gcloud config set project $PROJECT
+          gcloud run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated

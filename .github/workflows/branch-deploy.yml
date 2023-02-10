@@ -2,7 +2,7 @@ name: Google Branch
 
 on:
   push:
-    branches: [google-cloud]
+    branches: [google-cloud-2]
 
 env:
   REGION: "europe-north1"
@@ -38,13 +38,14 @@ jobs:
       - name: Info
         run: |
           gcloud info
-          gcloud config set project $PROJECT
 
       - name: Login to artifact repository
         run: gcloud auth configure-docker
 
       - name: "Turn on features"
-        run: gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
+        run: |
+          gcloud config set project $PROJECT
+          gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
 
       - name: Use Node.js
         uses: actions/setup-node@v3

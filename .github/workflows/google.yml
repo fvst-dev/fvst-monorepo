@@ -2,12 +2,12 @@ name: Google Branch
 
 on:
   push:
-    branches: [google-cloud-2]
+    branches: [google-cloud]
 
 env:
   BILLING_ACCOUNT: "01AEBE-A2F4CA-DC0648"
   REGION: "europe-north1"
-  PROJECT: "fvst-staging-5"
+  PROJECT: "fvst-staging-6"
 
 jobs:
   verify:
@@ -38,6 +38,8 @@ jobs:
       - name: "Create Project"
         run: |
           gcloud projects create $PROJECT --name "FVST Staging" --folder=370540016741 --set-as-default
+          gcloud config set project $PROJECT
+          gcloud info
 
       - name: "Install support components"
         run: |

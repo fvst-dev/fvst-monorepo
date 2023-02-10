@@ -6,7 +6,7 @@ on:
 
 env:
   REGION: "europe-north1"
-  PROJECT: "fvst-staging-5"
+  PROJECT: "fvst-staging-7"
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
 

@@ -40,6 +40,9 @@ jobs:
       - name: Login to artifact repository
         run: gcloud auth configure-docker
 
+      - name: "Turn on features"
+        run: gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -68,6 +71,6 @@ jobs:
       - name: Build Docker
         run: |
           cd apps/${{matrix.service}} 
-          docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-auth:v0.0.$DOCKER_TAG
+          docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG
       - name: Push to repo
-        run: docker push gcr.io/$PROJECT/fvst-monorepo-auth:v0.0.$DOCKER_TAG
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG

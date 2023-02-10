@@ -2,7 +2,7 @@ name: Google Branch
 
 on:
   push:
-    branches: [google-cloud-2]
+    branches: [google-cloud]
 
 env:
   REGION: "europe-north1"
@@ -40,12 +40,7 @@ jobs:
           gcloud info
 
       - name: Login to artifact repository
-        run: gcloud auth configure-docker
-
-      - name: "Turn on features"
-        run: |
-          gcloud config set project $PROJECT
-          gcloud services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
+        run: gcloud --project $PROJECT auth configure-docker
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -81,5 +76,4 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud config set project $PROJECT
-          gcloud run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-auth:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION --set-env-vars DATABASE_URL="postgresql://fvst:fvst@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated

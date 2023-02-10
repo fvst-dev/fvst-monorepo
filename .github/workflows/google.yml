@@ -2,7 +2,7 @@ name: Google Branch
 
 on:
   push:
-    branches: [google-cloud]
+    branches: [google-cloud-def]
 
 env:
   BILLING_ACCOUNT: "01AEBE-A2F4CA-DC0648"

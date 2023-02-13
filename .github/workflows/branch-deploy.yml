@@ -121,6 +121,7 @@ jobs:
       - name: Sync schema
         run: |
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
+          export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
           ./apps/apollo-gateway/publish_ci_schema_updates.sh
 
       - name: Deploy

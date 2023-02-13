@@ -118,4 +118,4 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --region $REGION --set-env-vars APOLLO_KEY=$APOLLO_KEY --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated
+          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region $REGION --set-env-vars APOLLO_KEY=$APOLLO_KEY --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated

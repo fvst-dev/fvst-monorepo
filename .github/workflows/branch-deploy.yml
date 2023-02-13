@@ -107,6 +107,12 @@ jobs:
         run: |
           gcloud info
 
+      - name: Build gateway
+        run: docker build -f apps/apollo-gateway/Dockerfile -t gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG .
+
+      - name: Push to repo
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG
+
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy gateway --image ghcr.io/apollographql/router:v1.4.0 --region $REGION --set-env-vars APOLLO_KEY=$APOLLO_KEY --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated
+          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --region $REGION --set-env-vars APOLLO_KEY=$APOLLO_KEY --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated

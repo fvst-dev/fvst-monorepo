@@ -37,17 +37,11 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
 
-      - id: generatedrootpassword
-        uses: Ba4bes/Password-Generator@v0.1
-
       - name: Save root password
-        run: gh secret set DATABASE_ROOT_PASSWORD --app actions --body "${{ steps.generatedrootpassword.outputs.password }}"
-
-      - id: generatedpassword
-        uses: Ba4bes/Password-Generator@v0.1
+        run: gh secret set DATABASE_ROOT_PASSWORD --app actions --body $(openssl rand -base64 32)
 
       - name: Save password
-        run: gh secret set DATABASE_PASSWORD --app actions --body "${{ steps.generatedpassword.outputs.password }}"
+        run: gh secret set DATABASE_PASSWORD --app actions --body $(openssl rand -base64 32)
 
       - name: "Save secrets"
         run: |

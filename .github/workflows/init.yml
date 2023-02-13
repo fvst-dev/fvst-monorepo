@@ -7,8 +7,7 @@ on:
         required: true
       apollo-studio-graph-id:
         description: "Id of graph (without the @ part)"
-        required: false
-        default: ${{ github.event.repository.name }}
+        required: true
       gcloud-token:
         description: "Base64 encoded google cloud key"
         required: true

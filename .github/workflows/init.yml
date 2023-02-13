@@ -40,8 +40,14 @@ jobs:
       - id: generatedrootpassword
         uses: Ba4bes/Password-Generator@v0.1
 
+      - name: Save root password
+        run: gh secret set DATABASE_ROOT_PASSWORD --app actions --body "${{ steps.generatedrootpassword.outputs.password }}"
+
       - id: generatedpassword
         uses: Ba4bes/Password-Generator@v0.1
+
+      - name: Save password
+        run: gh secret set DATABASE_PASSWORD --app actions --body "${{ steps.generatedpassword.outputs.password }}"
 
       - name: "Save secrets"
         run: |
@@ -51,8 +57,6 @@ jobs:
           gh secret set GOOGLE_CLOUD_FOLDER_ID --app actions --body "${{ github.event.inputs.project-folder-id}}"
           gh secret set APOLLO_STUDIO_KEY --app actions --body "${{ github.event.inputs.apollo-studio-key}}"
           gh secret set APOLLO_STUDIO_GRAPH --app actions --body "${{ github.event.inputs.apollo-studio-graph-id}}"
-          gh secret set DATABASE_ROOT_PASSWORD --app actions --body "${{ steps.generatedrootpassword.outputs.password }}"
-          gh secret set DATABASE_PASSWORD --app actions --body "${{ steps.generatedpassword.outputs.password }}"
 
       - name: "Unpack Key"
         id: "google-key"

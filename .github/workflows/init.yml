@@ -25,6 +25,7 @@ on:
 env:
   PROJECT: ${{ github.event.repository.name }}-stg-1
   PROJECT_NAME: "Staging"
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   initialize:

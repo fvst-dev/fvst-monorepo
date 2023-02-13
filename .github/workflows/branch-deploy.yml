@@ -121,10 +121,6 @@ jobs:
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$RAILWAY_ENV"
-          export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export RAILWAY_ENV=$RAILWAY_ENV
-          export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           ./apps/apollo-gateway/publish_ci_schema_updates.sh
 

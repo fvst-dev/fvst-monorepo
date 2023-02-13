@@ -78,7 +78,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:$REGION:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
 
   deploy-gateway:
     runs-on: ubuntu-latest

@@ -5,10 +5,12 @@ on:
     branches: [google-cloud]
 
 env:
-  PROJECT: ${{ github.event.repository.name }}-stg-3
+  #PROJECT: ${{ github.event.repository.name }}-stg-3
+  BRANCH_NAME: ${GITHUB_REF##*/}
+  PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
-  APOLLO_GRAPH_REF: "${{secrets.APOLLO_STUDIO_GRAPH}}@pr-24"
+  APOLLO_GRAPH_REF: "${{secrets.APOLLO_STUDIO_GRAPH}}@$BRANCH_NAME"
 
 jobs:
   verify:

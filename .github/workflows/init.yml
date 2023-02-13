@@ -5,6 +5,9 @@ on:
       apollo-studio-key:
         description: "Apollo Studio API Key"
         required: true
+      github-api-key:
+        description: "Guthub API Key"
+        required: true
       apollo-studio-graph-id:
         description: "Id of graph (without the @ part)"
         required: true
@@ -25,7 +28,7 @@ on:
 env:
   PROJECT: ${{ github.event.repository.name }}-stg-1
   PROJECT_NAME: "Staging"
-  GH_TOKEN: ${{ github.token }}
+  GH_TOKEN: ${{github.event.inputs.github-api-key }}
 
 jobs:
   initialize:

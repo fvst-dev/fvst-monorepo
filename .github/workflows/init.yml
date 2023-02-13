@@ -26,7 +26,7 @@ on:
         default: "europe-north1"
 
 env:
-  PROJECT: ${{ github.event.repository.name }}-stg-2
+  PROJECT: ${{ github.event.repository.name }}-stg-3
   PROJECT_NAME: "Staging"
   GH_TOKEN: ${{github.event.inputs.github-api-key }}
 

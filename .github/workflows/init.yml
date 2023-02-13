@@ -92,7 +92,7 @@ jobs:
           gcloud --project $PROJECT services enable compute.googleapis.com sqladmin.googleapis.com run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com servicenetworking.googleapis.com vpcaccess.googleapis.com
 
       - name: "Provision PostgreSQL"
-        run: gcloud --project $PROJECT sql instances create fvst-primary-db --database-version=POSTGRES_14 --cpu=1 --memory=4GB --region=$REGION --root-password="${{secrets.DATABASE_ROOT_PASSWORD}}"
+        run: gcloud --project $PROJECT sql instances create fvst-primary-db --database-version=POSTGRES_14 --cpu=1 --memory=4GB --region=${{secrets.GOOGLE_CLOUD_REGION}} --root-password="${{secrets.DATABASE_ROOT_PASSWORD}}"
 
       - name: "Create Database"
         run: gcloud --project $PROJECT sql databases create fvst --instance=fvst-primary-db

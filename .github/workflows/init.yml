@@ -45,14 +45,14 @@ jobs:
 
       - name: "Save secrets"
         run: |
-          gh secret set GOOGLE_CLOUD_TOKEN --app actions --body ${{github.event.inputs.gcloud-token }}
-          gh secret set GOOGLE_CLOUD_REGION --app actions --body ${{github.event.inputs.region }}
-          gh secret set GOOGLE_CLOUD_BILLING_ACCOUNT_ID --app actions --body ${{ github.event.inputs.billing-account-id }}
-          gh secret set GOOGLE_CLOUD_FOLDER_ID --app actions --body ${{ github.event.inputs.project-folder-id}}
-          gh secret set APOLLO_STUDIO_KEY --app actions --body ${{ github.event.inputs.apollo-studio-key}}
-          gh secret set APOLLO_STUDIO_GRAPH --app actions --body ${{ github.event.inputs.apollo-studio-graph-id}}
-          gh secret set DATABASE_ROOT_PASSWORD --app actions --body ${{ steps.generatedrootpassword.outputs.password }}
-          gh secret set DATABASE_PASSWORD --app actions --body ${{ steps.generatedpassword.outputs.password }}
+          gh secret set GOOGLE_CLOUD_TOKEN --app actions --body "${{github.event.inputs.gcloud-token }}"
+          gh secret set GOOGLE_CLOUD_REGION --app actions --body "${{github.event.inputs.region }}"
+          gh secret set GOOGLE_CLOUD_BILLING_ACCOUNT_ID --app actions --body "${{ github.event.inputs.billing-account-id }}"
+          gh secret set GOOGLE_CLOUD_FOLDER_ID --app actions --body "${{ github.event.inputs.project-folder-id}}"
+          gh secret set APOLLO_STUDIO_KEY --app actions --body "${{ github.event.inputs.apollo-studio-key}}"
+          gh secret set APOLLO_STUDIO_GRAPH --app actions --body "${{ github.event.inputs.apollo-studio-graph-id}}"
+          gh secret set DATABASE_ROOT_PASSWORD --app actions --body "${{ steps.generatedrootpassword.outputs.password }}"
+          gh secret set DATABASE_PASSWORD --app actions --body "${{ steps.generatedpassword.outputs.password }}"
 
       - name: "Unpack Key"
         id: "google-key"

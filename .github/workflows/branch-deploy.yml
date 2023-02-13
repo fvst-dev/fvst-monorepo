@@ -107,6 +107,9 @@ jobs:
         run: |
           gcloud info
 
+      - name: Login to artifact repository
+        run: gcloud --project $PROJECT auth configure-docker
+
       - name: Build gateway
         run: docker build -f apps/apollo-gateway/Dockerfile -t gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG .
 

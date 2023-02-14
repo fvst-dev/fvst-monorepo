@@ -26,6 +26,7 @@ jobs:
           echo $APOLLO_GRAPH_REF
           echo $PROJECT
           echo $GITHUB_REF
+          echo ${GITHUB_REF##*/}
 
       - name: "Unpack Key"
         id: "google-key"

@@ -9,7 +9,6 @@ env:
   PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
-  APOLLO_GRAPH_REF: "${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
 
 jobs:
   verify:
@@ -82,6 +81,9 @@ jobs:
   deploy-gateway:
     runs-on: ubuntu-latest
     needs: verify
+
+    env:
+      APOLLO_GRAPH_REF: "${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
 
     steps:
       - uses: "actions/checkout@v3"

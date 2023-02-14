@@ -9,6 +9,7 @@ env:
   PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
+  APOLLO_GRAPH_REF: "${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
 
 jobs:
   verify:
@@ -121,11 +122,9 @@ jobs:
         run: |
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
-          export APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}
           ./apps/apollo-gateway/publish_ci_schema_updates.sh
 
       - name: Deploy
         run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
           echo $APOLLO_GRAPH_REF
           gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated

@@ -9,7 +9,8 @@ env:
   PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
-  APOLLO_GRAPH_REF: ${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF#refs/*/}
+  BRANCH_NAME: ${GITHUB_REF##*/}
+  APOLLO_GRAPH_REF: ${{secrets.APOLLO_STUDIO_GRAPH}}@$BRANCH_NAME
 
 jobs:
   verify:
@@ -90,6 +91,11 @@ jobs:
 
     steps:
       - uses: "actions/checkout@v3"
+
+      - name: Env Settings
+        run: |
+          echo $APOLLO_GRAPH_REF
+          echo $PROJECT
 
       - name: "Unpack Key"
         id: "google-key"

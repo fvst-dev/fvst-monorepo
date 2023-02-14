@@ -9,8 +9,6 @@ env:
   PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
-  BRANCH_NAME: ${GITHUB_REF##*/}
-  APOLLO_GRAPH_REF: ${{secrets.APOLLO_STUDIO_GRAPH}}@$BRANCH_NAME
 
 jobs:
   verify:
@@ -20,13 +18,6 @@ jobs:
         service: ["demo", "auth"]
     steps:
       - uses: "actions/checkout@v3"
-
-      - name: Env Settings
-        run: |
-          echo $APOLLO_GRAPH_REF
-          echo $PROJECT
-          echo $GITHUB_REF
-          echo ${GITHUB_REF##*/}
 
       - name: "Unpack Key"
         id: "google-key"
@@ -94,11 +85,6 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
 
-      - name: Env Settings
-        run: |
-          echo $APOLLO_GRAPH_REF
-          echo $PROJECT
-
       - name: "Unpack Key"
         id: "google-key"
         run: |
@@ -135,8 +121,9 @@ jobs:
         run: |
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
           export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
+          export APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}
           ./apps/apollo-gateway/publish_ci_schema_updates.sh
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated
+          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/} --allow-unauthenticated

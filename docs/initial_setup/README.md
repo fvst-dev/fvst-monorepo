@@ -33,10 +33,10 @@ Google clould has a trial account to get started.
    - Create folders
    - Create / modify / list SQL instances
    - Create / modify / list Cloud Run services.
-7. To get the base64 encoded key, do the following (replace KEY_FILE.json with the file path to your downloaded key)
+7. To get the base64 encoded key, do the following (replace KEY_FILE.json with the file path to your downloaded key). The reason for using awk is to convert multiline json to a single line (multiline json can cause issues in github actions)
 
 ```
-    awk -v ORS= -v OFS= '{$1=$1}1' KEY_FILE.json | base64
+    awk -v RS= -v OFS= '{$1=$1}1' KEY_FILE.json | base64
 ```
 
 ## Run the init github action

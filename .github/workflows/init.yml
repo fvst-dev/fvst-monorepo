@@ -6,7 +6,7 @@ on:
         description: "Apollo Studio API Key"
         required: true
       github-api-key:
-        description: "Guthub API Key"
+        description: "Github API Key"
         required: true
       apollo-studio-graph-id:
         description: "Id of graph (without the @ part)"

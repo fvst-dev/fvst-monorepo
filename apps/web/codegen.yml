@@ -1,0 +1,13 @@
+overwrite: true
+schema: 'http://localhost:4001/'
+documents:
+  - 'src/**/*.tsx'
+  - 'src/**/GraphQlAdapter.ts'
+generates:
+  ./src/__generated__/:
+    preset: 'client'
+    presetConfig:
+      gqlTagName: 'gql'
+    config:
+      scalars:
+        DateTime: Date

@@ -48,7 +48,7 @@ const features = [
 const Home: NextPage = () => {
   return (
     <Layout>
-      <div className="bg-white py-24 sm:py-32">
+      <div className="bg-white py-12 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">Speed up your ideas!</h2>
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-            <dl className="grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+            <dl className="grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none lg:grid-cols-2 lg:gap-y-8">
               {features.map((feature) => (
                 <a key={feature.name} href={feature.href} className="relative rounded-lg p-2 pl-16 hover:bg-gray-100">
                   <dt className="text-base font-semibold leading-7 text-gray-900">

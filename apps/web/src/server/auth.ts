@@ -5,6 +5,14 @@ import GitHubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from './prisma';
 import { config } from '../utils/config';
+import { GraphQlAdapter } from '../utils/GraphQlAdapter';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+const authApolloClient = new ApolloClient({
+  // Provide required constructor fields
+  cache: new InMemoryCache(),
+  uri: 'http://localhost:4001/',
+});
 
 /**
  * Module augmentation for `next-auth` types
@@ -33,7 +41,7 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  **/
 export const authOptions: NextAuthOptions = {
-  callbacks: {
+  /*  callbacks: {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
@@ -41,8 +49,11 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+  },*/
+  theme: {
+    colorScheme: 'light', // "auto" | "dark" | "light"
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: GraphQlAdapter(authApolloClient, {}),
   providers: [
     DiscordProvider({
       clientId: config.DISCORD_CLIENT_ID,

@@ -3,28 +3,136 @@ extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@
 scalar DateTime
 
 type Query {
-  isValidToken(token: String!): Boolean!
   me: User
+  getUser(id: String!): User
+  getUserByEmail(email: String!): User
+  getUserByAccount(providerInfo: ProviderAccountInfo!): User
+  getSessionAndUser(sessionToken: String!): SessionWithUser
 }
 
 type Mutation {
-  loginWithUsernameAndPassword(username: String!, password: String!): LoginResult!
-  createUser(username: String!, password: String!): CreateUserResult!
+  createUser(user: CreateUser!): AdapterUser!
+  updateUser(user: UpdateUser!): User!
+  deleteUser(id: String!): User
+  linkAccount(data: AccountLink!): Account
+  unlinkAccount(providerInfo: ProviderAccountInfo!): Account
+  createSession(data: CreateSession!): AdapterSession!
+  updateSession(data: UpdateSession!): AdapterSession
+  deleteSession(sessionToken: String!): AdapterSession
+  createVerificationToken(verificationToken: CreateVerificationToken!): VerificationToken!
 }
 
-type User @key(fields: "id") {
+type User {
   id: ID!
-  username: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  name: String
+  email: String
+  emailVerified: DateTime
+  image: String
 }
 
-type LoginResult {
-  success: Boolean!
-  token: String
+type Account {
+  id: ID!
+  userId: ID!
+  type: ProviderType!
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  access_token: String
+  expires_at: Int
+  token_type: String
+  scope: String
+  id_token: String
+  session_state: String
+  refresh_token_expires_in: Int
 }
 
-type CreateUserResult {
-  success: Boolean!
-  token: String
+type Session {
+  id: ID!
+  sessionToken: String!
+  userId: String!
+  expires: DateTime!
+}
+
+type VerificationToken {
+  identifier: String!
+  token: String!
+  expires: DateTime!
+}
+
+type SessionWithUser {
+  session: Session
+  user: User
+}
+
+type AdapterSession {
+  sessionToken: String!
+  userId: String!
+  expires: DateTime!
+}
+
+type AdapterUser {
+  id: ID!
+  name: String
+  email: String!
+  emailVerified: DateTime
+  image: String
+}
+
+input CreateUser {
+  name: String
+  email: String!
+  emailVerified: DateTime
+  image: String
+}
+
+input UpdateUser {
+  id: ID
+  name: String
+  email: String
+  emailVerified: DateTime
+  image: String
+}
+
+input ProviderAccountInfo {
+  provider: String!
+  providerAccountId: String!
+}
+
+input AccountLink {
+  userId: ID!
+  type: ProviderType!
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  access_token: String
+  expires_at: Int
+  token_type: String
+  scope: String
+  id_token: String
+  session_state: String
+  refresh_token_expires_in: Int
+}
+
+input CreateSession {
+  sessionToken: String!
+  userId: String!
+  expires: DateTime!
+}
+
+input UpdateSession {
+  sessionToken: String!
+  userId: String
+  expires: DateTime
+}
+
+input CreateVerificationToken {
+  identifier: String!
+  token: String!
+  expires: DateTime!
+}
+
+enum ProviderType {
+  oauth
+  email
+  credentials
 }

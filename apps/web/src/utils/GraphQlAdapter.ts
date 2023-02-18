@@ -1,22 +1,6 @@
 import { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters';
 import { gql, NormalizedCacheObject } from '@apollo/client';
 import { ApolloClient } from '@apollo/client';
-import {
-  CreateSessionMutation,
-  CreateSessionMutationVariables,
-  CreateUserMutation,
-  CreateUserMutationVariables,
-  GetSessionAndUserQuery,
-  GetSessionAndUserQueryVariables,
-  GetUserByAccountQuery,
-  GetUserByAccountQueryVariables,
-  GetUserByEmailQuery,
-  GetUserByEmailQueryVariables,
-  GetUserQuery,
-  GetUserQueryVariables,
-  UpdateUserMutation,
-  UpdateUserMutationVariables,
-} from '../__generated__/graphql';
 
 const CREATE_USER = gql`
   mutation CreateUser($user: CreateUser!) {
@@ -170,7 +154,7 @@ const DELETE_SESSION = gql`
 export function GraphQlAdapter(client: ApolloClient<NormalizedCacheObject>, options: {}): Adapter {
   return {
     createUser: async (user) => {
-      const userData = await client.mutate<CreateUserMutation, CreateUserMutationVariables>({
+      const userData = await client.mutate({
         mutation: CREATE_USER,
         variables: {
           user,
@@ -179,21 +163,21 @@ export function GraphQlAdapter(client: ApolloClient<NormalizedCacheObject>, opti
       return userData.data?.createUser as AdapterUser;
     },
     getUser: async (id) => {
-      const userData = await client.query<GetUserQuery, GetUserQueryVariables>({
+      const userData = await client.query({
         query: GET_USER,
         variables: { getUserId: id },
       });
       return userData.data.getUser as AdapterUser;
     },
     getUserByEmail: async (email) => {
-      const userData = await client.query<GetUserByEmailQuery, GetUserByEmailQueryVariables>({
+      const userData = await client.query({
         query: GET_USER_BY_EMAIL,
         variables: { email },
       });
       return userData.data.getUserByEmail as AdapterUser;
     },
     getUserByAccount: async (providerInfo) => {
-      const userData = await client.query<GetUserByAccountQuery, GetUserByAccountQueryVariables>({
+      const userData = await client.query({
         query: GET_USER_BY_ACCOUNT,
         variables: {
           providerInfo,
@@ -202,7 +186,7 @@ export function GraphQlAdapter(client: ApolloClient<NormalizedCacheObject>, opti
       return userData.data.getUserByAccount as AdapterUser;
     },
     updateUser: async (data) => {
-      const userData = await client.mutate<UpdateUserMutation, UpdateUserMutationVariables>({
+      const userData = await client.mutate({
         mutation: UPDATE_USER,
         variables: { user: { ...data } },
       });
@@ -230,7 +214,7 @@ export function GraphQlAdapter(client: ApolloClient<NormalizedCacheObject>, opti
       return userData.data.unlinkAccount;
     },
     getSessionAndUser: async (sessionToken) => {
-      const userData = await client.query<GetSessionAndUserQuery, GetSessionAndUserQueryVariables>({
+      const userData = await client.query({
         query: GET_SESSION_AND_USER,
         variables: { sessionToken },
       });

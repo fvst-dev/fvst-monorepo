@@ -12,11 +12,6 @@ const extractPayloadWithVerification = (token: string) => {
   }
 };
 
-const cache = new LRU({
-  ttl: 60_000,
-  max: 1000,
-});
-
 const fetchSessions = async (sessionIds: string[]) => {
   return prisma.session.findMany({
     where: {
@@ -32,10 +27,6 @@ const sessionExistsLoader = new DataLoader<string, Awaited<ReturnType<typeof fet
     const sessions = await fetchSessions(sessionIds as string[]);
 
     return sessionIds.map((sessionId) => sessions.find((session) => session.id === sessionId));
-  },
-  {
-    cache: true,
-    cacheMap: cache,
   }
 );
 

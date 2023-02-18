@@ -17,6 +17,6 @@ const typeDefs = mergeTypeDefs([...scalarTypeDefs, allSchemas]);
 
 const executableSchema = buildSubgraphSchema([{ typeDefs: typeDefs, resolvers }]);
 
-const schema = applyMiddleware(executableSchema, permissions);
+const schema = applyMiddleware(executableSchema);
 
 export default schema;

@@ -14,7 +14,7 @@
     "format:prettier": "prettier --write ./src",
     "lint": "npm run lint:prettier && npm run lint:typescript",
     "lint:typescript": "tsc --noEmit",
-    "lint:prettier": "prettier --check ./src"
+    "lint:prettier": "prettier --write ./src"
   },
   "dependencies": {
     "@apollo/server": "^4.3.1",

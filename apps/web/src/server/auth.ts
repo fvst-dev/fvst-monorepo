@@ -2,8 +2,6 @@ import type { GetServerSidePropsContext } from 'next';
 import { getServerSession, type NextAuthOptions, type DefaultSession } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitHubProvider from 'next-auth/providers/github';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from './prisma';
 import { config } from '../utils/config';
 import { GraphQlAdapter } from '../utils/GraphQlAdapter';
 import { ApolloClient, InMemoryCache } from '@apollo/client';

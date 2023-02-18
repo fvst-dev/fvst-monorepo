@@ -1,8 +1,18 @@
 FROM --platform=linux/amd64 node:16
 WORKDIR /usr/src/app
 
-COPY . ./
+# Copy root package.json and lockfile
+COPY package.json ./
+COPY package-lock.json ./
+
+# Copy the docs package.json
+COPY apps/docs/package.json ./apps/docs/package.json
+
 RUN npm install
+
+# Copy app source
+COPY . .
+
 RUN npm run build
 
 EXPOSE 8080

@@ -17,4 +17,4 @@ RUN npm run build
 
 EXPOSE 8080
 
-CMD node apps/web/server.js
+CMD npm run start

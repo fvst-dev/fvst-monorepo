@@ -18,7 +18,7 @@ const cache = new LRU({
 });
 
 const fetchSessions = async (sessionIds: string[]) => {
-  return await prisma.session.findMany({
+  return prisma.session.findMany({
     where: {
       id: {
         in: sessionIds,

@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16
+FROM --platform=linux/amd64 node:18
 WORKDIR /usr/src/app
 
 COPY . ./

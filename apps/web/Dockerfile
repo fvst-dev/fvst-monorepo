@@ -19,4 +19,4 @@ EXPOSE 8080
 
 WORKDIR /apps/web
 
-CMD npm run start
+CMD ["npm", "start"]

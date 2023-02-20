@@ -1,11 +1,22 @@
 FROM --platform=linux/amd64 node:18
 WORKDIR /usr/src/app
 
-COPY . ./
+# Copy root package.json and lockfile
+COPY package.json ./
+COPY package-lock.json ./
+
+# Copy the demo package.json
+COPY apps/demo/package.json ./apps/demo/package.json
+
 RUN npm install
+
+# Copy app source
+COPY . .
+
 RUN npm run build
 
 EXPOSE 8080
 
-CMD [ "npm", "start" ]
+WORKDIR /apps/demo
 
+CMD ["npm", "start"]

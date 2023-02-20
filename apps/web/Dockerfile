@@ -21,7 +21,7 @@ RUN npx turbo run build --filter=web...
 
 
 FROM node:alpine AS runner
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

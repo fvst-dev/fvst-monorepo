@@ -2,6 +2,7 @@ import type { GetServerSidePropsContext } from 'next';
 import { getServerSession, type NextAuthOptions, type DefaultSession } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitHubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 import { config } from '../utils/config';
 import { GraphQlAdapter } from '../utils/GraphQlAdapter';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
@@ -60,6 +61,10 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: config.GITHUB_CLIENT_ID,
       clientSecret: config.GITHUB_CLIENT_SECRET,
+    }),
+    GoogleProvider({
+      clientId: config.GOOGLE_CLIENT_ID,
+      clientSecret: config.GOOGLE_CLIENT_SECRET,
     }),
   ],
 };

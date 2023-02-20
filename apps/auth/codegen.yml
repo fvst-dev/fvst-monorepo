@@ -9,4 +9,4 @@ generates:
       federation: true
       contextType: '../context#Context'
       scalars:
-        Date: string
+        DateTime: Date

@@ -2,11 +2,10 @@ name: Google Branch
 
 on:
   push:
-    branches: [google-cloud]
+    branches: [stg]
 
 env:
-  #PROJECT: ${{ github.event.repository.name }}-stg-3
-  PROJECT: decent-cable-377207
+  PROJECT: ${{ github.event.repository.name }}-stg-3
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
 
@@ -69,7 +68,7 @@ jobs:
 
       - name: Build Docker
         run: |
-          cd apps/${{matrix.service}}
+          cd apps/${{matrix.service}} 
           docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG

@@ -75,7 +75,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-lcfoiwapda-lz.a.run.app --set-env-vars NEXTAUTH_SECRET=YdnqQ48QfA6xJ6ey4kQEYIr+ayf2jKnuqGSsNdITA6c --set-env-vars NEXTAUTH_URL=https://web-lcfoiwapda-lz.a.run.app
 
   deploy-gateway:
     runs-on: ubuntu-latest

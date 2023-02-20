@@ -2,10 +2,11 @@ name: Google Branch
 
 on:
   push:
-    branches: [stg]
+    branches: [google-cloud]
 
 env:
-  PROJECT: ${{ github.event.repository.name }}-stg-3
+  #PROJECT: ${{ github.event.repository.name }}-stg-3
+  PROJECT: decent-cable-377207
   DOCKER_TAG: v0.0.${{ github.run_number }}
   DB_INSTANCE: fvst-primary-db
 

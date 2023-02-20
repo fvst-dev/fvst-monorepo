@@ -1,6 +1,4 @@
 FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS builder
-RUN apk add --no-cache libc6-compat
-RUN apk update
 # Set working directory
 WORKDIR /usr/src/app
 RUN npm install -g turbo
@@ -9,8 +7,6 @@ RUN turbo prune --scope=web --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
 WORKDIR /usr/src/app
 
 # First install the dependencies (as they change less often)

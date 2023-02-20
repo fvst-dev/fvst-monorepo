@@ -4,9 +4,6 @@ WORKDIR /usr/src/app
 # Copy root package.json and lockfile
 COPY package.json ./
 
-# Copy the web package.json
-COPY apps/web/package.json ./apps/web/package.json
-
 RUN npm install
 
 # Copy app source

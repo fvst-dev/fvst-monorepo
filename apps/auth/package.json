@@ -7,7 +7,7 @@
     "dev": "concurrently -n auth,graphql \"npm run dev:server\" \"npm run dev:codegen\"",
     "dev:server": "nodemon -r dotenv/config ./src/index.ts",
     "dev:codegen": "graphql-codegen --config codegen.yml --watch src/graphql/schema/*.graphql",
-    "start": "npm run db:migrate:deploy && node -r dotenv/config ./dist/index.js",
+    "start": "npm run db:migrate:deploy && npm run db:generate && node -r dotenv/config ./dist/index.js",
     "codegen": "graphql-codegen --config codegen.yml",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",

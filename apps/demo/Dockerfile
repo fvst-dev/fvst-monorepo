@@ -5,10 +5,10 @@ COPY . ./
 
 RUN npm install
 
+WORKDIR /usr/src/app/apps/demo
+
 RUN npm run build
 
 EXPOSE 8080
-
-WORKDIR /apps/demo
 
 CMD ["npm", "start"]

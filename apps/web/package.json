@@ -34,7 +34,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@framework/jest": "*",
+    "jest": "*",
     "@graphql-codegen/cli": "^3.0.0",
     "@graphql-codegen/client-preset": "^2.0.0",
     "@tooling/eslint-config-custom": "*",

@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["demo", "auth"]
+        service: ["demo", "auth", "web"]
     steps:
       - uses: "actions/checkout@v3"
 
@@ -69,7 +69,7 @@ jobs:
 
       - name: Build Docker
         run: |
-          cd apps/${{matrix.service}} 
+          cd apps/${{matrix.service}}
           docker build -f Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG

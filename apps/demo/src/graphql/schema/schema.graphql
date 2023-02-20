@@ -1,11 +1,5 @@
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
 
-type Query {
+type Query2 {
   getRandomNumber: Int!
-  getUserById(id: ID!): User
-}
-
-type User @key(fields: "id") {
-  id: ID!
-  randomNumber: Int
 }

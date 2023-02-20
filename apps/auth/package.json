@@ -23,6 +23,7 @@
     "@apollo/server": "^4.3.1",
     "@apollo/subgraph": "^2.2.3",
     "@graphql-tools/load": "^7.8.9",
+    "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
     "bcrypt": "^5.1.0",
     "dataloader": "^2.1.0",

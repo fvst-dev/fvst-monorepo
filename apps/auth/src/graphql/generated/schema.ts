@@ -1,6 +1,4 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { LoginResultParent } from '../../resolvers/LoginResult';
-import { CreateUserResultParent } from '../../resolvers/CreateUserResult';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -15,68 +13,207 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateTime: Date;
+  DateTime: any;
   _FieldSet: any;
 };
 
-export type CreateUserResult = {
-  __typename?: 'CreateUserResult';
-  success: Scalars['Boolean'];
-  token?: Maybe<Scalars['String']>;
+export type Account = {
+  __typename?: 'Account';
+  access_token?: Maybe<Scalars['String']>;
+  expires_at?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  id_token?: Maybe<Scalars['String']>;
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+  refresh_token?: Maybe<Scalars['String']>;
+  refresh_token_expires_in?: Maybe<Scalars['Int']>;
+  scope?: Maybe<Scalars['String']>;
+  session_state?: Maybe<Scalars['String']>;
+  token_type?: Maybe<Scalars['String']>;
+  type: ProviderType;
+  userId: Scalars['ID'];
 };
 
-export type LoginResult = {
-  __typename?: 'LoginResult';
-  success: Scalars['Boolean'];
-  token?: Maybe<Scalars['String']>;
+export type AccountLink = {
+  access_token?: InputMaybe<Scalars['String']>;
+  expires_at?: InputMaybe<Scalars['Int']>;
+  id_token?: InputMaybe<Scalars['String']>;
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+  refresh_token?: InputMaybe<Scalars['String']>;
+  refresh_token_expires_in?: InputMaybe<Scalars['Int']>;
+  scope?: InputMaybe<Scalars['String']>;
+  session_state?: InputMaybe<Scalars['String']>;
+  token_type?: InputMaybe<Scalars['String']>;
+  type: ProviderType;
+  userId: Scalars['ID'];
+};
+
+export type AdapterSession = {
+  __typename?: 'AdapterSession';
+  expires: Scalars['DateTime'];
+  sessionToken: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type AdapterUser = {
+  __typename?: 'AdapterUser';
+  email: Scalars['String'];
+  emailVerified?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CreateSession = {
+  expires: Scalars['DateTime'];
+  sessionToken: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type CreateUser = {
+  email: Scalars['String'];
+  emailVerified?: InputMaybe<Scalars['DateTime']>;
+  image?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateVerificationToken = {
+  expires: Scalars['DateTime'];
+  identifier: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: CreateUserResult;
-  loginWithUsernameAndPassword: LoginResult;
+  createSession: AdapterSession;
+  createUser: AdapterUser;
+  createVerificationToken: VerificationToken;
+  deleteSession?: Maybe<AdapterSession>;
+  deleteUser?: Maybe<User>;
+  linkAccount?: Maybe<Account>;
+  unlinkAccount?: Maybe<Account>;
+  updateSession?: Maybe<AdapterSession>;
+  updateUser: User;
+};
+
+export type MutationCreateSessionArgs = {
+  data: CreateSession;
 };
 
 export type MutationCreateUserArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+  user: CreateUser;
 };
 
-export type MutationLoginWithUsernameAndPasswordArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+export type MutationCreateVerificationTokenArgs = {
+  verificationToken: CreateVerificationToken;
 };
+
+export type MutationDeleteSessionArgs = {
+  sessionToken: Scalars['String'];
+};
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['String'];
+};
+
+export type MutationLinkAccountArgs = {
+  data: AccountLink;
+};
+
+export type MutationUnlinkAccountArgs = {
+  providerInfo: ProviderAccountInfo;
+};
+
+export type MutationUpdateSessionArgs = {
+  data: UpdateSession;
+};
+
+export type MutationUpdateUserArgs = {
+  user: UpdateUser;
+};
+
+export type ProviderAccountInfo = {
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+};
+
+export enum ProviderType {
+  Credentials = 'credentials',
+  Email = 'email',
+  Oauth = 'oauth',
+}
 
 export type Query = {
   __typename?: 'Query';
-  isValidToken: Scalars['Boolean'];
+  getSessionAndUser?: Maybe<SessionWithUser>;
+  getUser?: Maybe<User>;
+  getUserByAccount?: Maybe<User>;
+  getUserByEmail?: Maybe<User>;
   me?: Maybe<User>;
 };
 
-export type QueryIsValidTokenArgs = {
-  token: Scalars['String'];
+export type QueryGetSessionAndUserArgs = {
+  sessionToken: Scalars['String'];
+};
+
+export type QueryGetUserArgs = {
+  id: Scalars['String'];
+};
+
+export type QueryGetUserByAccountArgs = {
+  providerInfo: ProviderAccountInfo;
+};
+
+export type QueryGetUserByEmailArgs = {
+  email: Scalars['String'];
+};
+
+export type Session = {
+  __typename?: 'Session';
+  expires: Scalars['DateTime'];
+  id: Scalars['ID'];
+  sessionToken: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type SessionWithUser = {
+  __typename?: 'SessionWithUser';
+  session?: Maybe<Session>;
+  user?: Maybe<User>;
+};
+
+export type UpdateSession = {
+  expires?: InputMaybe<Scalars['DateTime']>;
+  sessionToken: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateUser = {
+  email?: InputMaybe<Scalars['String']>;
+  emailVerified?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['ID']>;
+  image?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
   __typename?: 'User';
-  createdAt: Scalars['DateTime'];
+  email?: Maybe<Scalars['String']>;
+  emailVerified?: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
-  updatedAt: Scalars['DateTime'];
-  username: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type VerificationToken = {
+  __typename?: 'VerificationToken';
+  expires: Scalars['DateTime'];
+  identifier: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
-export type ReferenceResolver<TResult, TReference, TContext> = (
-  reference: TReference,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Promise<TResult> | TResult;
-
-type ScalarCheck<T, S> = S extends true ? T : NullableCheck<T, S>;
-type NullableCheck<T, S> = Maybe<T> extends T ? Maybe<ListCheck<NonNullable<T>, S>> : ListCheck<T, S>;
-type ListCheck<T, S> = T extends (infer U)[] ? NullableCheck<U, S>[] : GraphQLRecursivePick<T, S>;
-export type GraphQLRecursivePick<T, S> = { [K in keyof T & keyof S]: ScalarCheck<T[K], S[K]> };
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
@@ -148,36 +285,94 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CreateUserResult: ResolverTypeWrapper<CreateUserResultParent>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Account: ResolverTypeWrapper<Account>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
-  LoginResult: ResolverTypeWrapper<LoginResultParent>;
-  Mutation: ResolverTypeWrapper<{}>;
-  Query: ResolverTypeWrapper<{}>;
-  User: ResolverTypeWrapper<User>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  AccountLink: AccountLink;
+  AdapterSession: ResolverTypeWrapper<AdapterSession>;
+  AdapterUser: ResolverTypeWrapper<AdapterUser>;
+  CreateSession: CreateSession;
+  CreateUser: CreateUser;
+  CreateVerificationToken: CreateVerificationToken;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Mutation: ResolverTypeWrapper<{}>;
+  ProviderAccountInfo: ProviderAccountInfo;
+  ProviderType: ProviderType;
+  Query: ResolverTypeWrapper<{}>;
+  Session: ResolverTypeWrapper<Session>;
+  SessionWithUser: ResolverTypeWrapper<SessionWithUser>;
+  UpdateSession: UpdateSession;
+  UpdateUser: UpdateUser;
+  User: ResolverTypeWrapper<User>;
+  VerificationToken: ResolverTypeWrapper<VerificationToken>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CreateUserResult: CreateUserResultParent;
-  Boolean: Scalars['Boolean'];
+  Account: Account;
   String: Scalars['String'];
-  DateTime: Scalars['DateTime'];
-  LoginResult: LoginResultParent;
-  Mutation: {};
-  Query: {};
-  User: User;
+  Int: Scalars['Int'];
   ID: Scalars['ID'];
+  AccountLink: AccountLink;
+  AdapterSession: AdapterSession;
+  AdapterUser: AdapterUser;
+  CreateSession: CreateSession;
+  CreateUser: CreateUser;
+  CreateVerificationToken: CreateVerificationToken;
+  DateTime: Scalars['DateTime'];
+  Mutation: {};
+  ProviderAccountInfo: ProviderAccountInfo;
+  Query: {};
+  Session: Session;
+  SessionWithUser: SessionWithUser;
+  UpdateSession: UpdateSession;
+  UpdateUser: UpdateUser;
+  User: User;
+  VerificationToken: VerificationToken;
+  Boolean: Scalars['Boolean'];
 };
 
-export type CreateUserResultResolvers<
+export type AccountResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes['CreateUserResult'] = ResolversParentTypes['CreateUserResult']
+  ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']
 > = {
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  access_token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  expires_at?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id_token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  providerAccountId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  refresh_token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  refresh_token_expires_in?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  scope?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  session_state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token_type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['ProviderType'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AdapterSessionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['AdapterSession'] = ResolversParentTypes['AdapterSession']
+> = {
+  expires?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AdapterUserResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['AdapterUser'] = ResolversParentTypes['AdapterUser']
+> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailVerified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -185,67 +380,138 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type LoginResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['LoginResult'] = ResolversParentTypes['LoginResult']
-> = {
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type MutationResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
+  createSession?: Resolver<
+    ResolversTypes['AdapterSession'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSessionArgs, 'data'>
+  >;
   createUser?: Resolver<
-    ResolversTypes['CreateUserResult'],
+    ResolversTypes['AdapterUser'],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateUserArgs, 'password' | 'username'>
+    RequireFields<MutationCreateUserArgs, 'user'>
   >;
-  loginWithUsernameAndPassword?: Resolver<
-    ResolversTypes['LoginResult'],
+  createVerificationToken?: Resolver<
+    ResolversTypes['VerificationToken'],
     ParentType,
     ContextType,
-    RequireFields<MutationLoginWithUsernameAndPasswordArgs, 'password' | 'username'>
+    RequireFields<MutationCreateVerificationTokenArgs, 'verificationToken'>
   >;
+  deleteSession?: Resolver<
+    Maybe<ResolversTypes['AdapterSession']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteSessionArgs, 'sessionToken'>
+  >;
+  deleteUser?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteUserArgs, 'id'>
+  >;
+  linkAccount?: Resolver<
+    Maybe<ResolversTypes['Account']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationLinkAccountArgs, 'data'>
+  >;
+  unlinkAccount?: Resolver<
+    Maybe<ResolversTypes['Account']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUnlinkAccountArgs, 'providerInfo'>
+  >;
+  updateSession?: Resolver<
+    Maybe<ResolversTypes['AdapterSession']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateSessionArgs, 'data'>
+  >;
+  updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'user'>>;
 };
 
 export type QueryResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  isValidToken?: Resolver<
-    ResolversTypes['Boolean'],
+  getSessionAndUser?: Resolver<
+    Maybe<ResolversTypes['SessionWithUser']>,
     ParentType,
     ContextType,
-    RequireFields<QueryIsValidTokenArgs, 'token'>
+    RequireFields<QueryGetSessionAndUserArgs, 'sessionToken'>
+  >;
+  getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
+  getUserByAccount?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUserByAccountArgs, 'providerInfo'>
+  >;
+  getUserByEmail?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUserByEmailArgs, 'email'>
   >;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+};
+
+export type SessionResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']
+> = {
+  expires?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SessionWithUserResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['SessionWithUser'] = ResolversParentTypes['SessionWithUser']
+> = {
+  session?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = {
-  __resolveReference?: ReferenceResolver<
-    Maybe<ResolversTypes['User']>,
-    { __typename: 'User' } & GraphQLRecursivePick<ParentType, { id: true }>,
-    ContextType
-  >;
-  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  emailVerified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VerificationTokenResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['VerificationToken'] = ResolversParentTypes['VerificationToken']
+> = {
+  expires?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = Context> = {
-  CreateUserResult?: CreateUserResultResolvers<ContextType>;
+  Account?: AccountResolvers<ContextType>;
+  AdapterSession?: AdapterSessionResolvers<ContextType>;
+  AdapterUser?: AdapterUserResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
-  LoginResult?: LoginResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Session?: SessionResolvers<ContextType>;
+  SessionWithUser?: SessionWithUserResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  VerificationToken?: VerificationTokenResolvers<ContextType>;
 };

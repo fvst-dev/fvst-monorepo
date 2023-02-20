@@ -1,6 +1,6 @@
 version: "3"
 services:
-  postgres_auth:
+  postgres:
     image: postgres:15.1
     restart: always
     environment:
@@ -9,18 +9,6 @@ services:
       POSTGRES_DB: fvst
     volumes:
       - postgres-auth:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  postgres_web:
-    image: postgres:15.1
-    restart: always
-    environment:
-      POSTGRES_USER: fvst
-      POSTGRES_PASSWORD: fvst
-      POSTGRES_DB: fvst
-    volumes:
-      - postgres-web:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -47,5 +35,4 @@ services:
 
 volumes:
   postgres-auth:
-  postgres-web:
   redis:

@@ -16,4 +16,5 @@ export const config = {
   DISCORD_CLIENT_SECRET: getEnvironmentVariable('DISCORD_CLIENT_SECRET'),
   GITHUB_CLIENT_ID: getEnvironmentVariable('GITHUB_CLIENT_ID'),
   GITHUB_CLIENT_SECRET: getEnvironmentVariable('GITHUB_CLIENT_SECRET'),
+  GRAPH_QL_GATEWAY_URL: getEnvironmentVariable('GRAPH_QL_GATEWAY_URL'),
 };

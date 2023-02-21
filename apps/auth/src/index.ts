@@ -4,8 +4,6 @@ import { NODE_ENV, PORT } from './utils/config';
 import schema from './graphql/schema';
 import context, { Context } from './graphql/context';
 
-console.log(process.env.DATABASE_URL);
-
 (async () => {
   const server = new ApolloServer<Context>({
     schema,

@@ -64,8 +64,8 @@ jobs:
       matrix:
         environment: ["stg", "prod"]
     env:
-      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-3
-      PROJECT_NAME: ${{matrix.environment}}
+      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-4
+      PROJECT_NAME: "${{ github.event.repository.name }} ${{matrix.environment}}-4"
 
     steps:
       - uses: "actions/checkout@v3"

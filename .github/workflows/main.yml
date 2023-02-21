@@ -1,22 +1,45 @@
-name: Branch Push
+name: Main branch deploy to stg
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 env:
-  RAILWAY_ENV: stage
-  RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
+  PROJECT: ${{ github.event.repository.name }}-stg-4
+  DOCKER_TAG: v0.0.${{ github.run_number }}
+  DB_INSTANCE: fvst-primary-db
 
 jobs:
   verify:
     runs-on: ubuntu-latest
-
-    timeout-minutes: 5
-
+    strategy:
+      matrix:
+        service: ["demo", "auth"]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: "actions/checkout@v3"
+
+      - name: "Unpack Key"
+        id: "google-key"
+        run: |
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 417.0.0"
+
+      - name: Info
+        run: |
+          gcloud info
+
+      - name: Login to artifact repository
+        run: gcloud --project $PROJECT auth configure-docker
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -43,28 +66,126 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install railway
-        run: curl -fsSL https://railway.app/install.sh | sh
-
-      - name: Switch railway environment
+      - name: Build Docker
         run: |
-          echo "Switching to $RAILWAY_ENV"
-          railway environment $RAILWAY_ENV
+          docker build -f apps/${{matrix.service}}/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
+      - name: Push to repo
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
 
-      - name: Configure Apollo Gateway
+      - name: Deploy
         run: |
-          pwd
-          ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$RAILWAY_ENV" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated
+
+  deploy-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: "Unpack Key"
+        id: "google-key"
+        run: |
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 417.0.0"
+
+      - name: Info
+        run: |
+          gcloud info
+
+      - name: Login to artifact repository
+        run: gcloud --project $PROJECT auth configure-docker
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Build Docker
+        run: |
+          docker build -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
+      - name: Push to repo
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
+
+      - name: Deploy
+        run: |
+          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-lcfoiwapda-lz.a.run.app --set-env-vars NEXTAUTH_SECRET=YdnqQ48QfA6xJ6ey4kQEYIr+ayf2jKnuqGSsNdITA6c --set-env-vars NEXTAUTH_URL=https://web-lcfoiwapda-lz.a.run.app
+
+  deploy-gateway:
+    runs-on: ubuntu-latest
+    needs: [verify, deploy-web]
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: "Unpack Key"
+        id: "google-key"
+        run: |
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 417.0.0"
+
+      - name: Info
+        run: |
+          gcloud info
+
+      - name: Login to artifact repository
+        run: gcloud --project $PROJECT auth configure-docker
+
+      - name: Build gateway
+        run: docker build -f apps/apollo-gateway/Dockerfile -t gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG .
+
+      - name: Push to repo
+        run: docker push gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG
 
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh
 
       - name: Sync schema
         run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@$RAILWAY_ENV"
-          export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export RAILWAY_ENV=$RAILWAY_ENV
-          export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
           chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
+          export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
+          export APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}
           ./apps/apollo-gateway/publish_ci_schema_updates.sh
+
+      - name: Deploy
+        run: |
+          export APOLLO_GRAPH_REF="${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
+          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated

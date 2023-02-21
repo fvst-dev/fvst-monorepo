@@ -4,10 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  RAILWAY_ENV: ${{secrets.RAILWAY_PROJECT_NAME}}-pr-${{ github.event.number }}
-  RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
-
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -42,29 +38,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Install railway
-        run: curl -fsSL https://railway.app/install.sh | sh
-
-      - name: Switch railway environment
-        run: |
-          echo "Switching to $RAILWAY_ENV"
-          railway environment $RAILWAY_ENV
-
-      - name: Configure Apollo Gateway
-        run: |
-          pwd
-          ls -la
-          railway -s apollo-gateway variables set APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@pr-${{ github.event.number }}" APOLLO_KEY=${{ secrets.APOLLO_KEY }} PORT=4000
-
-      - name: Install rover
-        run: curl -sSL https://rover.apollo.dev/nix/latest | sh
-
-      - name: Sync schema
-        run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_GRAPH_NAME}}@pr-${{ github.event.number }}"
-          export APOLLO_KEY=${{ secrets.APOLLO_KEY }}
-          export RAILWAY_ENV=$RAILWAY_ENV
-          export RAILWAY_PROJECT_NAME=${{secrets.RAILWAY_PROJECT_NAME}}
-          chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
-          ./apps/apollo-gateway/publish_ci_schema_updates.sh

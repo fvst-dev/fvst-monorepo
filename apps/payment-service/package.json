@@ -1,5 +1,5 @@
 {
-  "name": "@apps/demo",
+  "name": "@apps/payment-service",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "format:prettier": "prettier --write ./src",
     "lint": "npm run lint:prettier && npm run lint:typescript",
     "lint:typescript": "tsc --noEmit",
-    "lint:prettier": "prettier --write ./src"
+    "lint:prettier": "prettier --check ./src"
   },
   "dependencies": {
     "@apollo/server": "^4.3.1",

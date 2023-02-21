@@ -4,7 +4,7 @@ for d in */ ; do
     APP_NAME=$(echo $d | sed 's/.$//')
     SCHEMA_FILE=$APP_NAME/src/graphql/schema/schema.graphql
 
-    ENDPOINT="https://service-$APP_NAME-$RAILWAY_ENV.up.railway.app"
+    ENDPOINT=$(gcloud --project $PROJECT run services list --filter $APP_NAME --format 'value(status.url)')
 
     if [ ! -f "$SCHEMA_FILE" ]; then 
         continue;

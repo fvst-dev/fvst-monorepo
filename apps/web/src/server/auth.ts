@@ -2,8 +2,7 @@ import type { GetServerSidePropsContext } from 'next';
 import { getServerSession, type NextAuthOptions, type DefaultSession } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitHubProvider from 'next-auth/providers/github';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from './prisma';
+import GoogleProvider from 'next-auth/providers/google';
 import { config } from '../utils/config';
 import { GraphQlAdapter } from '../utils/GraphQlAdapter';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
@@ -11,7 +10,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 const authApolloClient = new ApolloClient({
   // Provide required constructor fields
   cache: new InMemoryCache(),
-  uri: 'http://localhost:4001/',
+  uri: config.GRAPH_QL_GATEWAY_URL,
 });
 
 /**
@@ -62,6 +61,10 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: config.GITHUB_CLIENT_ID,
       clientSecret: config.GITHUB_CLIENT_SECRET,
+    }),
+    GoogleProvider({
+      clientId: config.GOOGLE_CLIENT_ID,
+      clientSecret: config.GOOGLE_CLIENT_SECRET,
     }),
   ],
 };

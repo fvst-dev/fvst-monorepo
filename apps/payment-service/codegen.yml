@@ -7,6 +7,4 @@ generates:
       - 'typescript-resolvers'
     config:
       federation: true
-      contextType: '../context#Context'
-      scalars:
-        DateTime: Date
+      mappers: {}

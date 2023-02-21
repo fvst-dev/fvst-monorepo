@@ -14,9 +14,9 @@ export type Scalars = {
   _FieldSet: any;
 };
 
-export type Query2 = {
-  __typename?: 'Query2';
-  getRandomNumber: Scalars['Int'];
+export type Query = {
+  __typename?: 'Query';
+  getPaymentLink: Scalars['String'];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -91,28 +91,25 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query2: ResolverTypeWrapper<Query2>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query2: Query2;
-  Int: Scalars['Int'];
-  Boolean: Scalars['Boolean'];
+  Query: {};
   String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
 };
 
-export type Query2Resolvers<
+export type QueryResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes['Query2'] = ResolversParentTypes['Query2']
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  getRandomNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  getPaymentLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Query2?: Query2Resolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
 };

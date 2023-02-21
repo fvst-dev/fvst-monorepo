@@ -93,7 +93,7 @@ jobs:
 
       - name: "Create Project"
         run: |
-          gcloud projects create $PROJECT --name $PROJECT_NAME --folder=${{secrets.GOOGLE_CLOUD_FOLDER_ID}} --set-as-default
+          gcloud projects create $PROJECT --name "$PROJECT_NAME" --folder=${{secrets.GOOGLE_CLOUD_FOLDER_ID}} --set-as-default
           gcloud config set project $PROJECT
           gcloud info
 

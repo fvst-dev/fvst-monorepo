@@ -16,4 +16,5 @@ import context, { Context } from './graphql/context';
   });
 
   console.log(`🚀  Server ready at: ${url}`);
+  console.log(process.env.DATABASE_URL);
 })();

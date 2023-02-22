@@ -20,7 +20,7 @@ COPY --from=builder /usr/src/app/out/full/ .
 RUN npx turbo run build --filter=@apps/web...
 
 
-FROM node:alpine AS runner
+FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS runner
 WORKDIR /usr/src/app
 
 # Don't run production as root
@@ -35,7 +35,8 @@ COPY --from=installer /usr/src/app/apps/web/package.json .
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/public ./apps/web/public
+# Uncomment to copy static files from NextJS /public folder
+#COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/public ./apps/web/public
 
 EXPOSE 8080
 CMD node apps/web/server.js

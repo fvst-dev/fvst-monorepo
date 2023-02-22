@@ -63,6 +63,7 @@ jobs:
       - name: Build Docker
         run: |
           docker build -f apps/${{matrix.service}}/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
+
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-${{matrix.service}}:$DOCKER_TAG
 
@@ -120,6 +121,7 @@ jobs:
       - name: Build Docker
         run: |
           docker build -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
+
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
 

@@ -39,4 +39,4 @@ COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/.next/static .
 #COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/public ./apps/web/public
 
 EXPOSE 8080
-CMD node apps/web/server.js
+CMD ["npm", "start"]

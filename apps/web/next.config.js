@@ -1,6 +1,7 @@
 // @ts-check
 const packageJSON = require('./package.json');
 const transpilePackages = Object.keys(packageJSON.dependencies).filter((it) => it.includes('@package/'));
+const path = require('path');
 
 /**
  * Don't be scared of the generics here.
@@ -33,6 +34,11 @@ module.exports = getConfig({
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
+  },
+  experimental: {
+    /* Fixing file tracking in monorepo setup. Required for CMD node apps/web/server.js to work properly
+     * @see https://nextjs.org/docs/advanced-features/output-file-tracing#caveats */
+    outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   transpilePackages,
 });

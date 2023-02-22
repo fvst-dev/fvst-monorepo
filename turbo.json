@@ -4,7 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build", "db:generate", "codegen"],
-      "outputs": ["dist/**", ".next/**"],
+      "outputs": ["dist/**", ".next/**", "public/dist/**"],
       "env": ["VERCEL_URL", "PORT", "NODE_ENV", "DATABASE_URL"]
     },
     "db:generate": {

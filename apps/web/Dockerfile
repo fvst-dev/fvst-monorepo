@@ -3,7 +3,7 @@ FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=web --docker
+RUN turbo prune --scope=@apps/web --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS installer

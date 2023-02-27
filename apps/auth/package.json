@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run codegen && tsc && cp -r ./src/graphql/schema/ ./dist/graphql/schema && cp -r ./prisma/* ./dist/prisma/ && cp ./prisma/schema.prisma ./dist/prisma/client/",
+    "build": "npm run codegen && tsc && npx prisma generate && cp -r ./src/graphql/schema/ ./dist/graphql/schema && cp -r ./prisma/* ./dist/prisma/ && cp ./prisma/schema.prisma ./dist/prisma/client/",
     "dev": "concurrently -n auth,graphql \"npm run dev:server\" \"npm run dev:codegen\"",
     "dev:server": "nodemon -r dotenv/config ./src/index.ts",
     "dev:codegen": "graphql-codegen --config codegen.yml --watch src/graphql/schema/*.graphql",

@@ -21,14 +21,14 @@ RUN npx turbo run build --filter=@apps/auth...
 
 
 FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS runner
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/apps/auth
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
 
-RUN mkdir -p /usr/src/app/src
-RUN chown graphql:nodejs /usr/src/app/src
+RUN mkdir -p /usr/src/app/apps/auth/src
+RUN chown graphql:nodejs /usr/src/app/apps/auth/src
 
 USER graphql
 

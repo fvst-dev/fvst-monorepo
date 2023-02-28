@@ -4,8 +4,8 @@ import DiscordProvider from 'next-auth/providers/discord';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { config } from '../utils/config';
-import { GraphQlAdapter } from '../utils/GraphQlAdapter';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { GraphQlAdapter } from '@package/graphql-adapter/src';
 
 const authApolloClient = new ApolloClient({
   // Provide required constructor fields

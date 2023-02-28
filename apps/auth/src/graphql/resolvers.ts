@@ -1,5 +1,4 @@
 import { Account, AdapterSession, AdapterUser, Resolvers, SessionWithUser, User } from './generated/schema';
-import me from '../resolvers/Query/me';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import unlinkAccount from '../resolvers/Mutation/unlinkAccount';
 import { AdapterAccount } from 'next-auth/adapters';
@@ -36,18 +35,12 @@ const resolvers: Resolvers = {
         expires: args.data.expires || undefined,
       }) as AdapterSession,
     deleteSession: (parent, args) => adapter.deleteSession(args.sessionToken) as AdapterSession,
-    /*    createVerificationToken: async (parent, args) => await adapter.createVerificationToken({
-          token: args.verificationToken.token,
-          identifier: args.verificationToken.identifier,
-          expires: args.verificationToken.expires
-        })*/
   },
   Query: {
     getUser: (_, args) => adapter.getUser(args.id) as User,
     getUserByAccount: (_, args) => adapter.getUserByAccount(args.providerInfo) as User,
     getUserByEmail: (_, args) => adapter.getUserByEmail(args.email) as User,
     getSessionAndUser: (parent, args) => adapter.getSessionAndUser(args.sessionToken) as SessionWithUser,
-    me: (_, __, context) => me(context),
   },
   User: {},
 };

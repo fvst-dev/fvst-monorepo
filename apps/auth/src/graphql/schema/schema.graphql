@@ -3,7 +3,6 @@ extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@
 scalar DateTime
 
 type Query {
-  me: User
   getUser(id: String!): User
   getUserByEmail(email: String!): User
   getUserByAccount(providerInfo: ProviderAccountInfo!): User

@@ -150,7 +150,6 @@ export type Query = {
   getUser?: Maybe<User>;
   getUserByAccount?: Maybe<User>;
   getUserByEmail?: Maybe<User>;
-  me?: Maybe<User>;
 };
 
 export type QueryGetSessionAndUserArgs = {
@@ -458,7 +457,6 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetUserByEmailArgs, 'email'>
   >;
-  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type SessionResolvers<

@@ -6,9 +6,17 @@ import {
   CodeBracketIcon,
   CircleStackIcon,
   SwatchIcon,
+  CloudIcon,
 } from '@heroicons/react/24/outline';
 
 const features = [
+  {
+    name: 'Google Cloud',
+    description:
+      'Best-in-class cloud platform with low costs, easy management and little to no vendor locking, giving the ability to easily swap out platforms according to future needs.',
+    icon: CloudIcon,
+    href: 'https://cloud.google.com/',
+  },
   {
     name: 'Turborepo',
     description:
@@ -24,18 +32,18 @@ const features = [
     href: 'https://nextjs.org/',
   },
   {
-    name: 'NextAuth.js',
-    description:
-      'Authentication that handles everything for you with built in support for 60+ popular 3rd-party services.',
-    icon: LockClosedIcon,
-    href: 'https://next-auth.js.org/',
-  },
-  {
     name: 'Prisma',
     description:
       'Prisma unlocks a new level of developer experience when working with databases thanks to its intuitive data model, automated migrations, type-safety & auto-completion.',
     icon: CircleStackIcon,
     href: 'https://www.prisma.io/',
+  },
+  {
+    name: 'NextAuth.js',
+    description:
+      'Authentication that handles everything for you with built in support for 60+ popular 3rd-party services.',
+    icon: LockClosedIcon,
+    href: 'https://next-auth.js.org/',
   },
   {
     name: 'Tailwind',

@@ -8,7 +8,6 @@ const getEnvironmentVariable = (environmentVariable: string): string => {
 };
 
 export const config = {
-  DATABASE_URL: getEnvironmentVariable('DATABASE_URL'),
   NODE_ENV: getEnvironmentVariable('NODE_ENV'),
   NEXTAUTH_SECRET: getEnvironmentVariable('NEXTAUTH_SECRET'),
   NEXTAUTH_URL: getEnvironmentVariable('NEXTAUTH_URL'),

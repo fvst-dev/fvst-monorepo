@@ -19,6 +19,7 @@
     "@apollo/client": "^3.7.7",
     "@framework/tailwind": "*",
     "@package/auth-header": "*",
+    "@package/graphql-adapter": "*",
     "@tanstack/react-query": "^4.3.8",
     "@trpc/client": "^10.7.0",
     "@trpc/next": "^10.7.0",

@@ -37,6 +37,7 @@ COPY --from=installer /usr/src/app/apps/auth/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/auth/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/auth/dist/prisma ./prisma
+COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/auth/.env.example .env
 
 RUN npx prisma generate
 

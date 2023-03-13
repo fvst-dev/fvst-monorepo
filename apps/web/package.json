@@ -28,7 +28,7 @@
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.20.1",
     "next": "^13.0.0",
-    "next-auth": "^4.19.2",
+    "next-auth": "^4.20.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.7.4",

@@ -7,7 +7,7 @@
     "@tooling/typescript": "*",
     "eslint-config-custom": "*",
     "graphql": "^16.6.0",
-    "next-auth": "^4.18.10",
+    "next-auth": "^4.20.1",
     "tsconfig": "*"
   },
   "publishConfig": {

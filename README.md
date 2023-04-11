@@ -82,3 +82,4 @@ and wait a few seconds. The gatway will resync the schema from apollo studio and
 3. Configure a env name for yourself in .env (APOLLO_GRAPH_REF value). The code after @ must be unique for your dev box
 4. Run the npm run publishSchema (this publishes the schema for your env to apollo studio)
 5. Run docker compose file. It will expose the sandbox on port 4000
+6. Temp

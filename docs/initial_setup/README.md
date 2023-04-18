@@ -25,15 +25,20 @@ Google Cloud has a trial account to get started.
 1. Choose a company top level account
 2. Navigate to IAM & Admin and click the Manage Resources on the left menu
 3. Create a folder under the company name where all environments will go
-4. Create a new service account (can be under any project)
-5. Click on the service account and export a key for this account (it will download locally)
-6. Go back to the company view and add the new service account roles to
+4. Create a new project and enable the following APIs for it:
+   - Service Usage API
+   - Cloud Resource Manager API
+   - Cloud SQL Admin API
+   - Cloud Billing API
+5. Create a new service account (can be under any project)
+6. Click on the service account and export a key for this account (it will download locally)
+7. Go back to the company view and add the new service account roles to
    - Create new projects under the previously created folder
    - Link projects to a billing account
    - Create folders
    - Create / modify / list SQL instances
    - Create / modify / list Cloud Run services.
-7. To get the base64 encoded key, do the following (replace KEY_FILE.json with the file path to your downloaded key). The reason for using awk is to convert multiline json to a single line (multiline json can cause issues in GitHub actions)
+8. To get the base64 encoded key, do the following (replace KEY_FILE.json with the file path to your downloaded key). The reason for using awk is to convert multiline json to a single line (multiline json can cause issues in GitHub actions)
 
 ```
     awk -v RS= -v OFS= '{$1=$1}1' KEY_FILE.json | base64

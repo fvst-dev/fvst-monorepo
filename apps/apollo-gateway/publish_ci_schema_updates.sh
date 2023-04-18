@@ -4,9 +4,9 @@ for d in */ ; do
     APP_NAME=$(echo $d | sed 's/.$//')
     SCHEMA_FILE=$APP_NAME/src/graphql/schema/schema.graphql
 
-    ENDPOINT=$(gcloud --project $PROJECT run services list --filter $APP_NAME --format 'value(status.url)')
+    ENDPOINT=$(gcloud --project $PROJECT run services list --filter $APP_NAME --format 'value(status.url)' --limit 1)
 
-    if [ ! -f "$SCHEMA_FILE" ]; then 
+    if [ ! -f "$SCHEMA_FILE" ]; then
         continue;
     fi
 

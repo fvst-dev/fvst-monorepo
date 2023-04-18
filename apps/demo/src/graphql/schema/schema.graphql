@@ -1,5 +1,5 @@
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
 
-type Query2 {
+type Query {
   getRandomNumber: Int!
 }

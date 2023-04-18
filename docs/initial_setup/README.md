@@ -41,7 +41,7 @@ Google Cloud has a trial account to get started.
 8. To get the base64 encoded key, do the following (replace KEY_FILE.json with the file path to your downloaded key). The reason for using awk is to convert multiline json to a single line (multiline json can cause issues in GitHub actions)
 
 ```
-    awk -v RS= -v OFS= '{$1=$1}1' KEY_FILE.json | base64
+awk -v RS= '{$1=$1}1' KEY_FILE.json | base64
 ```
 
 ## Run the init GitHub action

@@ -16,7 +16,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@package/fvst-logo/src";
-import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 const solutions = [
   {
@@ -100,7 +105,6 @@ function classNames(...classes: string[]) {
 }
 
 export default function Header() {
-  const { data: session } = useSession();
   return (
     <Popover className="relative bg-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -298,73 +302,14 @@ export default function Header() {
           </Popover.Group>
 
           <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-            {!session && (
-              <a
-                href="/api/auth/signin"
-                className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                onClick={(e) => {
-                  e.preventDefault();
-                  signIn();
-                }}
-              >
-                Sign in
-              </a>
-            )}
-            {session?.user && (
-              <>
-                <Popover className="relative">
-                  {({ open }) => (
-                    <>
-                      <Popover.Button
-                        className={classNames(
-                          open ? "text-gray-900" : "text-gray-500",
-                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        )}
-                      >
-                        {session.user?.image && (
-                          <a
-                            style={{
-                              backgroundImage: `url('${session.user.image}')`,
-                            }}
-                            className="float-left h-12 w-12 rounded-b-full rounded-t-full bg-white bg-cover bg-no-repeat"
-                          />
-                        )}
-                      </Popover.Button>
-
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                              <strong className="border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-                                Hi {session.user?.name?.split(" ")[0]}!
-                              </strong>
-                              <a
-                                href={`/api/auth/signout`}
-                                className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  signOut();
-                                }}
-                              >
-                                Sign out
-                              </a>
-                            </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
-              </>
-            )}
+            <SignedIn>
+              {/* Mount the UserButton component */}
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              {/* Signed-out users get sign in button */}
+              <SignInButton />
+            </SignedOut>
           </div>
         </div>
       </div>
@@ -386,7 +331,14 @@ export default function Header() {
             <div className="px-5 pt-5 pb-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <Logo />
+                  <SignedIn>
+                    {/* Mount the UserButton component */}
+                    <UserButton />
+                  </SignedIn>
+                  <SignedOut>
+                    {/* Signed-out users get sign in button */}
+                    <SignInButton />
+                  </SignedOut>
                 </div>
                 <div className="-mr-2">
                   <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -439,47 +391,6 @@ export default function Header() {
                     {item.name}
                   </a>
                 ))}
-              </div>
-              <div>
-                {!session && (
-                  <a
-                    href="/api/auth/signin"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      signIn();
-                    }}
-                  >
-                    Sign in
-                  </a>
-                )}
-                {session?.user && (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-center gap-2">
-                      {session.user.image && (
-                        <span
-                          style={{
-                            backgroundImage: `url('${session.user.image}')`,
-                          }}
-                          className="float-left h-12 w-12 rounded-b-full rounded-t-full bg-white bg-cover bg-no-repeat"
-                        />
-                      )}
-                      <strong className="my-3 content-center justify-center align-middle">
-                        Hi {session.user.name?.split(" ")[0]}!
-                      </strong>
-                    </div>
-                    <a
-                      href={`/api/auth/signout`}
-                      className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        signOut();
-                      }}
-                    >
-                      Sign out
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Header from '@package/auth-header/src/Header';
+import Header from '@package/header/src/Header';
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

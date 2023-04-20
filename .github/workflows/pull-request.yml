@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Generate Prisma Types
+        run: npm run generate
+
       - name: Lint
         run: npm run lint
 

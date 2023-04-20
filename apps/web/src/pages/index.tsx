@@ -39,11 +39,10 @@ const features = [
     href: 'https://www.prisma.io/',
   },
   {
-    name: 'NextAuth.js',
-    description:
-      'Authentication that handles everything for you with built in support for 60+ popular 3rd-party services.',
+    name: 'Clerk',
+    description: 'Plug-and-play authentication set up in less than 5 minutes.',
     icon: LockClosedIcon,
-    href: 'https://next-auth.js.org/',
+    href: 'https://clerk.com/',
   },
   {
     name: 'Tailwind',

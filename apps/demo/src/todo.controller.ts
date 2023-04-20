@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { Todo, Prisma } from '@prisma/client';
+import { Todo, Prisma } from '@~internal/prisma_demo/client';
 
 @Controller('todos')
 export class TodoController {

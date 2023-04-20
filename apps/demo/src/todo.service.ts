@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Todo, Prisma } from '@prisma/client';
+import { Todo, Prisma } from '@~internal/prisma_demo/client';
 
 @Injectable()
 export class TodoService {

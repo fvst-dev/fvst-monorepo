@@ -19,7 +19,7 @@ const resolvers: Resolvers = {
     updateUser: (parent, args) =>
       adapter.updateUser({
         ...args.user,
-        id: args.user.id?.toString(),
+        id: args.user.id?.toString() as string,
         email: args.user.email?.toString(),
       }) as User,
     // PrismaAdapter has Delete User implemented

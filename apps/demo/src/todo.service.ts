@@ -6,7 +6,7 @@ import { Todo, Prisma } from '@~internal/prisma_demo/client';
 export class TodoService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.TodoCreateInput): Promise<Todo> {
+  async create(data: Prisma.TodoCreateInput) {
     return this.prisma.todo.create({ data });
   }
 

@@ -27,9 +27,6 @@ module.exports = getConfig({
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,
   },
-  env: {
-    CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY || '',
-  },
   reactStrictMode: true,
   output: 'standalone',
   /* If trying out the experimental appDir, comment the i18n config out

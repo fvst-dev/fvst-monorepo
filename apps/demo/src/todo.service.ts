@@ -10,19 +10,19 @@ export class TodoService {
     return this.prisma.todo.create({ data });
   }
 
-  async findAll(): Promise<Todo[]> {
+  async findAll() {
     return this.prisma.todo.findMany();
   }
 
-  async findOne(id: number): Promise<Todo | null> {
+  async findOne(id: number) {
     return this.prisma.todo.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: Prisma.TodoUpdateInput): Promise<Todo> {
+  async update(id: number, data: Prisma.TodoUpdateInput) {
     return this.prisma.todo.update({ where: { id }, data });
   }
 
-  async delete(id: number): Promise<Todo> {
+  async delete(id: number) {
     return this.prisma.todo.delete({ where: { id } });
   }
 }

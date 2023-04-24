@@ -6,6 +6,7 @@ import { TodoService } from './todo/todo.service';
 import { PrismaService } from './prisma.service';
 import { BullModule } from '@nestjs/bull';
 import { TranscribeModule } from './transcribe/transcribe.module';
+import { TodoProcessor } from './todo/todo.processor';
 
 @Module({
   imports: [
@@ -15,9 +16,12 @@ import { TranscribeModule } from './transcribe/transcribe.module';
         port: 6379,
       },
     }),
+    BullModule.registerQueue({
+      name: 'todo',
+    }),
     TranscribeModule,
   ],
   controllers: [AppController, TodoController],
-  providers: [AppService, TodoService, PrismaService],
+  providers: [AppService, TodoService, PrismaService, TodoProcessor],
 })
 export class AppModule {}

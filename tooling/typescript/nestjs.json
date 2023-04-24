@@ -15,6 +15,7 @@
     "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

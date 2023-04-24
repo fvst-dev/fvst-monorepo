@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "@apps/demo",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -49,6 +49,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "@tooling/eslint-config-custom": "*",
+    "@tooling/typescript": "*",
     "prettier": "^2.3.2",
     "prisma": "^4.13.0",
     "source-map-support": "^0.5.20",

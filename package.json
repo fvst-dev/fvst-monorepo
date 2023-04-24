@@ -13,7 +13,7 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
-    "test": "turbo run test",
+    "test": "turbo run test -- --forceExit",
     "format": "turbo run format",
     "publishSchema": "export $(cat .env | xargs) && chmod +x ./apps/apollo-gateway/publish_schema_updates.sh && ./apps/apollo-gateway/publish_schema_updates.sh $(pwd)"
   },

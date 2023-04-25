@@ -4,6 +4,14 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma.service';
 
+jest.mock('jwks-rsa', () => {
+  return {
+    passportJwtSecret: jest.fn().mockImplementation(() => 'mockedSecret'),
+  };
+});
+
+// Add a dummy JWKS URL to process.env
+process.env.CLERK_JWSK_URL = 'https://example.com/jwks';
 const prismaMock = {
   $connect: jest.fn(),
   $disconnect: jest.fn(),

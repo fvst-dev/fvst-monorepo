@@ -1,11 +1,13 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { Todo, CreateTodoInput, UpdateTodoInput } from './todo.entity';
 import { TodoService } from './todo.service';
+import { JwtAuthGuard } from './auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Todo)
 export class TodoResolver {
   constructor(private todoService: TodoService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Query(() => [Todo])
   async todos() {
     return this.todoService.findAll();

@@ -6,6 +6,8 @@ import { PrismaService } from './prisma.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TodoResolver } from './todo.resolver';
 import { ApolloDriver } from '@nestjs/apollo';
+import { JwtAuthGuard } from './auth.guard';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -17,6 +19,13 @@ import { ApolloDriver } from '@nestjs/apollo';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, TodoService, PrismaService, TodoResolver],
+  providers: [
+    AppService,
+    TodoService,
+    PrismaService,
+    TodoResolver,
+    JwtStrategy,
+    JwtAuthGuard,
+  ],
 })
 export class AppModule {}

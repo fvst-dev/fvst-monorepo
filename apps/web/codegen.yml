@@ -1,0 +1,10 @@
+overwrite: true
+schema: 'http://localhost:3000/graphql' # TODO Replace with your GraphQL API endpoint
+generates:
+  ./src/graphql/generated/schema.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+    config:
+      federation: true
+      mappers: {}

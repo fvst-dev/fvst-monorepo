@@ -10,8 +10,6 @@ jest.mock('jwks-rsa', () => {
   };
 });
 
-// Add a dummy JWKS URL to process.env
-process.env.CLERK_JWSK_URL = 'https://example.com/jwks';
 const prismaMock = {
   $connect: jest.fn(),
   $disconnect: jest.fn(),

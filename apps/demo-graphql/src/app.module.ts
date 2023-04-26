@@ -8,9 +8,11 @@ import { TodoResolver } from './todo.resolver';
 import { ApolloDriver } from '@nestjs/apollo';
 import { JwtAuthGuard } from './auth.guard';
 import { JwtStrategy } from './jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: true,

@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoService } from './todo.service';
-import { PrismaService } from './prisma.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TodoResolver } from './todo.resolver';
 import { ApolloDriver } from '@nestjs/apollo';
 import { JwtAuthGuard } from './auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaClient } from '@~internal/prisma_demo/client';
+import { PrismaService } from '@libs/prisma/dist/prisma.service';
 
 @Module({
   imports: [
@@ -24,10 +25,15 @@ import { ConfigModule } from '@nestjs/config';
   providers: [
     AppService,
     TodoService,
-    PrismaService,
     TodoResolver,
     JwtStrategy,
     JwtAuthGuard,
+    {
+      provide: PrismaService,
+      useFactory: () => {
+        return new PrismaService(new PrismaClient());
+      },
+    },
   ],
 })
 export class AppModule {}

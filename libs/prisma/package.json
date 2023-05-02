@@ -1,0 +1,10 @@
+{
+  "name": "@libs/prisma",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "ISC"
+}

@@ -4,7 +4,8 @@
   "description": "",
   "author": "",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "postinstall": "npm run build"
   },
   "license": "ISC"
 }

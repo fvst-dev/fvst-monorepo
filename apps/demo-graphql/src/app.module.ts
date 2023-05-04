@@ -10,6 +10,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaClient } from '@~internal/prisma_demo/client';
 import { PrismaService } from '@libs/prisma/dist/prisma.service';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { IRequestWithUser } from './types';
 
 @Module({
@@ -17,9 +18,10 @@ import { IRequestWithUser } from './types';
     ConfigModule.forRoot(),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
-      autoSchemaFile: true,
       context: ({ req }: { req: IRequestWithUser }) => ({ user: req.user }),
-      playground: process.env.NODE_ENV !== 'production',
+      autoSchemaFile: 'src/schema.graphql',
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: process.env.NODE_ENV !== 'production',
     }),
   ],

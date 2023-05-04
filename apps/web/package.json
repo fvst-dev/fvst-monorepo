@@ -16,7 +16,7 @@
     "format:prettier": "prettier --write ./src"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.7",
+    "@apollo/client": "^3.7.12",
     "@clerk/nextjs": "^4.16.4",
     "@framework/tailwind": "*",
     "@package/graphql-adapter": "*",

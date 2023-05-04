@@ -5,7 +5,14 @@
     "build": {
       "dependsOn": ["^build", "db:generate", "codegen"],
       "outputs": ["dist/**", ".next/**", "public/dist/**"],
-      "env": ["VERCEL_URL", "PORT", "NODE_ENV", "DATABASE_URL"]
+      "env": [
+        "VERCEL_URL",
+        "PORT",
+        "NODE_ENV",
+        "DATABASE_URL",
+        "CLERK_JWSK_URL",
+        "CLERK_ISSUER"
+      ]
     },
     "db:generate": {
       "cache": false

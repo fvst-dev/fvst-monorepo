@@ -13,6 +13,7 @@ import {
   ShieldCheckIcon,
   Squares2X2Icon,
   XMarkIcon,
+  ListBulletIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@package/fvst-logo/src";
@@ -88,6 +89,12 @@ const resources = [
     description: "Understand how we take your privacy seriously.",
     href: "#",
     icon: ShieldCheckIcon,
+  },
+  {
+    name: "Example Todo App",
+    description: "Example web app with clerk auth",
+    href: "#",
+    icon: ListBulletIcon,
   },
 ];
 const recentPosts = [
@@ -174,7 +181,7 @@ export default function Header() {
                             </a>
                           ))}
                         </div>
-                        <div className="space-y-6 bg-gray-50 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
+                        <div className="space-y-6 bg-gray-50 px-5 py-5 sm:flex sm:space-x-10 sm:space-y-0 sm:px-8">
                           {callsToAction.map((item) => (
                             <div key={item.name} className="flow-root">
                               <a
@@ -328,7 +335,7 @@ export default function Header() {
           className="absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden"
         >
           <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-            <div className="px-5 pt-5 pb-6">
+            <div className="px-5 pb-6 pt-5">
               <div className="flex items-center justify-between">
                 <div>
                   <SignedIn>
@@ -367,8 +374,8 @@ export default function Header() {
                 </nav>
               </div>
             </div>
-            <div className="space-y-6 py-6 px-5">
-              <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+            <div className="space-y-6 px-5 py-6">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                 <a
                   href="#"
                   className="text-base font-medium text-gray-900 hover:text-gray-700"

@@ -68,11 +68,11 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-            <dl className="grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none lg:grid-cols-2 lg:gap-y-8">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-8">
               {features.map((feature) => (
                 <a key={feature.name} href={feature.href} className="relative rounded-lg p-2 pl-16 hover:bg-gray-100">
                   <dt className="text-base font-semibold leading-7 text-gray-900">
-                    <div className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <div className="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
                       <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     {feature.name}

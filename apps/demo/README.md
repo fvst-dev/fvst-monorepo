@@ -1,73 +1,48 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# FVST Monorepo Demo
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is an example back-end project that uses:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [NestJS](https://docs.nestjs.com/)
+- [Prisma](https://www.prisma.io/docs)
 
-## Description
+## Setup
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Overview
 
-## Installation
+The package contains the following files:
 
-```bash
-$ npm install
-```
+1. **app.module.ts**: The main module file that imports and configures the necessary modules and providers for the application.
+2. **app.controller.ts**: The main controller file that handles incoming requests.
+3. **app.service.ts**: The main service file that provides the core functionality of the application.
+4. **todo.service.ts**: A service that provides CRUD operations for Todo entities.
+5. **todo.resolver.ts**: A GraphQL resolver that handles Todo-related queries and mutations.
+6. **auth.guard.ts**: A NestJS authentication guard that uses JWT tokens.
+7. **jwt.strategy.ts**: A Passport strategy that handles JWT token validation.
 
-## Running the app
+### Install
 
-```bash
-# development
-$ npm run start
+To set up the project you can run `npm install` here or either in the root of the monorepository. This installs all the
+`node_modules` to run the application.
 
-# watch mode
-$ npm run start:dev
+You might need to generate the prisma types after install, for this run `prisma generate`. This command is built into
+the post-install process, so it should run right after you have run `npm install`.
 
-# production mode
-$ npm run start:prod
-```
+## Environment Variables
 
-## Test
+1. **`NODE_ENV`**: Specifies the current environment for the application. It can be set to `development`, `production`, or `test`.
 
-```bash
-# unit tests
-$ npm run test
+2. **`DATABASE_URL`**: The connection string for the PostgreSQL database, which includes the username, password, host, port, database name, and schema. Make sure to replace the placeholders with your actual database credentials.
 
-# e2e tests
-$ npm run test:e2e
+To set up the environment variables copy the `.env.example` file into `.env.local` file.
 
-# test coverage
-$ npm run test:cov
-```
+### Running the application
 
-## Support
+Ensure you have a Postgres instance running and run `prisma migrate deploy` to run all the migrations.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run the application in dev just use the script `npm run dev`.
 
-## Stay in touch
+### Development commands
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Any changes to the Prisma schema should be cleaned up via `prisma format`. This is built into the format script.
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+To make any new prisma migrations the script for it is `prisma migrate dev --name <NAME_OF_MIGRATION>`.

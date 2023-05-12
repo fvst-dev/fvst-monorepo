@@ -1,13 +1,13 @@
 # FVST Monorepo Demo
 
-This is an example back-end project that uses:
+This is an example REST back-end project that uses:
 
 - [NestJS](https://docs.nestjs.com/)
 - [Prisma](https://www.prisma.io/docs)
 
 ## Setup
 
-## Overview
+### Overview
 
 The package contains the following files:
 

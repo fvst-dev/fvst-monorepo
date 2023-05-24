@@ -19,7 +19,6 @@
     "@apollo/client": "^3.7.12",
     "@clerk/nextjs": "^4.16.4",
     "@framework/tailwind": "*",
-    "@package/graphql-adapter": "*",
     "@package/header": "*",
     "@tanstack/react-query": "^4.3.8",
     "@trpc/client": "^10.7.0",

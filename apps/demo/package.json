@@ -26,7 +26,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:migrate:dev": "prisma migrate dev"
   },
   "dependencies": {
     "@nestjs/bull": "^0.6.3",

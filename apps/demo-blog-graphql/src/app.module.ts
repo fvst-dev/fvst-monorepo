@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { PostService } from './post.service';
 import { CommentService } from './comment.service';
 import { PrismaService } from '@packages/prisma/dist/prisma.service';

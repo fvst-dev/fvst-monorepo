@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { PostService } from './post.service';
 import { CommentService } from './comment.service';
-import { PrismaService } from '@libs/prisma/dist/prisma.service';
+import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { PostResolver } from './post.resolver';
 import { CommentResolver } from './comment.resolver';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';

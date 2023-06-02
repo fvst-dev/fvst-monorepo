@@ -32,6 +32,7 @@
   "dependencies": {
     "@apollo/server": "^4.7.0",
     "@clerk/clerk-sdk-node": "^4.8.6",
+    "@packages/prisma": "*",
     "@nestjs/apollo": "^11.0.5",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
@@ -39,7 +40,7 @@
     "@nestjs/graphql": "^11.0.5",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
-    "@libs/prisma": "*",
+    "@prisma/client": "^4.14.0",
     "graphql": "^16.6.0",
     "graphql-tools": "^8.3.20",
     "jsonwebtoken": "^9.0.0",

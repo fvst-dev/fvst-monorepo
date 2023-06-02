@@ -9,7 +9,7 @@ import { JwtAuthGuard } from './auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaClient } from '@~internal/prisma_demo/client';
-import { PrismaService } from '@libs/prisma/dist/prisma.service';
+import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 @Module({

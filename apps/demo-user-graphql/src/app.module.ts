@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '@libs/prisma/dist/prisma.service';
+import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AppController } from './app.controller';
 import { PrismaClient } from '@~internal/prisma_demo/client';

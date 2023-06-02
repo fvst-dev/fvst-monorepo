@@ -11,7 +11,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaClient } from '@~internal/prisma_demo/client';
 import { PrismaService } from '@libs/prisma/dist/prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { IRequestWithUser } from './types';
 
 @Module({
   imports: [

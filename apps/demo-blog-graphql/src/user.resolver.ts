@@ -8,7 +8,7 @@ export class UsersResolver {
   constructor(private readonly postsService: PostService) {}
 
   @ResolveField((of) => [Post])
-  async posts(@Parent() user: User): Promise<Post[]> {
+  async posts(@Parent() user: User) {
     return this.postsService.forAuthor(user.id);
   }
 }

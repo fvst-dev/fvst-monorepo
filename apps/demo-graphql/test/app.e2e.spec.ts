@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 // @ts-ignore
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { PrismaService } from '@libs/prisma/dist/prisma.service';
+import { PrismaService } from '../src/prisma.service';
 
 jest.mock('jwks-rsa', () => {
   return {

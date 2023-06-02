@@ -1,5 +1,5 @@
 import { Field, ObjectType, InputType } from '@nestjs/graphql';
-import { Todo as PrismaTodo } from '@~internal/prisma_demo/client';
+import { Todo as PrismaTodo } from '@~internal/prisma_demo_graphql/client';
 
 @ObjectType()
 export class Todo implements PrismaTodo {

@@ -17,6 +17,5 @@ This directory contains shared code that can be used across different applicatio
 
 For example, to use the `prisma` library in your application, you can import the `PrismaService` like this:
 
-```typescript
 import { PrismaService } from '../libs/prisma/dist/prisma.service';
 ````

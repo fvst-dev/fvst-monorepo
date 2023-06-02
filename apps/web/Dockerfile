@@ -1,28 +1,27 @@
-FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS builder
-# Set working directory
+FROM node:18-alpine AS base
+
+FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/web --docker
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS installer
+FROM base AS installer
+RUN apk add --no-cache python3 make g++
 WORKDIR /usr/src/app
-
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
 RUN npm install
-
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .
+RUN npx next telemetry disable
 RUN npx turbo run build --filter=@apps/web...
 
 
-FROM --platform=linux/amd64 node:18.14.1-bullseye-slim AS runner
+FROM base AS runner
 WORKDIR /usr/src/app
-
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

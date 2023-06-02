@@ -18,7 +18,6 @@ import { IRequestWithUser } from './types';
     ConfigModule.forRoot(),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
-      context: ({ req }: { req: IRequestWithUser }) => ({ user: req.user }),
       autoSchemaFile: 'src/schema.graphql',
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],

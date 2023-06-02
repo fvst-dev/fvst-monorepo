@@ -3,6 +3,8 @@ import { Todo, CreateTodoInput, UpdateTodoInput } from './todo.entity';
 import { TodoService } from './todo.service';
 import { JwtAuthGuard } from './auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { CurrentUser } from './current-user.decorator';
+import { User } from './types';
 
 @Resolver(() => Todo)
 export class TodoResolver {
@@ -17,11 +19,11 @@ export class TodoResolver {
   @Mutation(() => Todo)
   async createTodo(
     @Args('input') input: CreateTodoInput,
-    @Context() context: any,
+    @CurrentUser() user: User,
   ): Promise<Todo> {
     return await this.todoService.create({
       ...input,
-      userId: context.req.user.userId,
+      userId: user.userId,
     });
   }
   @UseGuards(JwtAuthGuard)

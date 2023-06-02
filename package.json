@@ -4,8 +4,7 @@
     "apps/*",
     "tooling/*",
     "packages/*",
-    "frameworks/*",
-    "libs/*"
+    "frameworks/*"
   ],
   "scripts": {
     "prepare": "husky install",

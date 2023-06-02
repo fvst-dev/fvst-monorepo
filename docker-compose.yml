@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: fvst
       POSTGRES_DB: fvst
     volumes:
-      - postgres-auth:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -34,5 +34,5 @@ services:
       - ./apps/apollo-gateway/config:/dist/settings
 
 volumes:
-  postgres-auth:
+  postgres:
   redis:

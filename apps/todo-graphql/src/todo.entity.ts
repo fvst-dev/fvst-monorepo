@@ -29,6 +29,9 @@ export class CreateTodoInput {
 
   @Field({ nullable: true })
   completed?: boolean;
+
+  @Field()
+  userId: string;
 }
 
 @InputType()

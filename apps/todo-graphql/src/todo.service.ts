@@ -8,7 +8,7 @@ export class TodoService {
   constructor(private prisma: PrismaService) {}
 
   async create(input: CreateTodoInput) {
-    const { title, completed } = input;
+    const { title, completed, userId } = input;
     return await this.prisma.todo.create({
       data: {
         title,

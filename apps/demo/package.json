@@ -35,7 +35,6 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.3.0",
-    "@packages/prisma": "*",
     "@prisma/client": "^4.14.0",
     "bull": "^4.10.4",
     "reflect-metadata": "^0.1.13",

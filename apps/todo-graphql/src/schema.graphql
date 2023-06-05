@@ -6,6 +6,7 @@ type Todo {
   id: Float!
   title: String!
   completed: Boolean!
+  userId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

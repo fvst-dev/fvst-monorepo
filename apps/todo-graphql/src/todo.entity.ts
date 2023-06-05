@@ -13,6 +13,9 @@ export class Todo implements PrismaTodo {
   completed: boolean;
 
   @Field()
+  userId: string;
+
+  @Field()
   createdAt: Date;
 
   @Field()

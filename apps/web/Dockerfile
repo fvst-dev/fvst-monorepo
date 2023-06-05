@@ -7,6 +7,7 @@ COPY . .
 RUN turbo prune --scope=@apps/web --docker
 
 FROM base AS installer
+# Installing Next requires building node-gyp modules. These require python to build which is not present in alpine.
 RUN apk add --no-cache python3 make g++
 WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)

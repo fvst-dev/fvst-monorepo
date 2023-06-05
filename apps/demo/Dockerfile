@@ -32,8 +32,6 @@ COPY --from=installer /usr/src/app/apps/demo/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/prisma ./prisma
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/tsconfig.build.json .
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/tsconfig.json .
 
 EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

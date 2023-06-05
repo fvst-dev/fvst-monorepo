@@ -3,10 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoController } from './todo/todo.controller';
 import { TodoService } from './todo/todo.service';
-import { PrismaService } from './prisma.service';
 import { BullModule } from '@nestjs/bull';
 import { TranscribeModule } from './transcribe/transcribe.module';
 import { TodoProcessor } from './todo/todo.processor';
+import { PrismaService } from '@packages/prisma/dist/prisma.service';
+import { PrismaClient } from '@~internal/prisma_demo/client';
 
 @Module({
   imports: [
@@ -22,6 +23,16 @@ import { TodoProcessor } from './todo/todo.processor';
     TranscribeModule,
   ],
   controllers: [AppController, TodoController],
-  providers: [AppService, TodoService, PrismaService, TodoProcessor],
+  providers: [
+    AppService,
+    TodoService,
+    TodoProcessor,
+    {
+      provide: PrismaService,
+      useFactory: () => {
+        return new PrismaService(new PrismaClient());
+      },
+    },
+  ],
 })
 export class AppModule {}

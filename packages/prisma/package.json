@@ -1,11 +1,14 @@
 {
-  "name": "@libs/prisma",
+  "name": "@packages/prisma",
   "version": "1.0.0",
   "description": "",
   "author": "",
   "scripts": {
     "build": "tsc",
     "postinstall": "npm run build"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.14.0"
   },
   "license": "ISC"
 }

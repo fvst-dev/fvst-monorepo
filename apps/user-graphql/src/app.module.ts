@@ -1,10 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { PostService } from './post.service';
-import { CommentService } from './comment.service';
-import { PrismaService } from '@libs/prisma/dist/prisma.service';
-import { PostResolver } from './post.resolver';
-import { CommentResolver } from './comment.resolver';
+import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AppController } from './app.controller';
 import { PrismaClient } from '@~internal/prisma_demo/client';
@@ -14,15 +9,13 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { User } from './user.entity';
+import { UserService } from './user.service';
+import { UserResolver } from './user.resolver';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: { path: 'src/schema.graphql', federation: 2 },
-      buildSchemaOptions: {
-        orphanedTypes: [User],
-      },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: process.env.NODE_ENV !== 'production',
@@ -30,11 +23,9 @@ import { User } from './user.entity';
   ],
   controllers: [AppController],
   providers: [
-    PostService,
-    CommentService,
-    PostResolver,
-    CommentResolver,
     AppService,
+    UserService,
+    UserResolver,
     {
       provide: PrismaService,
       useFactory: () => {

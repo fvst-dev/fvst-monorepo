@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AppController } from './app.controller';
-import { PrismaClient } from '@~internal/prisma_demo/client';
 import { AppService } from './app.service';
 import {
   ApolloFederationDriver,
@@ -11,6 +9,7 @@ import {
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
+import { PrismaService } from './prisma.service';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
@@ -22,16 +21,6 @@ import { UserResolver } from './user.resolver';
     }),
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    UserService,
-    UserResolver,
-    {
-      provide: PrismaService,
-      useFactory: () => {
-        return new PrismaService(new PrismaClient());
-      },
-    },
-  ],
+  providers: [AppService, UserService, UserResolver, PrismaService],
 })
 export class AppModule {}

@@ -30,6 +30,15 @@ logic.
 
 Follow the guide here to set up environments in GCP and their CI/CD: [Cloud Setup](docs/initial_setup/README.md)
 
+### Authentication
+
+Authentication is handled by [Clerk](https://clerk.com/).
+
+Start by signing up for their service and reading their excellent quickstart from their
+[documentation](https://clerk.com/docs).
+
+Create a new application and get the development API keys from them. Add them to each project's `.env` file.
+
 ### Local set up
 
 The application scripts are set up in [package.json](package.json) with additional Turborepo related addons declared

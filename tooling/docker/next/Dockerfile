@@ -5,7 +5,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=@apps/web --docker
+RUN turbo prune --scope=@apps/application_name --docker
 
 
 FROM base AS installer
@@ -20,7 +20,7 @@ RUN npm install
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .
 RUN npx next telemetry disable
-RUN npx turbo run build --filter=@apps/web...
+RUN npx turbo run build --filter=@apps/application_name...
 
 
 FROM base AS runner
@@ -30,15 +30,15 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /usr/src/app/apps/web/next.config.js .
-COPY --from=installer /usr/src/app/apps/web/package.json .
+COPY --from=installer /usr/src/app/apps/application_name/next.config.js .
+COPY --from=installer /usr/src/app/apps/application_name/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/application_name/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/application_name/.next/static ./apps/application_name/.next/static
 # Uncomment to copy static files from NextJS /public folder
-#COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/web/public ./apps/web/public
+#COPY --from=installer --chown=nextjs:nodejs /usr/src/app/apps/application_name/public ./apps/application_name/public
 
 EXPOSE 8080
-CMD node apps/web/server.js
+CMD node apps/application_name/server.js

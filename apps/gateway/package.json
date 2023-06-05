@@ -8,8 +8,7 @@
   "scripts": {
     "build": "nest build",
     "dev": "nest start --watch",
-    "format": "npm run format:prisma && npm run format:prettier",
-    "format:prisma": "prisma format",
+    "format": "npm run format:prettier",
     "format:prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
@@ -57,7 +56,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2",
-    "prisma": "^4.13.0",
     "source-map-support": "^0.5.20",
     "ts-jest": "29.0.5",
     "ts-loader": "^9.2.3",

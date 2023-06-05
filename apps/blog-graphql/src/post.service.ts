@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@packages/prisma/dist/prisma.service';
 import { Post } from './post.entity';
-import { Prisma } from '@~internal/prisma_demo/client';
+import { Prisma } from '@~internal/blog_graphql/client';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class PostService {
   constructor(private prisma: PrismaService) {}
 
-  async getPost(id: number): Promise<Post | null> {
-    return this.prisma.client.post.findUnique({
+  async getPost(id: number) {
+    return this.prisma.post.findUnique({
       where: { id: parseInt(id.toString(), 10) },
       include: { comments: true },
     });
   }
 
-  async getPosts(): Promise<Post[]> {
-    return this.prisma.client.post.findMany({ include: { comments: true } });
+  async getPosts() {
+    return this.prisma.post.findMany({ include: { comments: true } });
   }
 
-  async createPost(postData: Prisma.PostCreateInput): Promise<Post> {
-    return this.prisma.client.post.create({
+  async createPost(postData: Prisma.PostCreateInput) {
+    return this.prisma.post.create({
       data: postData,
     });
   }
@@ -30,20 +30,20 @@ export class PostService {
     content?: string;
   }): Promise<Post> {
     const { id, ...data } = params;
-    return this.prisma.client.post.update({
+    return this.prisma.post.update({
       data,
       where: { id },
     });
   }
 
-  async deletePost(id: number): Promise<Post> {
-    return this.prisma.client.post.delete({
+  async deletePost(id: number) {
+    return this.prisma.post.delete({
       where: { id },
     });
   }
 
-  async forAuthor(authorId: number): Promise<Post[]> {
-    return this.prisma.client.post.findMany({
+  async forAuthor(authorId: number) {
+    return this.prisma.post.findMany({
       where: {
         authorId: authorId,
       },

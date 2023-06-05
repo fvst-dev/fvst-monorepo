@@ -1,5 +1,6 @@
 FROM node:18-alpine AS base
 
+
 FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
@@ -8,7 +9,6 @@ RUN turbo prune --scope=@apps/gateway --docker
 
 
 FROM base AS installer
-
 WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -20,7 +20,6 @@ COPY --from=builder /usr/src/app/out/full/ .
 RUN npx turbo run build --filter=@apps/gateway...
 # Prune unused dependencies
 RUN npm prune --production
-
 RUN rm -rf node_modules/typescript
 
 

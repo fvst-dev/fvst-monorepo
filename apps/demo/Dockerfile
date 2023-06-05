@@ -1,10 +1,12 @@
 FROM node:18-alpine AS base
 
+
 FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/demo --docker
+
 
 FROM base AS installer
 WORKDIR /usr/src/app

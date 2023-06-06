@@ -13,7 +13,7 @@
     "format:prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "npm run db:generate && npm run db:migrate:deploy && node dist/main",
+    "start:prod": "npm run generate && npm run db:migrate:deploy && node dist/main",
     "lint": "npm run lint:prisma && npm run lint:prettier && npm run lint:typescript && npm run lint:es",
     "lint:prisma": "DATABASE_URL=\"postgresql://user:pass@not-real:1234/fvst?schema=public\" prisma validate",
     "lint:typescript": "tsc --noEmit",
@@ -23,7 +23,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:generate": "prisma generate",
+    "generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev"
   },

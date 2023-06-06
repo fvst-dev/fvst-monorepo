@@ -3,7 +3,7 @@
   "globalDependencies": ["**/.env"],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build", "db:generate", "codegen"],
+      "dependsOn": ["^build", "generate", "codegen"],
       "outputs": ["dist/**", ".next/**", "public/dist/**"],
       "env": [
         "VERCEL_URL",
@@ -14,14 +14,14 @@
         "CLERK_ISSUER"
       ]
     },
-    "db:generate": {
+    "generate": {
       "cache": false
     },
     "codegen": {
       "cache": false
     },
     "lint": {
-      "dependsOn": ["db:generate", "codegen"],
+      "dependsOn": ["generate", "codegen"],
       "outputs": []
     },
     "format": {

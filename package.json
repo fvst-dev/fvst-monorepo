@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "generate": "turbo run db:generate",
+    "generate": "turbo run generate",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",

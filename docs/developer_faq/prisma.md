@@ -60,8 +60,8 @@ migrations.
 ```json
 {
   "scripts": {
-    "start:prod": "npm run db:generate && npm run db:migrate:deploy && node dist/main",
-    "db:generate": "prisma generate",
+    "start:prod": "npm run generate && npm run db:migrate:deploy && node dist/main",
+    "generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy"
   }
 }

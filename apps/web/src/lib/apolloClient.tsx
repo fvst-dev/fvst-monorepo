@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, from } from '@apollo/client';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql', // Replace with your GraphQL API endpoint
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URI,
 });
 export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
   const { getToken } = useAuth();

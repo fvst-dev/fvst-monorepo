@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 import { useAuth } from '@clerk/nextjs';
 import { PropsWithChildren, useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';

@@ -1,10 +1,9 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { Todo, CreateTodoInput, UpdateTodoInput } from './todo.entity';
 import { TodoService } from './todo.service';
-import { JwtAuthGuard } from './auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { CurrentUser } from './current-user.decorator';
 import { User } from './types';
+import { JwtAuthGuard, CurrentUser } from '@package/auth/dist';
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => Todo)

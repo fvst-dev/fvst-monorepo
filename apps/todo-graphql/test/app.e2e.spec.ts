@@ -19,6 +19,8 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
+    process.env.CLERK_JWSK_URL = 'test';
+    process.env.CLERK_ISSUER = 'test';
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })

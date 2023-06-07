@@ -27,7 +27,7 @@
     "generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
-    "postinstall": "prisma generate"
+    "postinstall": "npm run generate"
   },
   "dependencies": {
     "@apollo/server": "^4.7.0",

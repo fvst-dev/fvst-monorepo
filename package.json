@@ -14,8 +14,7 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "test": "turbo run test -- --forceExit",
-    "format": "turbo run format",
-    "publishSchema": "export $(cat .env | xargs) && chmod +x ./apps/apollo-gateway/publish_schema_updates.sh && ./apps/apollo-gateway/publish_schema_updates.sh $(pwd)"
+    "format": "turbo run format"
   },
   "devDependencies": {
     "husky": "^8.0.0",

@@ -170,8 +170,8 @@ jobs:
       - name: Login to artifact repository
         run: gcloud --project $PROJECT auth configure-docker
 
-      - name: Build gateway
-        run: docker build -f apps/apollo-gateway/Dockerfile -t gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG .
+      # - name: Build gateway
+      #   run: docker build -f apps/apollo-gateway/Dockerfile -t gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG .
 
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG
@@ -179,14 +179,14 @@ jobs:
       - name: Install rover
         run: curl -sSL https://rover.apollo.dev/nix/latest | sh
 
-      - name: Sync schema
-        run: |
-          chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
-          export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
-          export APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}
-          ./apps/apollo-gateway/publish_ci_schema_updates.sh
+      # - name: Sync schema
+      #   run: |
+      #     chmod +x apps/apollo-gateway/publish_ci_schema_updates.sh
+      #     export APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}}
+      #     export APOLLO_GRAPH_REF=${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}
+      #     ./apps/apollo-gateway/publish_ci_schema_updates.sh
 
-      - name: Deploy
-        run: |
-          export APOLLO_GRAPH_REF="${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
-          gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated
+      # - name: Deploy
+      #   run: |
+      #     export APOLLO_GRAPH_REF="${{secrets.APOLLO_STUDIO_GRAPH}}@${GITHUB_REF##*/}"
+      #     gcloud --project $PROJECT run deploy gateway --image gcr.io/$PROJECT/fvst-monorepo-gateway:$DOCKER_TAG --port 4000 --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars APOLLO_KEY=${{secrets.APOLLO_STUDIO_KEY}} --set-env-vars APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF --allow-unauthenticated

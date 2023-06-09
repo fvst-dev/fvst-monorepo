@@ -2,14 +2,8 @@ name: Initial Setup
 on:
   workflow_dispatch:
     inputs:
-      apollo-studio-key:
-        description: "Apollo Studio API Key"
-        required: true
       github-api-key:
         description: "Github API Key"
-        required: true
-      apollo-studio-graph-id:
-        description: "Id of graph (without the @ part)"
         required: true
       gcloud-token:
         description: "Base64 encoded google cloud key"
@@ -53,8 +47,6 @@ jobs:
           gh secret set GOOGLE_CLOUD_REGION --app actions --body "${{github.event.inputs.region }}"
           gh secret set GOOGLE_CLOUD_BILLING_ACCOUNT_ID --app actions --body "${{ github.event.inputs.billing-account-id }}"
           gh secret set GOOGLE_CLOUD_FOLDER_ID --app actions --body "${{ github.event.inputs.project-folder-id}}"
-          gh secret set APOLLO_STUDIO_KEY --app actions --body "${{ github.event.inputs.apollo-studio-key}}"
-          gh secret set APOLLO_STUDIO_GRAPH --app actions --body "${{ github.event.inputs.apollo-studio-graph-id}}"
 
   initialize:
     runs-on: ubuntu-latest

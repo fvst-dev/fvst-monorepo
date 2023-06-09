@@ -35,5 +35,4 @@ COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_mo
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/blog-graphql/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/blog-graphql/prisma ./prisma
 
-EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["blog-graphql", "demo-worker", "todo-graphql", "user-graphql"]
+        service: ["blog-graphql", "demo-worker", "user-graphql"]
     steps:
       - uses: "actions/checkout@v3"
 

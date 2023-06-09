@@ -5,8 +5,7 @@ WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/web --docker
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
 
 
 FROM base AS installer
@@ -14,6 +13,8 @@ FROM base AS installer
 RUN apk add --no-cache python3 make g++
 WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json

@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/web --docker
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 

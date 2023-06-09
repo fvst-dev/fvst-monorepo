@@ -1,11 +1,11 @@
 FROM node:18-alpine AS base
 
-
 FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/web --docker
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 
 FROM base AS installer

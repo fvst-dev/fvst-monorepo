@@ -135,12 +135,15 @@ jobs:
       - name: Build Docker
         run: |
           docker build -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-qdw5aqebua-lz.a.run.app --set-env-vars NEXTAUTH_URL=https://web-qdw5aqebua-lz.a.run.app
+          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-qdw5aqebua-lz.a.run.app --set-env-vars NEXTAUTH_URL=https://web-qdw5aqebua-lz.a.run.app --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
 
   deploy-gateway:
     runs-on: ubuntu-latest

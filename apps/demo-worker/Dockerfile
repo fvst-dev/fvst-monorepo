@@ -33,7 +33,6 @@ USER graphql
 COPY --from=installer /usr/src/app/apps/demo-worker/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo-worker/dist ./dist
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo-worker/prisma ./prisma
 
 EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

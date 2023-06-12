@@ -56,7 +56,7 @@ jobs:
       matrix:
         environment: ["stg", "prod"]
     env:
-      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-5
+      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-6
       PROJECT_NAME: "${{ github.event.repository.name }} ${{matrix.environment}}"
 
     steps:

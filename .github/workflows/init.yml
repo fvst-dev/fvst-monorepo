@@ -94,10 +94,10 @@ jobs:
           gcloud --project $PROJECT components install alpha 
           gcloud --project $PROJECT components install beta
 
-      # - name: "Configure billing"
-      #   run: |
-      #     gcloud --project $PROJECT services enable cloudbilling.googleapis.com
-      #     gcloud alpha billing projects link $PROJECT --billing-account ${{secrets.GOOGLE_CLOUD_BILLING_ACCOUNT_ID}}
+      - name: "Configure billing"
+        run: |
+          gcloud --project $PROJECT services enable cloudbilling.googleapis.com
+          gcloud alpha billing projects link $PROJECT --billing-account ${{secrets.GOOGLE_CLOUD_BILLING_ACCOUNT_ID}}
 
       - name: "Turn on features"
         run: |

@@ -10,6 +10,7 @@ RUN turbo prune --scope=@apps/user-graphql --docker
 
 FROM base AS installer
 WORKDIR /usr/src/app
+RUN chmod -R 777 /usr/src/app/src
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .

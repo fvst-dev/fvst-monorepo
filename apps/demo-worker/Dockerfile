@@ -29,6 +29,7 @@ WORKDIR /usr/src/app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
 USER graphql
+RUN chown -R graphql:nodejs /usr/src/app
 
 COPY --from=installer /usr/src/app/apps/demo-worker/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules

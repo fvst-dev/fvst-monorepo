@@ -54,10 +54,10 @@ jobs:
 
     strategy:
       matrix:
-        environment: ["stg", "prod"]
+        environment: ["stg"]
     env:
-      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-6
-      PROJECT_NAME: "${{ github.event.repository.name }} ${{matrix.environment}}"
+      PROJECT: fvst-monorepo-stg-5
+      PROJECT_NAME: "fvst-monorepo-stg-5"
 
     steps:
       - uses: "actions/checkout@v3"
@@ -83,21 +83,21 @@ jobs:
       - name: Info
         run: gcloud info
 
-      - name: "Create Project"
-        run: |
-          gcloud projects create $PROJECT --name "$PROJECT_NAME" --folder=${{secrets.GOOGLE_CLOUD_FOLDER_ID}} --set-as-default
-          gcloud config set project $PROJECT
-          gcloud info
+      # - name: "Create Project"
+      #   run: |
+      #     gcloud projects create $PROJECT --name "$PROJECT_NAME" --folder=${{secrets.GOOGLE_CLOUD_FOLDER_ID}} --set-as-default
+      #     gcloud config set project $PROJECT
+      #     gcloud info
 
       - name: "Install support components"
         run: |
           gcloud --project $PROJECT components install alpha 
           gcloud --project $PROJECT components install beta
 
-      - name: "Configure billing"
-        run: |
-          gcloud --project $PROJECT services enable cloudbilling.googleapis.com
-          gcloud alpha billing projects link $PROJECT --billing-account ${{secrets.GOOGLE_CLOUD_BILLING_ACCOUNT_ID}}
+      # - name: "Configure billing"
+      #   run: |
+      #     gcloud --project $PROJECT services enable cloudbilling.googleapis.com
+      #     gcloud alpha billing projects link $PROJECT --billing-account ${{secrets.GOOGLE_CLOUD_BILLING_ACCOUNT_ID}}
 
       - name: "Turn on features"
         run: |

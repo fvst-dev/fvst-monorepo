@@ -25,7 +25,6 @@ RUN rm -rf node_modules/typescript
 
 FROM base AS runner
 WORKDIR /usr/src/app
-RUN chmod -R 777 /usr/src/app/src
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql

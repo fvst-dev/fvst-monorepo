@@ -47,8 +47,8 @@ const handleAuth = ({ req }: { req: Request }) => {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
             { name: 'todo', url: process.env.TODO_SERVICE_URL },
-            { name: 'posts', url: process.env.POSTS_SERVICE_URL },
-            { name: 'users', url: process.env.USERS_SERVICE_URL },
+            { name: 'blog', url: process.env.BLOG_SERVICE_URL },
+            { name: 'users', url: process.env.USER_SERVICE_URL },
           ].filter((subgraph) => !!subgraph.url),
         }),
       },

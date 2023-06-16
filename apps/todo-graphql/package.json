@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "npm run generate",
+    "predev": "npm run db:migrate:dev",
     "build": "nest build",
     "dev": "npm run generate && npm run db:migrate:deploy && nest start --watch",
     "format": "npm run format:prisma && npm run format:prettier",

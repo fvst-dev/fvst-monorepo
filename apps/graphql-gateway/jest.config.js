@@ -1,1 +1,1 @@
-module.exports = require('@framework/jest/jest.config');
+module.exports = require('@tooling/jest/jest.config');

@@ -3,8 +3,7 @@
   "workspaces": [
     "apps/*",
     "tooling/*",
-    "packages/*",
-    "frameworks/*"
+    "packages/*"
   ],
   "scripts": {
     "prepare": "husky install",

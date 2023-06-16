@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@apollo/gateway": "^2.4.6",
-    "@apollo/server": "^4.7.0",
+    "@apollo/server": "^4.7.4",
     "@apollo/subgraph": "^2.4.6",
     "@clerk/clerk-sdk-node": "^4.8.6",
     "@nestjs/apollo": "^11.0.5",

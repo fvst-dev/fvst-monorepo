@@ -16,9 +16,9 @@
     "format": "turbo run format"
   },
   "devDependencies": {
-    "husky": "^8.0.0",
-    "lint-staged": "^13.1.0",
-    "turbo": "^1.6.3"
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "turbo": "^1.10.3"
   },
   "engines": {
     "npm": ">=8.0.0",

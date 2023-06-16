@@ -9,7 +9,7 @@ implementations for constructing and communicating with the front end. Our Graph
 and we use [Federation](https://www.apollographql.com/docs/federation) to join different services and their respective
 sub-graphs together.
 
-## Monorepo template
+## Folder structure
 
 The root of the Monorepo contains the turborepo configuration files, and the main package.json which defines the
 directories and scripts used in the Monorepo. The directories set up in the template are following this structural
@@ -20,6 +20,17 @@ logic.
 | apps      | All backend and frontend apps                                                                |
 | packages  | Here we keep code that we want to re-use across apps                                         |
 | tooling   | Here we have all the configuration code for all the tooling we use inside the monorepository |
+
+## NPM Scripts
+
+| Command         | Description                                  |
+| --------------- | -------------------------------------------- |
+| npm run lint    | Runs prettier, eslint and tsc (checks types) |
+| npm run format  | Runs prettier and eslint --fix               |
+| npm run dev     | Starts the dev environment for all apps      |
+| npm run build   | Builds all the apps and packages             |
+| npm run test    | Runs the test suite                          |
+| npm run prepare | Prepares Husky in the repository             |
 
 ## Set up
 
@@ -52,19 +63,6 @@ Go to https://clerk.com/ and:
   - Under `Claims` add `{ "userId": "{{user.id}}" }`
   - The `Issuer` field value goes under `process.env.CLERK_ISSUER`
   - The `JWKS Endpoint` field value goes under `process.env.CLERK_JWSK_URL`
-
-## NPM Scripts
-
-| Command               | Description                                  |
-| --------------------- | -------------------------------------------- |
-| npm run lint          | Runs prettier, eslint and tsc (checks types) |
-| npm run format        | Runs prettier and eslint --fix               |
-| npm run docker        | Runs the docker composes in each package     |
-| npm run dev           | Starts the dev environment for all apps      |
-| npm run build         | Builds all the apps and packages             |
-| npm run test          | Runs the test suite                          |
-| npm run publishSchema | Runs the schema publish to apollo            |
-| npm run prepare       | Prepares Husky in the repository             |
 
 ## Troubleshooting
 

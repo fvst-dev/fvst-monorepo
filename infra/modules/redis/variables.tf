@@ -1,0 +1,4 @@
+variable "project" {
+  type = string
+}
+

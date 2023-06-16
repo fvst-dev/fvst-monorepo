@@ -1,0 +1,30 @@
+{
+  "Modules": [
+    { "Key": "", "Source": "", "Dir": "." },
+    {
+      "Key": "container-registry",
+      "Source": "../../modules/container-registry",
+      "Dir": "../../modules/container-registry"
+    },
+    {
+      "Key": "google",
+      "Source": "../../modules/google-services",
+      "Dir": "../../modules/google-services"
+    },
+    {
+      "Key": "google-services",
+      "Source": "../../modules/google-services",
+      "Dir": "../../modules/google-services"
+    },
+    {
+      "Key": "postgres",
+      "Source": "../../modules/postgres",
+      "Dir": "../../modules/postgres"
+    },
+    {
+      "Key": "redis",
+      "Source": "../../modules/redis",
+      "Dir": "../../modules/redis"
+    }
+  ]
+}

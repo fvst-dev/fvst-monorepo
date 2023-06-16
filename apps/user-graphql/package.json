@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "npm run generate",
+    "predev": "npm run db:migrate:dev",
     "build": "nest build",
     "dev": "nest start --watch",
     "format": "npm run format:prisma && npm run format:prettier",
@@ -25,8 +27,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:dev": "prisma migrate dev",
-    "postinstall": "npm run generate"
+    "db:migrate:dev": "prisma migrate dev"
   },
   "dependencies": {
     "@apollo/federation": "^0.38.1",
@@ -45,7 +46,7 @@
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
-    "@framework/jest": "*",
+    "@tooling/jest": "*",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",

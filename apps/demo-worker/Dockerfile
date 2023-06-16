@@ -5,7 +5,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=@apps/demo --docker
+RUN turbo prune --scope=@apps/demo-worker --docker
 
 
 FROM base AS installer
@@ -17,7 +17,7 @@ COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
 RUN npm install
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .
-RUN npx turbo run build --filter=@apps/demo...
+RUN npx turbo run build --filter=@apps/demo-worker...
 # Prune unused dependencies
 RUN npm prune --production
 RUN rm -rf node_modules/typescript
@@ -28,12 +28,12 @@ WORKDIR /usr/src/app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
+RUN chown -R graphql:nodejs /usr/src/app
 USER graphql
 
-COPY --from=installer /usr/src/app/apps/demo/package.json .
+COPY --from=installer /usr/src/app/apps/demo-worker/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/dist ./dist
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo/prisma ./prisma
+COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/demo-worker/dist ./dist
 
 EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

@@ -28,6 +28,7 @@ WORKDIR /usr/src/app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
+RUN chown -R graphql:nodejs /usr/src/app
 USER graphql
 
 COPY --from=installer /usr/src/app/apps/user-graphql/package.json .
@@ -35,5 +36,4 @@ COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_mo
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/user-graphql/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/user-graphql/prisma ./prisma
 
-EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

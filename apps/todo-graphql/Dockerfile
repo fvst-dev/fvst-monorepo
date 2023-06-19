@@ -33,11 +33,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
 RUN chown -R graphql:nodejs /usr/src/app
 USER graphql
-
 COPY --from=installer /usr/src/app/apps/todo-graphql/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/prisma ./prisma
+COPY --from=installer --chown=graphql:nodejs /usr/src/app/out/full/packages/ ./packages
 
 
 CMD ["npm", "run", "start:prod"]

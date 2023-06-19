@@ -42,7 +42,7 @@ jobs:
         run: gcloud --project $PROJECT auth configure-docker
 
       - name: Update OS
-        run: apt-get -qy update && apt-get -qy install openssl
+        run: sudo apt-get -qy update && sudo apt-get -qy install openssl
 
       - name: Use Node.js
         uses: actions/setup-node@v3

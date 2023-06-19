@@ -14,14 +14,14 @@ WORKDIR /usr/src/app
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
-COPY --from=builder tmp/app/out/full/packages/ ./packages
+COPY --from=builder /usr/src/app/out/full/packages/ ./packages
 RUN npm install
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .
 RUN npx turbo run build --filter=@apps/todo-graphql...
 # Prune unused dependencies
 RUN npm prune --production
-COPY --from=builder tmp/app/out/full/packages/ ./packages
+COPY --from=builder /usr/src/app/out/full/packages/ ./packages
 RUN rm -rf node_modules/typescript
 
 

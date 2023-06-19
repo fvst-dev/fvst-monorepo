@@ -15,6 +15,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
 COPY --from=builder /usr/src/app/out/full/packages/ ./packages
+COPY --from=builder /usr/src/app/out/full/tooling/ ./tooling
 RUN npm install
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .

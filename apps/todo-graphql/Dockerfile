@@ -37,7 +37,7 @@ COPY --from=installer /usr/src/app/apps/todo-graphql/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/prisma ./prisma
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/out/full/packages/ ./packages
+COPY --from=installer --chown=graphql:nodejs /usr/src/app/packages/ ./packages
 
 
 CMD ["npm", "run", "start:prod"]

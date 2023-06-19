@@ -221,4 +221,4 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy graphql-gateway --image gcr.io/$PROJECT/fvst-monorepo-graphql-gateway:$DOCKER_TAG --set-env-vars NODE_ENV=development --set-env-vars TODO_SERVICE_URL=https://todo-graphql-qng4lozp3a-lz.a.run.app --set-env-vars BLOG_SERVICE_URL=https://blog-graphql-qng4lozp3a-lz.a.run.app --set-env-vars USER_SERVICE_URL=https://user-graphql-qng4lozp3a-lz.a.run.app --allow-unauthenticated
+          gcloud --project $PROJECT run deploy graphql-gateway --image gcr.io/$PROJECT/fvst-monorepo-graphql-gateway:$DOCKER_TAG --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars NODE_ENV=development --set-env-vars TODO_SERVICE_URL=https://todo-graphql-qng4lozp3a-lz.a.run.app --set-env-vars BLOG_SERVICE_URL=https://blog-graphql-qng4lozp3a-lz.a.run.app --set-env-vars USER_SERVICE_URL=https://user-graphql-qng4lozp3a-lz.a.run.app --allow-unauthenticated

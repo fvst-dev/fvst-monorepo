@@ -9,6 +9,7 @@ RUN turbo prune --scope=@apps/todo-graphql --docker
 
 
 FROM base AS installer
+RUN apt-get -qy update && apt-get -qy install openssl
 WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore

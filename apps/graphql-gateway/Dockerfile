@@ -5,7 +5,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=@apps/gateway --docker
+RUN turbo prune --scope=@apps/graphql-gateway --docker
 
 
 FROM base AS installer
@@ -17,7 +17,7 @@ COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
 RUN npm install
 # Build the project
 COPY --from=builder /usr/src/app/out/full/ .
-RUN npx turbo run build --filter=@apps/gateway...
+RUN npx turbo run build --filter=@apps/graphql-gateway...
 # Prune unused dependencies
 RUN npm prune --production
 RUN rm -rf node_modules/typescript

@@ -5,7 +5,7 @@ FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=@apps/todo-graphql --docker
+# RUN turbo prune --scope=@apps/todo-graphql --docker
 
 
 FROM base AS installer
@@ -35,5 +35,6 @@ COPY --from=installer /usr/src/app/apps/todo-graphql/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/dist ./dist
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/todo-graphql/prisma ./prisma
+
 
 CMD ["npm", "run", "start:prod"]

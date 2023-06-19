@@ -148,7 +148,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-qdw5aqebua-lz.a.run.app --set-env-vars NEXTAUTH_URL=https://web-qdw5aqebua-lz.a.run.app --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
+          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-qdw5aqebua-lz.a.run.app --set-env-vars NEXTAUTH_URL=https://web-qdw5aqebua-lz.a.run.app --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}} --set-env-vars CLERK_JWSK_URL=${{secrets.CLERK_JWSK_URL}} --set-env-vars CLERK_ISSUER=${{secrets.CLERK_ISSUER}}
 
   deploy-gateway:
     runs-on: ubuntu-latest

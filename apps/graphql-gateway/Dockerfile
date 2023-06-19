@@ -31,9 +31,9 @@ RUN adduser --system --uid 1001 graphql
 RUN chown -R graphql:nodejs /usr/src/app
 USER graphql
 
-COPY --from=installer /usr/src/app/apps/gateway/package.json .
+COPY --from=installer /usr/src/app/apps/graphql-gateway/package.json .
 COPY --from=installer --chown=graphql:nodejs /usr/src/app/node_modules ./node_modules
-COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/gateway/dist ./dist
+COPY --from=installer --chown=graphql:nodejs /usr/src/app/apps/graphql-gateway/dist ./dist
 
 EXPOSE 8080
 CMD ["npm", "run", "start:prod"]

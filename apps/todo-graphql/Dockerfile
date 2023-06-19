@@ -5,18 +5,15 @@ FROM base AS builder
 WORKDIR /usr/src/app
 RUN npm install -g turbo
 COPY . .
-# RUN turbo prune --scope=@apps/todo-graphql --docker
+RUN turbo prune --scope=@apps/todo-graphql --docker
 
 
 FROM base AS installer
 WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY --from=builder /usr/src/app/out/json/ .
-COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
-RUN npm install
-# Build the project
 COPY --from=builder /usr/src/app/out/full/ .
+RUN npm install
 RUN npx turbo run build --filter=@apps/todo-graphql...
 # Prune unused dependencies
 RUN npm prune --production

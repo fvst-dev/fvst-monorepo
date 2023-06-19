@@ -28,6 +28,7 @@ WORKDIR /usr/src/app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 graphql
+RUN chown -R graphql:nodejs /usr/src/app
 USER graphql
 
 COPY --from=installer /usr/src/app/apps/gateway/package.json .

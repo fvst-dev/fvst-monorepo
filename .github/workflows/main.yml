@@ -142,13 +142,14 @@ jobs:
           docker build --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{secrets.CLERK_PUBLISHABLE_KEY}} -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
         env:
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_GRAPHQL_API_URI: https://graphql-gateway-qng4lozp3a-lz.a.run.app/graphql
 
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars NEXT_PUBLIC_GRAPHQL_API_URI=https://graphql-gateway-qng4lozp3a-lz.a.run.app/graphql --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
+          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
         env:
           CLERK_JWSK_URL: ${{ secrets.CLERK_JWSK_URL }}
           CLERK_ISSUER: ${{ secrets.CLERK_ISSUER }}

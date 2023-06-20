@@ -148,7 +148,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars GRAPH_QL_GATEWAY_URL=https://auth-qdw5aqebua-lz.a.run.app --set-env-vars NEXTAUTH_URL=https://web-qdw5aqebua-lz.a.run.app --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
+          gcloud --project $PROJECT run deploy web --image gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars DATABASE_URL="postgresql://fvst:${{secrets.DATABASE_PASSWORD}}@localhost/fvst?host=/cloudsql/$PROJECT:${{secrets.GOOGLE_CLOUD_REGION}}:$DB_INSTANCE" --set-env-vars NODE_ENV=development --allow-unauthenticated --set-env-vars NEXT_PUBLIC_GRAPHQL_API_URI=https://graphql-gateway-qng4lozp3a-lz.a.run.app/graphql --set-env-vars CLERK_PUBLISHABLE_KEY=${{secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}
         env:
           CLERK_JWSK_URL: ${{ secrets.CLERK_JWSK_URL }}
           CLERK_ISSUER: ${{ secrets.CLERK_ISSUER }}
@@ -221,4 +221,4 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy graphql-gateway --image gcr.io/$PROJECT/fvst-monorepo-graphql-gateway:$DOCKER_TAG --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars NODE_ENV=development --set-env-vars TODO_SERVICE_URL=https://todo-graphql-qng4lozp3a-lz.a.run.app --set-env-vars BLOG_SERVICE_URL=https://blog-graphql-qng4lozp3a-lz.a.run.app --set-env-vars USER_SERVICE_URL=https://user-graphql-qng4lozp3a-lz.a.run.app --allow-unauthenticated
+          gcloud --project $PROJECT run deploy graphql-gateway --image gcr.io/$PROJECT/fvst-monorepo-graphql-gateway:$DOCKER_TAG --region ${{secrets.GOOGLE_CLOUD_REGION}} --set-env-vars NODE_ENV=development --set-env-vars TODO_SERVICE_URL=https://todo-graphql-qng4lozp3a-lz.a.run.app/graphql --set-env-vars BLOG_SERVICE_URL=https://blog-graphql-qng4lozp3a-lz.a.run.app/graphql --set-env-vars USER_SERVICE_URL=https://user-graphql-qng4lozp3a-lz.a.run.app/graphql --allow-unauthenticated

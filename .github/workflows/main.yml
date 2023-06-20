@@ -139,11 +139,7 @@ jobs:
 
       - name: Build Docker
         run: |
-          docker build --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{secrets.CLERK_PUBLISHABLE_KEY}} -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
-        env:
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
-          NEXT_PUBLIC_GRAPHQL_API_URI: https://graphql-gateway-qng4lozp3a-lz.a.run.app/graphql
-
+          docker build --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{secrets.CLERK_PUBLISHABLE_KEY}}  --build-arg NEXT_PUBLIC_GRAPHQL_API_URI=https://graphql-gateway-qng4lozp3a-lz.a.run.app/graphql -f apps/web/Dockerfile . -t gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
       - name: Push to repo
         run: docker push gcr.io/$PROJECT/fvst-monorepo-web:$DOCKER_TAG
 

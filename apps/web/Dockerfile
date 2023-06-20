@@ -15,6 +15,8 @@ WORKDIR /usr/src/app
 # First install the dependencies (as they change less often)
 ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY $NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ARG NEXT_PUBLIC_GRAPHQL_API_URI
+ENV NEXT_PUBLIC_GRAPHQL_API_URI $NEXT_PUBLIC_GRAPHQL_API_URI
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json

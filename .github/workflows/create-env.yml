@@ -1,6 +1,5 @@
 name: Create env
 on:
-  push: -- Add this here
   workflow_dispatch:
     gcloud-token:
       description: "Base64 encoded google cloud key"

@@ -1,5 +1,6 @@
 name: Create env
 on:
+  push: -- Add this here
   workflow_dispatch:
     gcloud-token:
       description: "Base64 encoded google cloud key"
@@ -22,7 +23,7 @@ env:
   GH_TOKEN: ${{github.event.inputs.github-token }}
 
 jobs:
-  configure-github:
+  configure-github-secrets:
     runs-on: ubuntu-latest
 
     steps:

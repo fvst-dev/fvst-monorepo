@@ -1,0 +1,69 @@
+name: Initial Setup
+on:
+  workflow_dispatch:
+    gcloud-token:
+      description: "Base64 encoded google cloud key"
+      required: true
+    github-token:
+      description: "Github token"
+      required: true
+    region:
+      description: "Region to use when creating environments"
+      required: true
+      type: choice
+      default: "europe-west3"
+      options:
+        - "europe-north1"
+        - "us-central1"
+        - "asia-east1"
+        - "europe-west1"
+
+env:
+  GH_TOKEN: ${{github.event.inputs.github-token }}
+
+jobs:
+  configure-github:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: "Save secrets"
+        run: |
+          gh secret set GOOGLE_CLOUD_TOKEN --app actions --body "${{github.event.inputs.gcloud-token }}"
+          gh secret set GOOGLE_CLOUD_REGION --app actions --body "${{github.event.inputs.region }}"
+          gh secret set GITHUB_TOKEN --app actions --body "${{github.event.inputs.github-token }}"
+
+  initialize:
+    runs-on: ubuntu-latest
+    needs: configure-github
+
+    strategy:
+      matrix:
+        environment: ["stg", "prod"]
+    env:
+      PROJECT: ${{ github.event.repository.name }}-${{matrix.environment}}-4
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: Print info
+        run: |
+          echo "Using $PROJECT as project ID and $PROJECT_NAME as name"
+
+      - name: "Unpack Key"
+        id: "google-key"
+        run: |
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN}} | base64 --decode)
+          echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: Info
+        run: gcloud info

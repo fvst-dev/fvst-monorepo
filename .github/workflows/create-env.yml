@@ -1,4 +1,4 @@
-name: Initial Setup
+name: Create env
 on:
   workflow_dispatch:
     gcloud-token:

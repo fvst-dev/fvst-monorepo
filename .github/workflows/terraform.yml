@@ -45,7 +45,9 @@ jobs:
         uses: "google-github-actions/setup-gcloud@v1"
 
       - name: Info
-        run: gcloud info
+        run: |
+          echo $GOOGLE_APPLICATION_CREDENTIALS
+          gcloud info
 
       - name: Setup terraform remote and configuration
         run: |

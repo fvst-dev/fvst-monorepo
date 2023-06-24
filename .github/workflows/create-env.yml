@@ -1,22 +1,23 @@
 name: Create env
 on:
   workflow_dispatch:
-    gcloud-token:
-      description: "Base64 encoded google cloud key"
-      required: true
-    github-token:
-      description: "Github token"
-      required: true
-    region:
-      description: "Region to use when creating environments"
-      required: true
-      type: choice
-      default: "europe-west3"
-      options:
-        - "europe-north1"
-        - "us-central1"
-        - "asia-east1"
-        - "europe-west1"
+    inputs:
+      gcloud-token:
+        description: "Base64 encoded google cloud key"
+        required: true
+      github-token:
+        description: "Github token"
+        required: true
+      region:
+        description: "Region to use when creating environments"
+        required: true
+        type: choice
+        default: "europe-west3"
+        options:
+          - "europe-north1"
+          - "us-central1"
+          - "asia-east1"
+          - "europe-west1"
 
 env:
   GH_TOKEN: ${{github.event.inputs.github-token }}

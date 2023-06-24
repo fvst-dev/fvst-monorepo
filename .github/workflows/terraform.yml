@@ -20,6 +20,7 @@ jobs:
       REGION: ${{ vars.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
+      TF_LOG: debug
 
     steps:
       - uses: "actions/checkout@v3"

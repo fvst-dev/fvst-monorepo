@@ -45,12 +45,16 @@ jobs:
       - name: Info
         run: gcloud info
 
+      - name: Setup credentials file
+        uses: cat ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}} >> "./infra/envs/${{matrix.environment}}/credentials.json"
+
       - name: Setup terraform remote and configuration
         run: |
           cat <<EOT >> "./infra/envs/${{matrix.environment}}/backend.tf"
             terraform {
               backend "gcs" {
                 bucket = "$TERRAFORM_BUCKET"
+                credentials = "credentials.json"
               }
           }
           EOT

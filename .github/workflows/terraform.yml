@@ -54,7 +54,7 @@ jobs:
               }
           }
           EOT
-          cat <<EOT >> "./infra/envs/${{matrix.environment}}/backend.tf"
+          cat <<EOT >> "./infra/envs/${{matrix.environment}}/terraform.tfvars"
             region  = "$REGION"
             project = "$PROJECT"
           EOT

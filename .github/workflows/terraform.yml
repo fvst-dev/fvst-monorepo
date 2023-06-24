@@ -13,12 +13,16 @@ jobs:
         include:
           - environment: staging
             google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
+            terraform_bucket: FVST_PROJECT_TF_STATE_BUCKET_STAGING
           - environment: production
             google_cloud_token: GOOGLE_CLOUD_TOKEN_PRODUCTION
+            terraform_bucket: FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION
 
     env:
-      PROJECT: ${{ secrets.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
+      PROJECT: ${{ variables.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
+      REGION: ${{ variables.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
+      TERRAFORM_BUCKET: ${{ variables[matrix.terraform_bucket] }}
 
     steps:
       - uses: "actions/checkout@v3"
@@ -43,3 +47,17 @@ jobs:
 
       - name: Info
         run: gcloud info
+
+      - name: Setup terraform remote and configuration
+        run: |
+          cat <<EOT >> "./infra/envs/${{matrix.environment}}/backend.tf"
+            terraform {
+              backend "gcs" {
+                bucket = "$TERRAFORM_BUCKET"
+              }
+          }
+          EOT
+          cat <<EOT >> "./infra/envs/${{matrix.environment}}/backend.tf"
+            region  = "$REGION"
+            project = "$PROJECT"
+          EOT

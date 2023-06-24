@@ -32,10 +32,6 @@ module "blog-graphql" {
     CLERK_ISSUER:  module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL: module.secrets-manager.CLERK_JWSK_URL,
   }
-#  env = [
-#    { key = "CLERK_ISSUER", value = module.secrets-manager.CLERK_ISSUER },
-#    { key = "CLERK_JWSK_URL", value = module.secrets-manager.CLERK_JWSK_URL },
-#  ]
   depends_on = [module.secrets-manager]
 }
 
@@ -47,8 +43,5 @@ module "graphql-gateway" {
   env = {
     BLOG_SERVICE_URL: "${module.blog-graphql.url}/graphql"
   }
-#  env = [
-#    { key = "BLOG_SERVICE_URL", value = "${module.blog-graphql.url}/graphql" },
-#  ]
   depends_on = [module.blog-graphql]
 }

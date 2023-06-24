@@ -1,22 +1,20 @@
-Followed this tutorial: https://gcloud.devoteam.com/blog/a-step-by-step-guide-to-set-up-a-gcp-project-to-start-using-terraform/
+### Requirements
 
-Make sure the project_id variable is set to something unique and add the value to `./envs/staging/terraform.tfvars`
+1. Setup google cloud sdk on mac: https://jansutris10.medium.com/install-google-cloud-sdk-using-homebrew-on-mac-2952c9c7b5a1
+2. Install required dependencies
 
 ```shell
-$PROJECT_ID=peeter-fvst-staging
-gcloud auth login
-gcloud projects create $PROJECT_ID
-gcloud config set project $PROJECT_ID
-gcloud auth application-default login
-gcloud iam service-accounts create sa-tf-$PROJECT_ID \
-  --description="Terraform Service account Staging Environment" \
-  --display-name="Terraform Service Account"
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-  --member="serviceAccount:sa-tf-$PROJECT_ID@$PROJECT_ID.iam.gserviceaccount.com" \
-  --role="roles/editor"
+brew install jq gh
 ```
 
+N.B! Make sure you are logged into gh by running
+
 ```shell
-gcloud iam service-accounts get-iam-policy sa-tf-$PROJECT_ID@$PROJECT_ID.iam.gserviceaccount.com \
-  --format=json > policy.json
+gh auth status
+```
+
+Run the script that sets up environments and github action secrets
+
+```shell
+./scripts/init.sh -r "europe-west1" -p "PROJECT PREFIX HERE"
 ```

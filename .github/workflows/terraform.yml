@@ -19,10 +19,10 @@ jobs:
             terraform_bucket: FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION
 
     env:
-      PROJECT: ${{ variables.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
-      REGION: ${{ variables.FVST_PROJECT_REGION }}
+      PROJECT: ${{ env.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
+      REGION: ${{ env.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
-      TERRAFORM_BUCKET: ${{ variables[matrix.terraform_bucket] }}
+      TERRAFORM_BUCKET: ${{ env[matrix.terraform_bucket] }}
 
     steps:
       - uses: "actions/checkout@v3"

@@ -38,6 +38,7 @@ jobs:
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: "${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}"
+          export_environment_variables: true
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
@@ -45,16 +46,12 @@ jobs:
       - name: Info
         run: gcloud info
 
-      - name: Setup credentials file
-        run: cat ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}} >> "./infra/envs/${{matrix.environment}}/credentials.json"
-
       - name: Setup terraform remote and configuration
         run: |
           cat <<EOT >> "./infra/envs/${{matrix.environment}}/backend.tf"
             terraform {
               backend "gcs" {
                 bucket = "$TERRAFORM_BUCKET"
-                credentials = "credentials.json"
               }
           }
           EOT

@@ -1,5 +1,5 @@
 name: Terraform
-on: workflow_dispatch
+on: [push]
 
 env:
   GH_TOKEN: ${{github.event.inputs.github-token }}

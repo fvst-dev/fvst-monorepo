@@ -10,10 +10,15 @@ jobs:
 
     strategy:
       matrix:
-        environment: ["STAGING"]
+        include:
+          - environment: staging
+            google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
+          - environment: production
+            google_cloud_token: GOOGLE_CLOUD_TOKEN_PRODUCTION
+
     env:
       PROJECT: ${{ secrets.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
-      GOOGLE_CLOUD_TOKEN_ENV: GOOGLE_CLOUD_TOKEN_${{matrix.environment}}
+      GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
 
     steps:
       - uses: "actions/checkout@v3"
@@ -25,7 +30,7 @@ jobs:
       - name: "Unpack Key"
         id: "google-key"
         run: |
-          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets[$GOOGLE_CLOUD_TOKEN_ENV] }} | base64 --decode)
+          GOOGLE_CLOUD_TOKEN=$(echo $GOOGLE_CLOUD_TOKEN_ENV | base64 --decode)
           echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
 
       - name: "Authenticate to Google Cloud"

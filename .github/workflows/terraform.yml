@@ -65,4 +65,4 @@ jobs:
       - name: Terraform apply
         run: |
           cd ./infra/envs/${{matrix.environment}}
-          terraform apply
+          terraform apply -auto-approve

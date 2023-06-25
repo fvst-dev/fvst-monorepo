@@ -1,5 +1,5 @@
-resource "google_project_service" "gcp_resource_manager_api" {
-  service = "cloudresourcemanager.googleapis.com"
+resource "google_project_service" "sqladmin" {
+  service = "sqladmin.googleapis.com"
   disable_on_destroy = true
 }
 

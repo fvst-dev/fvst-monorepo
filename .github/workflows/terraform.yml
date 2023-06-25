@@ -20,14 +20,9 @@ jobs:
       REGION: ${{ vars.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
-      TF_LOG: debug
 
     steps:
       - uses: "actions/checkout@v3"
-
-      - name: Print info
-        run: |
-          echo "Using $PROJECT as project"
 
       - name: "Unpack Key"
         id: "google-key"
@@ -46,9 +41,7 @@ jobs:
         uses: "google-github-actions/setup-gcloud@v1"
 
       - name: Info
-        run: |
-          echo $GOOGLE_APPLICATION_CREDENTIALS
-          gcloud info
+        run: gcloud info
 
       - name: Setup terraform remote and configuration
         run: |
@@ -68,3 +61,8 @@ jobs:
         run: |
           cd ./infra/envs/${{matrix.environment}}
           terraform init
+
+      - name: Terraform apply
+        run: |
+          cd ./infra/envs/${{matrix.environment}}
+          terraform apply

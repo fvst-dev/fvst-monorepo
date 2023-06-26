@@ -21,4 +21,5 @@ resource "google_secret_manager_secret_version" "clerk-backend" {
 data "google_secret_manager_secret_version" "clerk-backend" {
   provider = google-beta
   secret   = google_secret_manager_secret.clerk-backend.secret_id
+  depends_on = [google_secret_manager_secret_version.clerk-backend]
 }

@@ -4,6 +4,7 @@ import { ensureDeps } from "./util/ensureDeps";
 import { Command } from "@commander-js/extra-typings";
 import { environments } from "./constants/environments";
 import { regions } from "./constants/regions";
+import { projectName } from "./util/projectName";
 
 const getBillingAccounts = () => {
   try {
@@ -96,8 +97,13 @@ export const init = new Command()
             if (!value || value.length < 1) {
               return "Prefix can not be empty";
             }
-            if (value.length > 15) {
-              return "Prefix can not be longer than 15 characters";
+            const [longestEnvName] = [...environments].sort();
+            const longestProjectName = projectName(value, longestEnvName);
+            const emptyProjectName = projectName("", longestEnvName);
+            if (longestProjectName.length > 30) {
+              return `Prefix can not be longer than ${
+                30 - emptyProjectName.length
+              } characters`;
             }
             if (value.charAt(0) === value.charAt(0).toUpperCase()) {
               return "Prefix can not start with an uppercase number";
@@ -134,19 +140,27 @@ export const init = new Command()
     console.log("Setting up environments", environments);
 
     environments.forEach((environment) => {
-      const project = `${prefix}-fvst-${environment}`;
-      const iam = `sa-gh-${project}@${project}.iam.gserviceaccount.com`;
+      const project = projectName(prefix, environment);
+      const iam = `github-actions@${project}.iam.gserviceaccount.com`;
       safeExec(
         `fvst infra setup-project ${project} ${billingAccountId}`,
         false
       );
-      safeExec(
-        `fvst infra create-service-account ${iam} ${environment}`,
-        false
-      );
-      safeExec(
-        `fvst infra create-service-account-keys ${iam} ${environment}`,
-        false
-      );
+      try {
+        safeExec(
+          `fvst infra create-service-account ${iam} ${environment}`,
+          false
+        );
+        safeExec(
+          `fvst infra create-service-account-keys ${iam} ${environment}`,
+          false
+        );
+      } catch (e) {
+        console.error(
+          "Failed configuring project access, deleting created project"
+        );
+        safeExec(`gcloud projects delete ${project} --quiet`, false);
+        throw e;
+      }
     });
   });

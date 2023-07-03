@@ -14,6 +14,10 @@ export const createServiceAccountKeys = new Command()
   .addArgument(createEnvironmentArgument())
   .action((iam, environment) => {
     const filename = "GH_ACTIONS_KEY.json";
+    console.log(
+      `Creating service account keys for ${iam.iam} on project ${iam.project}`
+    );
+
     try {
       safeExec(
         `gcloud iam service-accounts keys create ${filename} --project=${iam.project} --iam-account=${iam.iam}`

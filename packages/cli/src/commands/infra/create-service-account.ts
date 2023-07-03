@@ -15,9 +15,11 @@ export const createServiceAccount = new Command()
       // Required for terraform remote state bucket access
       "roles/storage.objectAdmin",
     ];
-
+    console.log(
+      `Creating service account ${iam.account} with roles ${roles} for ${iam.project}`
+    );
     const commands = [
-      `gcloud iam service-accounts create ${iam.account} --project=${iam.project}--description="Github Actions service account for ${iam.project}"  --display-name="Github Actions service account for ${iam.project}"`,
+      `gcloud iam service-accounts create ${iam.account} --project=${iam.project} --description="Github Actions service account for ${iam.project}"  --display-name="Github Actions service account for ${iam.project}"`,
       // Required for terraform to manage resource on GCP
       ...roles.map(
         (role) =>

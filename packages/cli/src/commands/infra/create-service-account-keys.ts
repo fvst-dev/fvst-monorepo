@@ -3,7 +3,6 @@ import { rm } from "shelljs";
 import { readFileSync } from "node:fs";
 import { safeExec } from "../../utils/safeExec";
 import { createIamArgument } from "./arguments/createIamArgument";
-import { createEnvironmentArgument } from "./arguments/createEnvironmentArgument";
 
 export const createServiceAccountKeys = new Command()
   .command("create-service-account-keys")
@@ -11,8 +10,7 @@ export const createServiceAccountKeys = new Command()
     "Creates a key for the service account and publishes it to GitHub secrets"
   )
   .addArgument(createIamArgument())
-  .addArgument(createEnvironmentArgument())
-  .action((iam, environment) => {
+  .action((iam) => {
     const filename = "GH_ACTIONS_KEY.json";
     console.log(
       `Creating service account keys for ${iam.iam} on project ${iam.project}`
@@ -27,7 +25,7 @@ export const createServiceAccountKeys = new Command()
       );
       const keyAsBase64 = Buffer.from(key).toString("base64");
       safeExec(
-        `gh secret set GOOGLE_CLOUD_TOKEN_${environment.toUpperCase()} --app actions --body ${keyAsBase64}`
+        `gh secret set GOOGLE_CLOUD_TOKEN_${iam.environment.toUpperCase()} --app actions --body ${keyAsBase64}`
       );
     } finally {
       rm(filename);

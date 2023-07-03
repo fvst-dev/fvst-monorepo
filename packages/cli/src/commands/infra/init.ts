@@ -147,14 +147,9 @@ export const init = new Command()
         false
       );
       try {
-        safeExec(
-          `fvst infra create-service-account ${iam} ${environment}`,
-          false
-        );
-        safeExec(
-          `fvst infra create-service-account-keys ${iam} ${environment}`,
-          false
-        );
+        safeExec(`fvst infra create-service-account ${iam}`, false);
+        safeExec(`fvst infra create-service-account-keys ${iam}`, false);
+        safeExec(`fvst infra create-terraform-bucket ${iam}`, false);
       } catch (e) {
         console.error(
           "Failed configuring project access, deleting created project"
@@ -163,4 +158,8 @@ export const init = new Command()
         throw e;
       }
     });
+    // TODO: Once this is merged, we should change this code to link to the file on github or even better, run it automatically
+    console.log(
+      "Projects created, please run the `terraform.yml` script in GitHub actions"
+    );
   });

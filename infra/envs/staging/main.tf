@@ -32,7 +32,7 @@ module "blog-graphql" {
     CLERK_ISSUER:  module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL: module.secrets-manager.CLERK_JWSK_URL,
   }
-  depends_on = [module.secrets-manager]
+  depends_on = [module.secrets-manager, module.google-services]
 }
 
 module "graphql-gateway" {
@@ -43,5 +43,5 @@ module "graphql-gateway" {
   env = {
     BLOG_SERVICE_URL: "${module.blog-graphql.url}/graphql"
   }
-  depends_on = [module.blog-graphql]
+  depends_on = [module.blog-graphql, module.google-services]
 }

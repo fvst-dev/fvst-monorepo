@@ -1,0 +1,27 @@
+{
+  "name": "@package/cli",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@commander-js/extra-typings": "^11.0.0",
+    "commander": "^11.0.0",
+    "prompts": "^2.4.2",
+    "shelljs": "^0.8.5",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "format": "npm run format:prettier",
+    "format:prettier": "prettier --write \"src/**/*.ts\""
+  },
+  "bin": {
+    "fvst": "./src/index.ts"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2",
+    "@types/prompts": "^2.4.4",
+    "@types/shelljs": "^0.8.12"
+  }
+}

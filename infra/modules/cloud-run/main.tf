@@ -44,6 +44,6 @@ resource google_cloud_run_service_iam_member public_access {
   count = var.allow_public_access ? 1 : 0
   service = google_cloud_run_service.default.name
   location = google_cloud_run_service.default.location
-  role = "roles/run.invoker"
+  role = "roles/run.admin"
   member = "allUsers"
 }

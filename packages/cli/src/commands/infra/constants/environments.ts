@@ -1,1 +1,1 @@
-export const environments = ["staging", "production"] as const;
+export const environments = ['staging', 'production'] as const;

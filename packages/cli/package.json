@@ -20,7 +20,7 @@
     "access": "restricted"
   },
   "devDependencies": {
-    "prettier": "^2.3.2",
+    "@tooling/prettier": "*",
     "@types/prompts": "^2.4.4",
     "@types/shelljs": "^0.8.12"
   }

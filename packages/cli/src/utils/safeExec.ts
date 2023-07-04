@@ -1,4 +1,4 @@
-import { exec } from "shelljs";
+import { exec } from 'shelljs';
 
 export const safeExec = (command: string, silent = true) => {
   const { code, stderr, stdout } = exec(command, { silent });

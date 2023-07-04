@@ -41,20 +41,22 @@ export const init = new Command()
           type: 'text',
           name: 'prefix',
           message: 'Please give a unique prefix for the projects we will setup in GCP',
+          format: (val) => val.trim(),
           validate: (value: string) => {
-            if (!value || value.length < 1) {
+            const prefix = value?.trim();
+            if (!prefix || prefix.length < 1) {
               return 'Prefix can not be empty';
             }
             const [longestEnvName] = [...environments].sort();
-            const longestProjectName = projectName(value, longestEnvName);
+            const longestProjectName = projectName(prefix, longestEnvName);
             const emptyProjectName = projectName('', longestEnvName);
             if (longestProjectName.length > 30) {
               return `Prefix can not be longer than ${30 - emptyProjectName.length} characters`;
             }
-            if (value.charAt(0) === value.charAt(0).toUpperCase()) {
+            if (prefix.charAt(0) === prefix.charAt(0).toUpperCase()) {
               return 'Prefix can not start with an uppercase number';
             }
-            if (value.match(/^\d/)) {
+            if (prefix.match(/^\d/)) {
               return 'Prefix can not start with a number';
             }
             return true;
@@ -75,6 +77,29 @@ export const init = new Command()
     );
 
     const { region, prefix, billingAccountId } = answers;
+    console.log(
+      `We will now setup the following environments in region ${region} tied to the billing account ${billingAccountId}: `
+    );
+    environments.forEach((environment) => {
+      const project = projectName(prefix, environment);
+      const iam = `github-actions@${project}.iam.gserviceaccount.com`;
+      console.log(`* Environment = ${environment}, project = ${project}, iam = ${iam}`);
+    });
+    const { confirm } = await prompts(
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Continue?',
+        initial: false,
+      },
+      {
+        onCancel: () => process.exit(1),
+      }
+    );
+    if (!confirm) {
+      process.exit(1);
+    }
+
     console.log('Setting up environments', environments);
 
     environments.forEach((environment) => {

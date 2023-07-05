@@ -11,7 +11,6 @@ variable location {
 variable image {
   type = string
   description = "Docker image name."
-  default = "gcr.io/google-samples/hello-app:1.0"
 }
 
 variable cpus {

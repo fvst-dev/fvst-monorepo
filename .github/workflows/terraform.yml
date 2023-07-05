@@ -2,6 +2,76 @@ name: Terraform
 on: [push]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: ["staging"]
+        service: ["blog-graphql"]
+    env:
+      PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
+      REGION: ${{ vars.FVST_PROJECT_REGION }}
+      REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
+      DOCKER_TAG: v0.0.${{ github.run_number }}
+      DB_INSTANCE: postgres
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: "Unpack Key"
+        id: "google-key"
+        run: |
+          GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN_STAGING}} | base64 --decode)
+          echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 417.0.0"
+
+      - name: Info
+        run: |
+          gcloud info
+
+      - name: Login to artifact repository
+        run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Restore node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Build Docker
+        run: |
+          docker build -f apps/${{matrix.service}}/Dockerfile . -t $REGISTRY/${{matrix.service}}:$DOCKER_TAG
+
+      - name: Push to repo
+        run: docker push $REGISTRY/${{matrix.service}}:$DOCKER_TAG
+
+      - name: Deploy
+        run: |
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image $REGISTRY/${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION  --allow-unauthenticated
+
   initialize:
     runs-on: ubuntu-latest
 
@@ -20,6 +90,9 @@ jobs:
       REGION: ${{ vars.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
+      TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
+      TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
+      TF_VAR_docker_tag: v0.0.${{ github.run_number }}
 
     steps:
       - uses: "actions/checkout@v3"
@@ -51,10 +124,6 @@ jobs:
                 bucket = "$TERRAFORM_BUCKET"
               }
           }
-          EOT
-          cat <<EOT >> "./infra/envs/${{matrix.environment}}/terraform.tfvars"
-            region  = "$REGION"
-            project = "$PROJECT"
           EOT
 
       - name: Terraform init

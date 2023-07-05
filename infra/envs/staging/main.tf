@@ -28,17 +28,20 @@ module "blog-graphql" {
   name = "blog-graphql"
   source = "../../modules/cloud-run"
   location = var.region
+  image = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/blog-graphql:${var.docker_tag}"
   env = {
     CLERK_ISSUER:  module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL: module.secrets-manager.CLERK_JWSK_URL,
+    DATABASE_URL: module.postgres.DATABASE_URL,
   }
-  depends_on = [module.secrets-manager, module.google-services]
+  depends_on = [module.secrets-manager, module.google-services, module.postgres]
 }
 
 module "graphql-gateway" {
   name = "graphql-gateway"
   source = "../../modules/cloud-run"
   location = var.region
+  image = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/graphql-gateway:${var.docker_tag}"
   allow_public_access = true
   env = {
     BLOG_SERVICE_URL: "${module.blog-graphql.url}/graphql"

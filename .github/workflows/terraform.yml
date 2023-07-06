@@ -11,8 +11,10 @@ jobs:
 
     strategy:
       matrix:
-        environment: ["staging"]
-        service: ["blog-graphql"]
+        include:
+          - environment: "staging"
+            service: "blog-graphql"
+            use_prisma: true
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
@@ -43,12 +45,15 @@ jobs:
       - name: Login to artifact repository
         run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 
-      - name: Build Docker
-        run: |
-          docker build -f apps/${{matrix.service}}/Dockerfile . -t $REGISTRY/${{matrix.service}}:$DOCKER_TAG
-
-      - name: Push to repo
-        run: docker push $REGISTRY/${{matrix.service}}:$DOCKER_TAG
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}}
+          file: tooling/docker/nest/Dockerfile
+          build-args: |
+            APP_NAME=${{matrix.service}}
+            USE_PRISMA=${{matrix.use_prisma}}
 
   deploy:
     runs-on: ubuntu-latest

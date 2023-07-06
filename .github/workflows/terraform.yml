@@ -1,6 +1,10 @@
 name: Terraform
 on: [push]
 
+env:
+  REGION: ${{ vars.FVST_PROJECT_REGION }}
+  DOCKER_TAG: gb-run-${{ github.run_number }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,10 +15,7 @@ jobs:
         service: ["blog-graphql"]
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
-      REGION: ${{ vars.FVST_PROJECT_REGION }}
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
-      DOCKER_TAG: v0.0.${{ github.run_number }}
-      DB_INSTANCE: postgres
 
     steps:
       - uses: "actions/checkout@v3"
@@ -49,12 +50,9 @@ jobs:
       - name: Push to repo
         run: docker push $REGISTRY/${{matrix.service}}:$DOCKER_TAG
 
-      - name: Deploy
-        run: |
-          gcloud --project $PROJECT run deploy ${{matrix.service}} --image $REGISTRY/${{matrix.service}}:$DOCKER_TAG --region $REGION
-
-  initialize:
+  deploy:
     runs-on: ubuntu-latest
+    needs: build
 
     strategy:
       matrix:
@@ -68,12 +66,11 @@ jobs:
 
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
-      REGION: ${{ vars.FVST_PROJECT_REGION }}
       GOOGLE_CLOUD_TOKEN_ENV: ${{ secrets[matrix.google_cloud_token] }}
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
       TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
-      TF_VAR_docker_tag: v0.0.${{ github.run_number }}
+      TF_VAR_docker_tag: $DOCKER_TAG
 
     steps:
       - uses: "actions/checkout@v3"
@@ -108,11 +105,9 @@ jobs:
           EOT
 
       - name: Terraform init
-        run: |
-          cd ./infra/envs/${{matrix.environment}}
-          terraform init
+        working-directory: ./infra/envs/${{matrix.environment}}
+        run: terraform init
 
       - name: Terraform apply
-        run: |
-          cd ./infra/envs/${{matrix.environment}}
-          terraform apply -auto-approve
+        working-directory: ./infra/envs/${{matrix.environment}}
+        run: terraform apply -auto-approve

@@ -42,25 +42,6 @@ jobs:
       - name: Login to artifact repository
         run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm
-
-      - name: Restore node_modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
       - name: Build Docker
         run: |
           docker build -f apps/${{matrix.service}}/Dockerfile . -t $REGISTRY/${{matrix.service}}:$DOCKER_TAG

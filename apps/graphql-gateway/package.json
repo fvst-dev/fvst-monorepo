@@ -31,6 +31,7 @@
     "@nestjs/mercurius": "^11.0.6",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "dotenv": "^16.3.1",
     "graphql": "^16.6.0",
     "graphql-tools": "^8.3.20",
     "jsonwebtoken": "^9.0.0",
@@ -41,11 +42,11 @@
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
-    "@tooling/jest": "*",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@tooling/eslint-config-custom": "*",
+    "@tooling/jest": "*",
     "@tooling/typescript": "*",
     "@types/express": "^4.17.17",
     "@types/node": "18.15.11",

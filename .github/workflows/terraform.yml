@@ -3,7 +3,7 @@ on: [push]
 
 env:
   REGION: ${{ vars.FVST_PROJECT_REGION }}
-  DOCKER_TAG: gb-run-${{ github.run_number }}
+  DOCKER_TAG: gh-run-${{ github.run_number }}
 
 jobs:
   build:
@@ -70,7 +70,7 @@ jobs:
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
       TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
-      TF_VAR_docker_tag: $DOCKER_TAG
+      TF_VAR_docker_tag: gh-run-${{ github.run_number }}
 
     steps:
       - uses: "actions/checkout@v3"

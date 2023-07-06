@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud --project $PROJECT run deploy ${{matrix.service}} --image $REGISTRY/${{matrix.service}}:$DOCKER_TAG --add-cloudsql-instances $DB_INSTANCE --region $REGION  --allow-unauthenticated
+          gcloud --project $PROJECT run deploy ${{matrix.service}} --image $REGISTRY/${{matrix.service}}:$DOCKER_TAG --region $REGION
 
   initialize:
     runs-on: ubuntu-latest

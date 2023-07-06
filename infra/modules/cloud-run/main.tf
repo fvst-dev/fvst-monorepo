@@ -27,9 +27,9 @@ resource google_cloud_run_service default {
       }
     }
     metadata {
-      annotations = {
+      annotations = merge({
         "run.googleapis.com/execution-environment" = "gen2"
-      }
+      }, var.annotations)
     }
   }
 

@@ -31,6 +31,12 @@ variable allow_public_access {
   description = "Allow unauthenticated access to the service."
 }
 
+variable annotations {
+  type = map(string)
+  default = {}
+  description = "Metadata annotation"
+}
+
 variable env {
   type = map(string)
   default = {}

@@ -7,16 +7,15 @@ resource "google_sql_database_instance" "postgres" {
     # Second-generation instance tiers are based on the machine
     # type. See argument reference below.
     tier = var.tier
-
-    database_flags {
-      name  = "cloudsql.iam_authentication"
-      value = "on"
-    }
   }
+}
+
+resource "random_password" "user_password" {
+  length = 16
 }
 
 resource "google_sql_user" "users" {
   instance = google_sql_database_instance.postgres.name
-  name     = "me"
-  type = "CLOUD_IAM_SERVICE_ACCOUNT"
+  name     = "user"
+  password = random_password.user_password.result
 }

@@ -38,7 +38,6 @@ module "blog-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
-  allow_public_access = true
 }
 
 module "todo-graphql" {
@@ -55,7 +54,6 @@ module "todo-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
-  allow_public_access = true
 }
 
 module "user-graphql" {
@@ -72,7 +70,6 @@ module "user-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
-  allow_public_access = true
 }
 
 module "graphql-gateway" {
@@ -80,7 +77,6 @@ module "graphql-gateway" {
   source              = "../../modules/cloud-run"
   location            = var.region
   image               = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/graphql-gateway:${var.docker_tag}"
-  allow_public_access = true
   env = {
     BLOG_SERVICE_URL : "${module.blog-graphql.url}/graphql"
   }

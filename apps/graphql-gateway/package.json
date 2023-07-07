@@ -10,6 +10,7 @@
     "dev": "nest start --watch",
     "format": "npm run format:prettier",
     "format:prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:migrate:deploy": "echo no-op",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

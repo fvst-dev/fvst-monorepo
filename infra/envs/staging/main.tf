@@ -38,6 +38,7 @@ module "blog-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
+  allow_public_access = true
 }
 
 module "todo-graphql" {
@@ -54,6 +55,7 @@ module "todo-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
+  allow_public_access = true
 }
 
 module "user-graphql" {
@@ -70,6 +72,7 @@ module "user-graphql" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
   }
+  allow_public_access = true
 }
 
 module "graphql-gateway" {
@@ -81,4 +84,5 @@ module "graphql-gateway" {
     BLOG_SERVICE_URL : "${module.blog-graphql.url}/graphql"
   }
   depends_on = [module.blog-graphql, module.todo-graphql, module.user-graphql, module.google-services]
+  allow_public_access = true
 }

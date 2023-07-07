@@ -57,7 +57,7 @@ module "todo-graphql" {
 }
 
 module "user-graphql" {
-  name     = "blog-graphql"
+  name     = "user-graphql"
   source   = "../../modules/cloud-run"
   location = var.region
   image    = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/user-graphql:${var.docker_tag}"

@@ -16,6 +16,12 @@ jobs:
             service: "blog-graphql"
             use_prisma: true
           - environment: "staging"
+            service: "todo-graphql"
+            use_prisma: true
+          - environment: "staging"
+            service: "user-graphql"
+            use_prisma: true
+          - environment: "staging"
             service: "graphql-gateway"
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}

@@ -16,9 +16,9 @@ WORKDIR /usr/src/app
 COPY .gitignore .gitignore
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/package-lock.json ./package-lock.json
+COPY --from=builder /usr/src/app/out/full/ .
 RUN npm install
 # Build the project
-COPY --from=builder /usr/src/app/out/full/ .
 RUN npx turbo run build --filter=@apps/${APP_NAME}...
 # Prune unused dependencies
 RUN npm prune --production

@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}}
+          tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
           file: tooling/docker/nest/Dockerfile
           build-args: |
             APP_NAME=${{matrix.service}}
@@ -83,7 +83,6 @@ jobs:
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
       TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
-      TF_VAR_docker_tag: gh-run-${{ github.run_number }}
 
     steps:
       - uses: "actions/checkout@v3"

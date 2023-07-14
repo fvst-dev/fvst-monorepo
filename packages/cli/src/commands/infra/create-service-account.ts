@@ -14,6 +14,10 @@ export const createServiceAccount = new Command()
       'roles/storage.objectAdmin',
       // Required for terraform to manage secrets
       'roles/secretmanager.admin',
+      // Can create, update, and delete services and jobs, can get, list, delete job executions.
+      // Can get and set IAM policies.
+      // Can view, apply and dismiss recommendations.
+      'roles/run.admin',
     ];
     console.log(`Creating service account ${iam.account} with roles ${roles} for ${iam.project}`);
     const commands = [

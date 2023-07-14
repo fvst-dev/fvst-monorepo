@@ -83,6 +83,7 @@ jobs:
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
       TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
+      TF_LOG: DEBUG
 
     steps:
       - uses: "actions/checkout@v3"

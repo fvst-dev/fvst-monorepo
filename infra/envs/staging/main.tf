@@ -28,7 +28,7 @@ module "blog-graphql" {
   name     = "blog-graphql"
   source   = "../../modules/cloud-run"
   location = var.region
-  image    = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/blog-graphql:${var.docker_tag}"
+  image    = "${var.region}-docker.pkg.dev/${var.project}/registry/blog-graphql:latest"
   env = {
     CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
@@ -45,7 +45,7 @@ module "todo-graphql" {
   name     = "todo-graphql"
   source   = "../../modules/cloud-run"
   location = var.region
-  image    = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/todo-graphql:${var.docker_tag}"
+  image    = "${var.region}-docker.pkg.dev/${var.project}/registry/todo-graphql:latest"
   env = {
     CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
@@ -62,7 +62,7 @@ module "user-graphql" {
   name     = "user-graphql"
   source   = "../../modules/cloud-run"
   location = var.region
-  image    = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/user-graphql:${var.docker_tag}"
+  image    = "${var.region}-docker.pkg.dev/${var.project}/registry/user-graphql:latest"
   env = {
     CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
     CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
@@ -79,7 +79,7 @@ module "graphql-gateway" {
   name                = "graphql-gateway"
   source              = "../../modules/cloud-run"
   location            = var.region
-  image               = "us-west1-docker.pkg.dev/mono4-fvst-staging/registry/graphql-gateway:${var.docker_tag}"
+  image               = "${var.region}-docker.pkg.dev/${var.project}/registry/graphql-gateway:latest"
   env = {
     BLOG_SERVICE_URL : "${module.blog-graphql.url}/graphql"
   }

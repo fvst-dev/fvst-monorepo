@@ -53,12 +53,12 @@ jobs:
           gcloud info
 
       - name: Configure docker
-        run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+        run: gcloud auth configure-docker ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev --quiet
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2
         with:
-          registry: $REGION-docker.pkg.dev
+          registry: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 

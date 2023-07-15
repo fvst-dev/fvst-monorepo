@@ -28,8 +28,6 @@ jobs:
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
 
     steps:
-      - uses: "actions/checkout@v3"
-
       - name: "Unpack Key"
         id: "google-key"
         run: |
@@ -42,18 +40,6 @@ jobs:
         with:
           token_format: "access_token"
           credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
-
-      - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v1"
-        with:
-          version: ">= 417.0.0"
-
-      - name: Info
-        run: |
-          gcloud info
-
-      #      - name: Configure docker
-      #        run: gcloud auth configure-docker ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev --quiet
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2
@@ -97,7 +83,6 @@ jobs:
       TERRAFORM_BUCKET: ${{ vars[matrix.terraform_bucket] }}
       TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
-      TF_LOG: DEBUG
 
     steps:
       - uses: "actions/checkout@v3"

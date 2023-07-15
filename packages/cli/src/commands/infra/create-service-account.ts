@@ -18,6 +18,8 @@ export const createServiceAccount = new Command()
       // Can get and set IAM policies.
       // Can view, apply and dismiss recommendations.
       'roles/run.admin',
+      // Giving permissiosn to create a token so that we can login to the artifact registry on github actions when using docker buildx (caching)
+      'roles/iam.serviceAccountTokenCreator',
     ];
     console.log(`Creating service account ${iam.account} with roles ${roles} for ${iam.project}`);
     const commands = [

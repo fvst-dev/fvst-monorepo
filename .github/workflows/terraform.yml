@@ -28,16 +28,14 @@ jobs:
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
 
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: "Unpack Key"
         id: "google-key"
         run: |
           GOOGLE_CLOUD_TOKEN=$(echo ${{secrets.GOOGLE_CLOUD_TOKEN_STAGING}} | base64 --decode)
           echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
 
-      - name: "Authenticate to Google Cloud"
+      - id: auth
+        name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: ${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}
@@ -51,8 +49,15 @@ jobs:
         run: |
           gcloud info
 
-      - name: Login to artifact repository
-        run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: gcr.io
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Build and push
         uses: docker/build-push-action@v4

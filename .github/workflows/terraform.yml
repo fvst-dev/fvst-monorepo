@@ -71,7 +71,7 @@ jobs:
           push: true
           tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
           file: tooling/docker/nest/Dockerfile
-          cache-from: type=registry,ref=${{matrix.service}}:buildcache
+          #          cache-from: type=registry,ref=${{matrix.service}}:buildcache
           cache-to: type=registry,ref=${{matrix.service}}:buildcache,mode=max
           build-args: |
             APP_NAME=${{matrix.service}}

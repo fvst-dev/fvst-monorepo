@@ -28,6 +28,9 @@ jobs:
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
 
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: "Unpack Key"
         id: "google-key"
         run: |

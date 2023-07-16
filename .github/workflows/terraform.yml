@@ -37,7 +37,8 @@ jobs:
 
     steps:
       - uses: "actions/checkout@v3"
-      - uses: ./.github/actions/setup-google-cloud-auth.yaml
+      - uses: ./.github/actions/setup-google-cloud-auth
+        id: "auth"
         with:
           GOOGLE_CLOUD_TOKEN: ${{ matrix.google_cloud_token }}
 

@@ -19,6 +19,8 @@ runs:
         GOOGLE_CLOUD_PROJECT_ID=$(echo $GOOGLE_CLOUD_TOKEN | jq -r '.project_id' )
         GOOGLE_CLOUD_PRIVATE_KEY=$(echo $GOOGLE_CLOUD_TOKEN | jq -r '.private_key' )
         GOOGLE_CLOUD_CLIENT_EMAIL=$(echo $GOOGLE_CLOUD_TOKEN | jq -r '.client_email' )
+        echo lalal $(echo ${{ inputs.GOOGLE_CLOUD_TOKEN }} | base64 --decode | jq -r '.client_email')
+        echo $GOOGLE_CLOUD_TOKEN | jq -r '.client_email'
     - name: TurboRepo Remote Cache Server
       uses: trappar/turborepo-remote-cache-gh-action@main
       with:

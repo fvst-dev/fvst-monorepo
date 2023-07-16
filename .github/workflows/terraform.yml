@@ -49,7 +49,7 @@ jobs:
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         with:
-          GOOGLE_CLOUD_TOKEN: ${{ vars[matrix.turborepo_bucket] }}
+          bucket: ${{ vars[matrix.turborepo_bucket] }}
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2

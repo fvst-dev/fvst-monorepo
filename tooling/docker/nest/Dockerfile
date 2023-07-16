@@ -22,10 +22,8 @@ COPY --from=builder /app/out/full/ .
 
 ENV TURBO_TOKEN=${TURBO_TOKEN}
 ENV TURBO_API=${TURBO_API}
-COPY .git/ ./.git/
 # Build the project
 RUN npx turbo run build --filter=@apps/${APP_NAME}...
-RUN rm -rf .git
 
 # Prune unused dependencies
 RUN npm prune --production

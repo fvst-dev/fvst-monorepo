@@ -62,8 +62,8 @@ runs:
         storage-provider: google-cloud-storage
         storage-path: ${{ inputs.bucket }}
         team-id: team_fvst
-        LOG_LEVEL: "DEBUG"
       env:
+        LOG_LEVEL: "DEBUG"
         GCS_PROJECT_ID: ${{ steps.decrypt_gcp_keys.outputs.GOOGLE_CLOUD_PROJECT_ID }}
         GCS_CLIENT_EMAIL: ${{ steps.decrypt_gcp_keys.outputs.GOOGLE_CLOUD_CLIENT_PRIVATE_KEY }}
         GCS_PRIVATE_KEY: ${{ steps.decrypt_gcp_keys.outputs.GOOGLE_CLOUD_CLIENT_EMAIL }}

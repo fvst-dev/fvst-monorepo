@@ -26,7 +26,7 @@ RUN npm install
 # Then copy over the application files (change often, no longer cached from this step on)
 COPY --from=builder /app/out/full/ .
 # Build the project
-RUN npx turbo run build --filter=@apps/${APP_NAME}
+RUN npx turbo run build -vvv --filter=@apps/${APP_NAME}
 # Prune unused dependencies
 RUN npm prune --production
 RUN rm -rf node_modules/typescript

@@ -72,6 +72,7 @@ jobs:
           build-args: |
             APP_NAME=${{ matrix.service }}
             TURBO_TOKEN=${{ env.TURBO_TOKEN }}
+            TURBO_TEAMID=${{ env.TURBO_TEAM }}
             TURBO_API=${{ env.TURBO_API }}
 
   deploy:

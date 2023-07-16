@@ -124,6 +124,9 @@ export const init = new Command()
       `gh variable set FVST_PROJECT_PREFIX --body '${prefix}'`,
       `gh variable set FVST_PROJECT_REGION --body '${region}'`,
       `gh secret set GH_TOKEN --app actions --body '${githubAuthToken}'`,
+      `gh secret set FVST_PGP_SECRET_SIGNING_PASSPHRASE --app actions --body '${Math.random()
+        .toString(36)
+        .substring(2, 10)}'`,
     ];
     commands.map((command) => safeExec(command));
     // TODO: Once this is merged, we should change this code to link to the file on github or even better, run it automatically

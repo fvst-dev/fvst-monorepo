@@ -71,8 +71,8 @@ jobs:
           cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max
           build-args: |
             APP_NAME=${{ matrix.service }}
-            TURBO_TOKEN=${{ vars[matrix.turborepo_bucket] }}
-            USE_PRISMA=${{ matrix.use_prisma }}
+            TURBO_TOKEN=${{ env.TURBO_TOKEN }}
+            TURBO_API=${{ env.TURBO_API }}
 
   deploy:
     runs-on: ubuntu-latest

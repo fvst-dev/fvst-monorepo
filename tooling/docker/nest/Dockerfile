@@ -2,7 +2,7 @@ FROM node:18-alpine AS base
 
 ARG APP_NAME
 ARG TURBO_TOKEN
-ARG USE_PRISMA
+ARG TURBO_API
 
 FROM base AS builder
 WORKDIR /app
@@ -21,8 +21,7 @@ RUN npm install
 COPY --from=builder /app/out/full/ .
 
 ENV TURBO_TOKEN=${TURBO_TOKEN}
-COPY turbo.json ./
-COPY .turbo/config.json ./.turbo/
+ENV TURBO_API=${TURBO_API}
 COPY .git/ ./.git/
 # Build the project
 RUN npx turbo run build --filter=@apps/${APP_NAME}...

@@ -13,11 +13,11 @@ RUN turbo prune --scope=@apps/${APP_NAME} --docker
 FROM base AS installer
 WORKDIR /app
 # First install the dependencies (as they change less often)
-COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/package-lock.json ./package-lock.json
-COPY --from=builder /app/out/full/ .
+
 RUN npm install
+COPY --from=builder /app/out/full/ .
 
 # Build the project
 RUN npx turbo run build --filter=@apps/${APP_NAME}...
@@ -26,9 +26,6 @@ RUN npx turbo run build --filter=@apps/${APP_NAME}...
 RUN npm prune --production
 RUN rm -rf node_modules/typescript
 
-# Copy additional files/folders to be used by runner
-#RUN mkdir ./additional
-#RUN if [ ! -z "$USE_PRISMA" ]; then cp -R  /app/apps/${APP_NAME}/prisma ./additional; fi
 
 FROM base AS runner
 WORKDIR /app

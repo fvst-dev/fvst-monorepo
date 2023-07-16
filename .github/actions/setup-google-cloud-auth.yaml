@@ -1,0 +1,28 @@
+name: "Setup google cloud sdk"
+inputs:
+  GOOGLE_CLOUD_TOKEN:
+    description: "Base64 encoded token from secrets"
+    required: true
+
+outputs:
+  access_token:
+    description: "Access token (for docker)"
+    value: ${{ steps.auth.access_token }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: "google-key"
+      name: "Unpack Key"
+      run: |
+        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.GOOGLE_CLOUD_TOKEN }} | base64 --decode)
+        echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+    - id: "auth"
+      name: "Authenticate to Google Cloud"
+      uses: "google-github-actions/auth@v1"
+      with:
+        token_format: "access_token"
+        credentials_json: "${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}"
+        export_environment_variables: true
+        create_credentials_file: true

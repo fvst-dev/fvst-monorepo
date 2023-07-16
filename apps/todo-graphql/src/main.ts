@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Request, Response, NextFunction } from 'express';
-import { JwtAuthGuard } from '@package/auth/dist';
+import { JwtAuthGuard } from '@package/auth';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

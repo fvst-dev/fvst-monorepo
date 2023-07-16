@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { BullModule } from '@nestjs/bull';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BullModule } from '@nestjs/bull';
 import { TranscribeModule } from './transcribe/transcribe.module';
 
 @Module({

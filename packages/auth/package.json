@@ -1,11 +1,8 @@
 {
   "name": "@package/auth",
   "version": "1.0.0",
+  "main": "src/index.ts",
   "private": true,
-  "scripts": {
-    "build": "tsc",
-    "postinstall": "npm run build"
-  },
   "dependencies": {
     "@nestjs/graphql": "^11.0.6",
     "@nestjs/passport": "^9.0.3",

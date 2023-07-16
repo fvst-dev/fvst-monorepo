@@ -7,11 +7,8 @@ import { TodoResolver } from './todo.resolver';
 import { ConfigModule } from '@nestjs/config';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { PrismaService } from './prisma.service';
-import { JwtAuthGuard, JwtStrategy } from '@package/auth/dist';
-import {
-  ApolloFederationDriver,
-  ApolloFederationDriverConfig,
-} from '@nestjs/apollo';
+import { JwtAuthGuard, JwtStrategy } from '@package/auth';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,13 +21,6 @@ import {
     }),
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    TodoService,
-    TodoResolver,
-    JwtStrategy,
-    JwtAuthGuard,
-    PrismaService,
-  ],
+  providers: [AppService, TodoService, TodoResolver, JwtStrategy, JwtAuthGuard, PrismaService],
 })
 export class AppModule {}

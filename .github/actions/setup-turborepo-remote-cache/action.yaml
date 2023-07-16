@@ -4,10 +4,10 @@ inputs:
   bucket:
     description: "Google cloud bucket to store remote cache"
     required: true
-  GOOGLE_CLOUD_TOKEN:
+  google_cloud_token:
     description: "Base64 encoded token from secrets"
     required: true
-  SECRET: # Read more at https://github.com/orgs/community/discussions/13082
+  secret: # Read more at https://github.com/orgs/community/discussions/13082
     description: "Secret for passing encrypted secret values between jobs"
     required: true
 
@@ -17,30 +17,34 @@ runs:
     - id: "google-key"
       name: "Unpack Key"
       shell: bash
+      env:
+        secret: ${{ inputs.secret }}
       run: |
-        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.GOOGLE_CLOUD_TOKEN }} | base64 --decode)
+        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.google_cloud_token }} | base64 --decode)
 
-        GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.project_id') | base64 -w0)
+        GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$secret" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.project_id') | base64 -w0)
         echo "::add-mask::$GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED"
         echo "::set-output name=GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED::$GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED"
 
-        GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.private_key') | base64 -w0)
+        GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$secret" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.private_key') | base64 -w0)
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED"
         echo "::set-output name=GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED::$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED"
 
-        GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.client_email') | base64 -w0)
+        GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$secret" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.client_email') | base64 -w0)
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED"
         echo "::set-output name=GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED::$GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED"
 
     - name: Get GCP keys
       id: get_gcp_keys
       shell: bash
+      env:
+        secret: ${{ inputs.secret }}
       run: |
-        GOOGLE_CLOUD_PROJECT_ID=$(gpg --decrypt --quiet --batch --passphrase "$SECRET" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED }}" | base64 --decode))
+        GOOGLE_CLOUD_PROJECT_ID=$(gpg --decrypt --quiet --batch --passphrase "$secret" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_PROJECT_ID_ENCRYPTED }}" | base64 --decode))
         echo "::add-mask::$GOOGLE_CLOUD_PROJECT_ID"
-        GOOGLE_CLOUD_CLIENT_PRIVATE_KEY=$(gpg --decrypt --quiet --batch --passphrase "$SECRET" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED }}" | base64 --decode))
+        GOOGLE_CLOUD_CLIENT_PRIVATE_KEY=$(gpg --decrypt --quiet --batch --passphrase "$secret" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED }}" | base64 --decode))
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY"
-        GOOGLE_CLOUD_CLIENT_EMAIL=$(gpg --decrypt --quiet --batch --passphrase "$SECRET" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED }}" | base64 --decode))
+        GOOGLE_CLOUD_CLIENT_EMAIL=$(gpg --decrypt --quiet --batch --passphrase "$secret" --output - <(echo "${{ steps.google-key.outputs.GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED }}" | base64 --decode))
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_EMAIL"
     - name: TurboRepo Remote Cache Server
       uses: trappar/turborepo-remote-cache-gh-action@main

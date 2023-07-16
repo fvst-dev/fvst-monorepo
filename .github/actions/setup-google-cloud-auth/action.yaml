@@ -1,7 +1,7 @@
 name: "Setup google cloud auth"
 description: "Setup google cloud auth"
 inputs:
-  GOOGLE_CLOUD_TOKEN:
+  google_cloud_token:
     description: "Base64 encoded token from secrets"
     required: true
 
@@ -17,7 +17,7 @@ runs:
       name: "Unpack Key"
       shell: bash
       run: |
-        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.GOOGLE_CLOUD_TOKEN }} | base64 --decode)
+        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.google_cloud_token }} | base64 --decode)
         echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
 
     - id: "auth"

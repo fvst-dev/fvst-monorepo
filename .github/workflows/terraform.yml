@@ -45,11 +45,11 @@ jobs:
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.google_cloud_token] }}
+          google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         with:
-          GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.google_cloud_token] }}
+          google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
           bucket: ${{ vars[matrix.turborepo_bucket] }}
           secret: ${{ secrets.FVST_PGP_SECRET_SIGNING_PASSPHRASE }}
 

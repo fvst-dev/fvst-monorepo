@@ -26,7 +26,7 @@ ENV TURBO_TEAMID=$TURBO_TEAMID
 ENV TURBO_API=$TURBO_API
 
 # Build the project
-RUN npx turbo run build --filter=@apps/${APP_NAME} --api="${TURBO_API}" --token="${TURBO_TOKEN}" --team="${TURBO_TEAMID}"
+RUN npx turbo run build --filter=@apps/${APP_NAME}
 
 # Prune unused dependencies
 RUN npm prune --production

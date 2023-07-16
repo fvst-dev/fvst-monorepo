@@ -3,7 +3,6 @@ FROM node:18-alpine AS base
 ARG APP_NAME
 ARG TURBO_TOKEN
 ARG TURBO_API
-ARG TURBO_TEAM
 
 FROM base AS builder
 WORKDIR /app
@@ -21,17 +20,8 @@ COPY --from=builder /app/out/package-lock.json ./package-lock.json
 RUN npm install
 COPY --from=builder /app/out/full/ .
 
-ENV TURBO_TOKEN=${TURBO_TOKEN}
-ENV TURBO_API=${TURBO_API}
-ENV TURBO_TEAM=${TURBO_TEAM}
-RUN echo ${TURBO_API} - ${TURBO_TOKEN} - $TURBO_TEAM
-
-RUN mkdir ./turbo
-RUN echo '{ "teamid": "$TURBO_TEAM", "apiurl": "$TURBO_API" }' >> ./turbo/config.json
-RUN cat ./turbo/config.json
-
 # Build the project
-RUN npx turbo run build --filter=@apps/${APP_NAME}...
+RUN npx turbo run build --filter=@apps/${APP_NAME} --api="${TURBO_API}" --token="${TURBO_TOKEN}"
 
 # Prune unused dependencies
 RUN npm prune --production

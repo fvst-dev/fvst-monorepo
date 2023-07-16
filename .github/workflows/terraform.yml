@@ -47,7 +47,9 @@ jobs:
         with:
           google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
           region: ${{ vars.FVST_PROJECT_REGION }}
+
       - uses: ./.github/actions/setup-turborepo-remote-cache
+        id: "turborepo-cache"
         with:
           bucket: ${{ vars[matrix.turborepo_bucket] }}
 
@@ -73,9 +75,9 @@ jobs:
           cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max
           build-args: |
             APP_NAME=${{ matrix.service }}
-            TURBO_TOKEN=${{ env.TURBO_TOKEN }}
-            TURBO_TEAMID=${{ env.TURBO_TEAM }}
-            TURBO_API=${{ env.TURBO_API }}
+            TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}
+            TURBO_TEAMID=${{ steps.turborepo-cache.outputs.TURBO_TEAMID }}
+            TURBO_API=${{ steps.turborepo-cache.outputs.TURBO_API_FOR_DOCKER }}
 
   deploy:
     runs-on: ubuntu-latest

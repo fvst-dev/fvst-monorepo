@@ -13,4 +13,4 @@ runs:
       with:
         storage-provider: google-cloud-storage
         storage-path: ${{ inputs.bucket }}
-        team-id: fvst
+        team-id: team_fvst

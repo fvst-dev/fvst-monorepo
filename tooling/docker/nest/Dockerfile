@@ -3,6 +3,7 @@ FROM node:18-alpine AS base
 ARG APP_NAME
 ARG TURBO_TOKEN
 ARG TURBO_API
+ARG TURBO_TEAM
 
 FROM base AS builder
 WORKDIR /app
@@ -22,10 +23,11 @@ COPY --from=builder /app/out/full/ .
 
 ENV TURBO_TOKEN=${TURBO_TOKEN}
 ENV TURBO_API=${TURBO_API}
-RUN echo ${TURBO_API} - ${TURBO_TOKEN}
+ENV TURBO_TEAM=${TURBO_TEAM}
+RUN echo ${TURBO_API} - ${TURBO_TOKEN} - $TURBO_TEAM
 
 RUN mkdir ./turbo
-RUN echo '{ "teamid": "team_fvst", "apiurl": "${TURBO_API}" }' >> ./turbo/config.json
+RUN echo '{ "teamid": "$TURBO_TEAM", "apiurl": "$TURBO_API" }' >> ./turbo/config.json
 RUN cat ./turbo/config.json
 
 # Build the project

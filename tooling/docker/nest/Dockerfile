@@ -18,7 +18,7 @@ FROM base AS installer
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/package-lock.json ./package-lock.json
-RUN npm install
+RUN --mount=type=cache,target=/var/cache/npm npm install
 # Then copy over the application files (change often, no longer cached from this step on)
 COPY --from=builder /app/out/full/ .
 # Build the project

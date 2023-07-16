@@ -2,14 +2,13 @@ FROM node:18-alpine AS base
 WORKDIR /app
 
 ARG APP_NAME
+# These arguments enable remote cacheing inside docker build
 ARG TURBO_TOKEN
 ARG TURBO_TEAMID
 ARG TURBO_API
 
 # Separate step to get a pruned version of the monorepository for just a single project - this will be rarely cached
 FROM base AS builder
-RUN apk --no-cache add curl
-RUN curl -v -H "Authorization: Bearer $TURBO_TOKEN" "$TURBO_API/v8/artifacts/events?teamId=$TURBO_TEAMID"
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=@apps/${APP_NAME} --docker

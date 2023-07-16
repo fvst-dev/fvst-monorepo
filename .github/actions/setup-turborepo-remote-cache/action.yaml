@@ -15,11 +15,8 @@ outputs:
     description: "TURBO_API"
     value: ${{ steps.outputs.outputs.TURBO_API }}
   TURBO_API_FOR_DOCKER:
-    description: "TURBO_API_FOR_DOCKER"
+    description: "TURBO_API_FOR_DOCKER uses the hostname of the CI machine as the base, this allows docker build to connect to it and utilize this cache"
     value: ${{ steps.outputs.outputs.TURBO_API_FOR_DOCKER }}
-  HOSTNAME:
-    description: "The hostname"
-    value: ${{ steps.outputs.outputs.HOSTNAME }}
 
 runs:
   using: "composite"
@@ -44,4 +41,3 @@ runs:
         echo "TURBO_TEAMID=$TURBO_TEAM" >> $GITHUB_OUTPUT
         echo "TURBO_API=$TURBO_API" >> $GITHUB_OUTPUT
         echo "TURBO_API_FOR_DOCKER=$TURBO_API_FOR_DOCKER" >> $GITHUB_OUTPUT
-        echo "HOSTNAME=$(hostname -I | awk '{print $1}')" >> $GITHUB_OUTPUT

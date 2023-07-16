@@ -22,6 +22,7 @@ COPY --from=builder /app/out/full/ .
 
 ENV TURBO_TOKEN=${TURBO_TOKEN}
 ENV TURBO_API=${TURBO_API}
+RUN echo ${TURBO_API} - ${TURBO_TOKEN}
 # Build the project
 RUN npx turbo run build --filter=@apps/${APP_NAME}...
 

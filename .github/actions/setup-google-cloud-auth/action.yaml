@@ -4,6 +4,9 @@ inputs:
   google_cloud_token:
     description: "Base64 encoded token from secrets"
     required: true
+  region:
+    description: "The region to authenticate against for artifact repository"
+    required: true
 
 outputs:
   access_token:
@@ -28,3 +31,14 @@ runs:
         credentials_json: "${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}"
         export_environment_variables: true
         create_credentials_file: true
+
+    - name: "Set up Cloud SDK"
+      uses: "google-github-actions/setup-gcloud@v1"
+
+    - name: Info
+      shell: bash
+      run: gcloud info
+
+    - name: Login to artifact repository
+      shell: bash
+      run: gcloud auth configure-docker ${{ inputs.region }}-docker.pkg.dev --quiet

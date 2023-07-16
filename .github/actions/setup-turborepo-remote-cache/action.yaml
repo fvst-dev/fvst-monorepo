@@ -4,13 +4,28 @@ inputs:
   bucket:
     description: "Google cloud bucket to store remote cache"
     required: true
+  GOOGLE_CLOUD_TOKEN:
+    description: "Base64 encoded token from secrets"
+    required: true
 
 runs:
   using: "composite"
   steps:
+    - id: "google-key"
+      name: "Unpack Key"
+      shell: bash
+      run: |
+        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.GOOGLE_CLOUD_TOKEN }} | base64 --decode)
+        GOOGLE_CLOUD_PROJECT_ID=$($GOOGLE_CLOUD_TOKEN | jq -r '.project_id' )
+        GOOGLE_CLOUD_PRIVATE_KEY=$($GOOGLE_CLOUD_TOKEN | jq -r '.private_key' )
+        GOOGLE_CLOUD_CLIENT_EMAIL=$($GOOGLE_CLOUD_TOKEN | jq -r '.client_email' )
     - name: TurboRepo Remote Cache Server
       uses: trappar/turborepo-remote-cache-gh-action@main
       with:
         storage-provider: google-cloud-storage
         storage-path: ${{ inputs.bucket }}
         team-id: team_fvst
+      env:
+        GCS_PROJECT_ID: ${{ env.GOOGLE_CLOUD_PROJECT_ID }}
+        GCS_CLIENT_EMAIL: ${{ env.GOOGLE_CLOUD_PRIVATE_KEY }}
+        GCS_PRIVATE_KEY: ${{ env.GOOGLE_CLOUD_CLIENT_EMAIL }}

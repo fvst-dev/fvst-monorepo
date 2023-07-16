@@ -10,7 +10,7 @@ export const createServiceAccount = new Command()
     const roles = [
       // Required for terraform to manage resource on GCP
       'roles/editor',
-      // Required for terraform remote state bucket access
+      // Required for terraform remote state bucket access as well as turborepo
       'roles/storage.objectAdmin',
       // Required for terraform to manage secrets
       'roles/secretmanager.admin',

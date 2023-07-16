@@ -30,7 +30,7 @@ export const init = new Command()
         {
           type: 'autocomplete',
           name: 'region',
-          initial: 'eu-west-1',
+          initial: 'europe-west1',
           message: 'In what region should we create the environments in?',
           choices: regions.map((v) => ({
             title: v,
@@ -111,7 +111,7 @@ export const init = new Command()
         safeExec(`fvst infra create-service-account-keys ${iam}`, false);
         safeExec(`fvst infra create-terraform-bucket ${iam}`, false);
         safeExec(`fvst infra create-turborepo-bucket ${iam}`, false);
-        safeExec(`fvst infra create-container-registry ${iam} ${region}`, false);
+        safeExec(`fvst infra create-container-registry ${iam}`, false);
       } catch (e) {
         console.error('Failed configuring project access, deleting created project');
         safeExec(`gcloud projects delete ${project} --quiet`, false);
@@ -124,9 +124,6 @@ export const init = new Command()
       `gh variable set FVST_PROJECT_PREFIX --body '${prefix}'`,
       `gh variable set FVST_PROJECT_REGION --body '${region}'`,
       `gh secret set GH_TOKEN --app actions --body '${githubAuthToken}'`,
-      `gh secret set FVST_PGP_SECRET_SIGNING_PASSPHRASE --app actions --body '${Math.random()
-        .toString(36)
-        .substring(2, 10)}'`,
     ];
     commands.map((command) => safeExec(command));
     // TODO: Once this is merged, we should change this code to link to the file on github or even better, run it automatically

@@ -11,21 +11,31 @@ jobs:
 
     strategy:
       matrix:
-        environment: ["staging"]
-        google_cloud_token: ["GOOGLE_CLOUD_TOKEN_STAGING"]
-        turborepo_bucket: ["FVST_PROJECT_TURBOREPO_BUCKET_STAGING"]
         include:
           - service: "blog-graphql"
             use_prisma: true
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "todo-graphql"
             use_prisma: true
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "user-graphql"
             use_prisma: true
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "graphql-gateway"
             use_prisma: false
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
@@ -39,7 +49,7 @@ jobs:
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         with:
-          GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.turborepo_bucket] }}
+          GOOGLE_CLOUD_TOKEN: ${{ vars[matrix.turborepo_bucket] }}
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2
@@ -60,8 +70,9 @@ jobs:
           cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
           cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max
           build-args: |
-            APP_NAME=${{matrix.service}}
-            USE_PRISMA=${{matrix.use_prisma}}
+            APP_NAME=${{ matrix.service }}
+            TURBO_TOKEN=${{ vars[matrix.turborepo_bucket] }}
+            USE_PRISMA=${{ matrix.use_prisma }}
 
   deploy:
     runs-on: ubuntu-latest

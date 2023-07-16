@@ -14,6 +14,7 @@ export const setupProject = new Command()
       const commands = [
         // This is needed for terraform to work
         `gcloud services enable cloudresourcemanager.googleapis.com --project=${project}`,
+        `gcloud services enable sqladmin.googleapis.com --project=${project}`,
         // Linking billing account to the project
         `gcloud beta billing projects link ${project} --billing-account=${billingAccountId}`,
       ];

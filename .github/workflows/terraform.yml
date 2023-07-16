@@ -69,6 +69,7 @@ jobs:
         with:
           push: true
           allow: network.host
+          add-hosts: host.docker.internal:host-gateway
           tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
           file: tooling/docker/nest/Dockerfile
           cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache

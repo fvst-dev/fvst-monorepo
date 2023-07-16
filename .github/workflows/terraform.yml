@@ -11,9 +11,9 @@ jobs:
 
     strategy:
       matrix:
-        environment: "staging"
-        google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
-        turborepo_bucket: FVST_PROJECT_TURBOREPO_BUCKET_STAGING
+        environment: ["staging"]
+        google_cloud_token: ["GOOGLE_CLOUD_TOKEN_STAGING"]
+        turborepo_bucket: ["FVST_PROJECT_TURBOREPO_BUCKET_STAGING"]
         include:
           - service: "blog-graphql"
             use_prisma: true

@@ -36,7 +36,8 @@ jobs:
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
 
     steps:
-      - uses: .github/actions/setup-google-cloud-auth.yaml
+      - uses: "actions/checkout@v3"
+      - uses: ./.github/actions/setup-google-cloud-auth.yaml
         with:
           GOOGLE_CLOUD_TOKEN: ${{ matrix.google_cloud_token }}
 

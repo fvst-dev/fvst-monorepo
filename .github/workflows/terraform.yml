@@ -46,7 +46,7 @@ jobs:
         id: "auth"
         with:
           google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
-
+          region: ${{ vars.FVST_PROJECT_REGION }}
       - uses: ./.github/actions/setup-turborepo-remote-cache
         with:
           bucket: ${{ vars[matrix.turborepo_bucket] }}

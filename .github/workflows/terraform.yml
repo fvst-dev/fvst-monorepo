@@ -40,7 +40,7 @@ jobs:
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          GOOGLE_CLOUD_TOKEN: ${{ matrix.google_cloud_token }}
+          GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.google_cloud_token] }}
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2

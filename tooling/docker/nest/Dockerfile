@@ -9,7 +9,9 @@ ARG TURBO_API
 # Export args as env variables to enable remote caching for turbo repo
 ENV TURBO_TOKEN=$TURBO_TOKEN
 ENV TURBO_TEAMID=$TURBO_TEAMID
-ENV TURBO_API=$TURBO_API
+#ENV TURBO_API=$TURBO_API
+# Since we are running the cache server locally we need to use the host docker internal domain to reach it
+ENV TURBO_API=${TURBO_API/0.0.0.0/host.docker.internal}
 
 # Separate step to get a pruned version of the monorepository for just a single project - this will be rarely cached
 FROM base AS builder

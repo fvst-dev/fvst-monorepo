@@ -17,6 +17,9 @@ outputs:
   TURBO_API_FOR_DOCKER:
     description: "TURBO_API_FOR_DOCKER"
     value: ${{ steps.outputs.outputs.TURBO_API_FOR_DOCKER }}
+  HOSTNAME:
+    description: "The hostname"
+    value: ${{ steps.outputs.outputs.HOSTNAME }}
 
 runs:
   using: "composite"
@@ -36,8 +39,10 @@ runs:
       id: outputs
       shell: bash
       run: |
-        TURBO_API_FOR_DOCKER=${TURBO_API/0.0.0.0/host.docker.internal}
+        HOSTNAME=$(hostname -I | awk '{print $1}')
+        TURBO_API_FOR_DOCKER=${TURBO_API/0.0.0.0/HOSTNAME}
         echo "TURBO_TOKEN=$TURBO_TOKEN" >> $GITHUB_OUTPUT
         echo "TURBO_TEAMID=$TURBO_TEAM" >> $GITHUB_OUTPUT
         echo "TURBO_API=$TURBO_API" >> $GITHUB_OUTPUT
         echo "TURBO_API_FOR_DOCKER=$TURBO_API_FOR_DOCKER" >> $GITHUB_OUTPUT
+        echo "HOSTNAME=$(hostname -I | awk '{print $1}')" >> $GITHUB_OUTPUT

@@ -4,9 +4,6 @@ inputs:
   google_cloud_token:
     description: "Base64 encoded token from secrets"
     required: true
-  region:
-    description: "The region to authenticate against for artifact repository"
-    required: true
 
 outputs:
   access_token:
@@ -41,4 +38,4 @@ runs:
 
     - name: Login to artifact repository
       shell: bash
-      run: gcloud auth configure-docker ${{ inputs.region }}-docker.pkg.dev --quiet
+      run: gcloud auth configure-docker us-docker.pkg.dev --quiet

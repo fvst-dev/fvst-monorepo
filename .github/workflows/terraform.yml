@@ -38,7 +38,7 @@ jobs:
 
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
-      REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
+      REGISTRY: us-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
 
     steps:
       - uses: "actions/checkout@v3"
@@ -47,7 +47,6 @@ jobs:
         id: "auth"
         with:
           google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
-          region: ${{ vars.FVST_PROJECT_REGION }}
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         id: "turborepo-cache"
@@ -100,7 +99,6 @@ jobs:
         id: "auth"
         with:
           google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
-          region: ${{ vars.FVST_PROJECT_REGION }}
 
       - name: Setup terraform remote and configuration
         run: |

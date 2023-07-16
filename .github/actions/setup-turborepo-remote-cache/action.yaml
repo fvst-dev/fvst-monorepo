@@ -16,3 +16,5 @@ runs:
         team-id: team_fvst
       env:
         LOG_LEVEL: "debug"
+        BODY_LIMIT: "104857600"
+        STORAGE_PATH_USE_TMP_FOLDER: "false"

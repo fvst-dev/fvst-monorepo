@@ -28,7 +28,9 @@ runs:
 
         GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$secret" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.private_key') | base64 -w0)
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED"
-        echo "GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED=$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED" >> $GITHUB_OUTPUT
+        echo "GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED<<EOF" >> $GITHUB_OUTPUT
+        echo $GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
         GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED=$(gpg --symmetric --batch --passphrase "$secret" --output - <(echo "$GOOGLE_CLOUD_TOKEN" | jq -r '.client_email') | base64 -w0)
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED"
@@ -46,7 +48,9 @@ runs:
 
         GOOGLE_CLOUD_CLIENT_PRIVATE_KEY=$(gpg --decrypt --quiet --batch --passphrase "$secret" --output - <(echo "${{ steps.encrypt_gcp_keys.outputs.GOOGLE_CLOUD_CLIENT_PRIVATE_KEY_ENCRYPTED }}" | base64 --decode))
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY"
-        echo "GOOGLE_CLOUD_CLIENT_PRIVATE_KEY=$GOOGLE_CLOUD_CLIENT_PRIVATE_KEY" >> $GITHUB_OUTPUT
+        echo "GOOGLE_CLOUD_CLIENT_PRIVATE_KEY<<EOF" >> $GITHUB_OUTPUT
+        echo $GOOGLE_CLOUD_CLIENT_PRIVATE_KEY >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
         GOOGLE_CLOUD_CLIENT_EMAIL=$(gpg --decrypt --quiet --batch --passphrase "$secret" --output - <(echo "${{ steps.encrypt_gcp_keys.outputs.GOOGLE_CLOUD_CLIENT_EMAIL_ENCRYPTED }}" | base64 --decode))
         echo "::add-mask::$GOOGLE_CLOUD_CLIENT_EMAIL"

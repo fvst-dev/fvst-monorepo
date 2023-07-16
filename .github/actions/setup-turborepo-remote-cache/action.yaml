@@ -39,8 +39,7 @@ runs:
       id: outputs
       shell: bash
       run: |
-        HOSTNAME=$(hostname -I | awk '{print $1}')
-        TURBO_API_FOR_DOCKER=${TURBO_API/0.0.0.0/HOSTNAME}
+        TURBO_API_FOR_DOCKER=${TURBO_API/0.0.0.0/$(hostname -I | awk '{print $1}')}
         echo "TURBO_TOKEN=$TURBO_TOKEN" >> $GITHUB_OUTPUT
         echo "TURBO_TEAMID=$TURBO_TEAM" >> $GITHUB_OUTPUT
         echo "TURBO_API=$TURBO_API" >> $GITHUB_OUTPUT

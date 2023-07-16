@@ -11,26 +11,21 @@ jobs:
 
     strategy:
       matrix:
+        environment: "staging"
+        google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
+        turborepo_bucket: FVST_PROJECT_TURBOREPO_BUCKET_STAGING
         include:
-          - environment: "staging"
-            service: "blog-graphql"
+          - service: "blog-graphql"
             use_prisma: true
-            google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
 
-          - environment: "staging"
-            service: "todo-graphql"
+          - service: "todo-graphql"
             use_prisma: true
-            google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
 
-          - environment: "staging"
-            service: "user-graphql"
+          - service: "user-graphql"
             use_prisma: true
-            google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
 
-          - environment: "staging"
-            service: "graphql-gateway"
-            google_cloud_token: GOOGLE_CLOUD_TOKEN_STAGING
-
+          - service: "graphql-gateway"
+            use_prisma: false
     env:
       PROJECT: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}
       REGISTRY: ${{ vars.FVST_PROJECT_REGION }}-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
@@ -41,6 +36,10 @@ jobs:
         id: "auth"
         with:
           GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.google_cloud_token] }}
+
+      - uses: ./.github/actions/setup-turborepo-remote-cache
+        with:
+          GOOGLE_CLOUD_TOKEN: ${{ secrets[matrix.turborepo_bucket] }}
 
       - name: Login to Artifact Registry
         uses: docker/login-action@v2

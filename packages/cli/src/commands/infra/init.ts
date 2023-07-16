@@ -110,6 +110,7 @@ export const init = new Command()
         safeExec(`fvst infra create-service-account ${iam}`, false);
         safeExec(`fvst infra create-service-account-keys ${iam}`, false);
         safeExec(`fvst infra create-terraform-bucket ${iam}`, false);
+        safeExec(`fvst infra create-turborepo-bucket ${iam}`, false);
         safeExec(`fvst infra create-container-registry ${iam} ${region}`, false);
       } catch (e) {
         console.error('Failed configuring project access, deleting created project');

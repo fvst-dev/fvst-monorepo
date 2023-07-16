@@ -1,0 +1,17 @@
+name: "Setup turborepo remote cache"
+description: "Setup turborepo remote cache"
+inputs:
+  bucket:
+    description: "Google cloud bucket to store remote cache"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: TurboRepo Remote Cache Server
+      uses: trappar/turborepo-remote-cache-gh-action@main
+      with:
+        storage-provider: google-cloud-storage
+        storage-path: ${{ inputs.bucket }}
+        host: "http://127.0.0.1"
+        port: 5555

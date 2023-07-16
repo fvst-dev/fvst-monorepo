@@ -28,9 +28,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# turbo
-.turbo
-
 # editors
 .idea
 .vscode

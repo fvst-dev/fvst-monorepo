@@ -1,6 +1,7 @@
 FROM node:18-alpine AS base
 
 ARG APP_NAME
+ARG TURBO_TOKEN
 ARG USE_PRISMA
 
 FROM base AS builder
@@ -19,8 +20,13 @@ COPY --from=builder /app/out/package-lock.json ./package-lock.json
 RUN npm install
 COPY --from=builder /app/out/full/ .
 
+ENV TURBO_TOKEN=${TURBO_TOKEN}
+COPY turbo.json ./
+COPY .turbo/config.json ./.turbo/
+COPY .git/ ./.git/
 # Build the project
 RUN npx turbo run build --filter=@apps/${APP_NAME}...
+RUN rm -rf .git
 
 # Prune unused dependencies
 RUN npm prune --production

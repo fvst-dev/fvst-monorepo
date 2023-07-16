@@ -7,6 +7,7 @@ import { createServiceAccountKeys } from './commands/infra/create-service-accoun
 import { createServiceAccount } from './commands/infra/create-service-account';
 import { createTerraformBucket } from './commands/infra/create-terraform-bucket';
 import { createContainerRegistry } from './commands/infra/create-container-registry';
+import { createTurborepoBucket } from './commands/infra/create-turborepo-bucket';
 
 const program = new Command();
 
@@ -17,6 +18,7 @@ const infra = program.command('infra');
   createServiceAccount,
   createServiceAccountKeys,
   createTerraformBucket,
+  createTurborepoBucket,
   createContainerRegistry,
 ].forEach((c) => {
   infra.addCommand(c);

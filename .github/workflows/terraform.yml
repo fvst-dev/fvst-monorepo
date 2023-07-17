@@ -68,10 +68,10 @@ jobs:
           file: tooling/docker/nest/Dockerfile
           #          cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max
           #          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
-          #          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:latest
-          #          cache-to: type=inline
-          cache-from: type=gha
-          cache-to: type=gha,mode=min
+          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:latest
+          cache-to: type=inline
+          #          cache-from: type=gha
+          #          cache-to: type=gha,mode=min
           build-args: |
             APP_NAME=${{ matrix.service }}
             TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}

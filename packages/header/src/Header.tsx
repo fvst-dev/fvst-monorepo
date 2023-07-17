@@ -1,5 +1,7 @@
+import dynamic from "next/dynamic";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
+
 import {
   Bars3Icon,
   ChartBarIcon,
@@ -8,12 +10,20 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@package/fvst-logo/src";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
+
+const SignInButton = dynamic(
+  () => import("@clerk/clerk-react").then((m) => m.SignInButton),
+  {
+    ssr: false,
+  }
+);
+const UserButton = dynamic(
+  () => import("@clerk/clerk-react").then((m) => m.UserButton),
+  {
+    ssr: false,
+  }
+);
 
 const solutions = [
   {

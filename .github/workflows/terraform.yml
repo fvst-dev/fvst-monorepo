@@ -62,6 +62,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
+          context: .
           allow: network.host
           tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
           file: tooling/docker/nest/Dockerfile

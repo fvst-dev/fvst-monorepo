@@ -36,7 +36,7 @@ jobs:
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
             turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
-          - service: "app"
+          - service: "web"
             dockerfile: "tooling/docker/next/Dockerfile"
             environment: "staging"
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"

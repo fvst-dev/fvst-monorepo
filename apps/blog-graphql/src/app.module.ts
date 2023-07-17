@@ -6,10 +6,7 @@ import { CommentResolver } from './comment.resolver';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {
-  ApolloFederationDriver,
-  ApolloFederationDriverConfig,
-} from '@nestjs/apollo';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { User } from './user.entity';
 import { PrismaService } from './prisma.service';
@@ -23,17 +20,10 @@ import { PrismaService } from './prisma.service';
       },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      introspection: process.env.NODE_ENV !== 'production',
+      introspection: true,
     }),
   ],
   controllers: [AppController],
-  providers: [
-    PostService,
-    CommentService,
-    PostResolver,
-    CommentResolver,
-    AppService,
-    PrismaService,
-  ],
+  providers: [PostService, CommentService, PostResolver, CommentResolver, AppService, PrismaService],
 })
 export class AppModule {}

@@ -17,7 +17,7 @@ import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/ap
       autoSchemaFile: { path: 'src/schema.graphql', federation: 2 },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      introspection: process.env.NODE_ENV !== 'production',
+      introspection: true,
     }),
   ],
   controllers: [AppController],

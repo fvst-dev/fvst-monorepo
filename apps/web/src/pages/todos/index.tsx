@@ -1,7 +1,7 @@
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { Todo } from '../../graphql/generated/schema';
 import { FormEvent, useState } from 'react';
-import Layout from '../Layout';
+import Layout from '../../Layout';
 
 const GET_TODOS = gql`
   query GetTodos {

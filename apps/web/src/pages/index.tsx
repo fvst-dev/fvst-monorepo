@@ -1,5 +1,5 @@
 import { type NextPage } from 'next';
-import Layout from './Layout';
+import Layout from '../Layout';
 import {
   RocketLaunchIcon,
   LockClosedIcon,

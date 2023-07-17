@@ -2,6 +2,7 @@
 .editorconfig
 .npmrc
 .nvmrc
+.env
 
 .husky
 node_modules

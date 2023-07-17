@@ -13,25 +13,31 @@ jobs:
       matrix:
         include:
           - service: "blog-graphql"
-            use_prisma: true
+            dockerfile: "tooling/docker/nest/Dockerfile"
             environment: "staging"
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
             turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "todo-graphql"
-            use_prisma: true
+            dockerfile: "tooling/docker/nest/Dockerfile"
             environment: "staging"
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
             turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "user-graphql"
-            use_prisma: true
+            dockerfile: "tooling/docker/nest/Dockerfile"
             environment: "staging"
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
             turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
 
           - service: "graphql-gateway"
-            use_prisma: false
+            dockerfile: "tooling/docker/nest/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+          - service: "app"
+            dockerfile: "tooling/docker/next/Dockerfile"
             environment: "staging"
             google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
             turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
@@ -64,7 +70,7 @@ jobs:
           push: true
           context: .
           tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
-          file: tooling/docker/nest/Dockerfile
+          file: ${{ matrix.dockerfile }}
           cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max,compression=zstd
           cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
           build-args: |

@@ -1,9 +1,10 @@
-.husky
 .gitignore
 .editorconfig
 .npmrc
 .nvmrc
 
+.husky
+node_modules
 .github
 infra
 docs

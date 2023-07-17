@@ -17,9 +17,7 @@ const handleAuth = ({ req }: { req: Request }) => {
       };
     }
   } catch (err) {
-    throw new UnauthorizedException(
-      'User unauthorized with invalid authorization Headers',
-    );
+    throw new UnauthorizedException('User unauthorized with invalid authorization Headers');
   }
 };
 
@@ -30,6 +28,7 @@ const handleAuth = ({ req }: { req: Request }) => {
       server: {
         context: handleAuth,
         playground: false,
+        introspection: true,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
@@ -37,10 +36,7 @@ const handleAuth = ({ req }: { req: Request }) => {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              request?.http?.headers.set(
-                'authorization',
-                context['authorization'],
-              );
+              request?.http?.headers.set('authorization', context['authorization']);
             },
           });
         },

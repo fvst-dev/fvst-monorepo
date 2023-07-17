@@ -2,10 +2,6 @@ FROM node:18-alpine AS base
 WORKDIR /app
 
 ARG APP_NAME
-# These arguments enable remote cacheing inside docker build
-ARG TURBO_TOKEN
-ARG TURBO_TEAMID
-ARG TURBO_API
 
 # Separate step to get a pruned version of the monorepository for just a single project - this will be rarely cached
 FROM base AS builder
@@ -21,8 +17,14 @@ COPY --from=builder /app/out/package-lock.json ./package-lock.json
 RUN --mount=type=cache,target=/var/cache/npm npm install
 # Then copy over the application files (change often, no longer cached from this step on)
 COPY --from=builder /app/out/full/ .
+
+# These arguments enable remote cacheing inside docker build
+# And they need to be here because the token always changes which stops all further lines from being cached
+ARG TURBO_TOKEN
+ARG TURBO_TEAMID
+ARG TURBO_API
 # Build the project
-RUN npx turbo run build -vvv --filter=@apps/${APP_NAME}
+RUN npx turbo run build --filter=@apps/${APP_NAME}
 # Prune unused dependencies
 RUN npm prune --production
 RUN rm -rf node_modules/typescript

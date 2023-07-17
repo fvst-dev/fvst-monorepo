@@ -63,15 +63,10 @@ jobs:
         with:
           push: true
           context: .
-          allow: network.host
           tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
           file: tooling/docker/nest/Dockerfile
           cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max,compression=zstd
           cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
-          #          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:latest
-          #          cache-to: type=inline
-          #          cache-from: type=gha
-          #          cache-to: type=gha,mode=min
           build-args: |
             APP_NAME=${{ matrix.service }}
             TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}

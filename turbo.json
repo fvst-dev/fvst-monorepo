@@ -27,9 +27,6 @@
     "format": {
       "outputs": []
     },
-    "dev": {
-      "cache": false
-    },
     "clean": {
       "cache": false
     },
@@ -38,6 +35,24 @@
     },
     "precommit:format": {
       "cache": false
+    },
+    "health-check": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false
+    },
+    "@apps/web#dev": {
+      "cache": false,
+      "dependsOn": ["@apps/graphql-gateway#health-check"]
+    },
+    "@apps/graphql-gateway#dev": {
+      "cache": false,
+      "dependsOn": [
+        "@apps/todo-graphql#health-check",
+        "@apps/user-graphql#health-check",
+        "@apps/blog-graphql#health-check"
+      ]
     }
   }
 }

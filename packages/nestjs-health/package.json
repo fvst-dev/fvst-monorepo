@@ -1,0 +1,15 @@
+{
+  "name": "@package/nestjs-health",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@nestjs/common": "^10.0.5"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "*"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

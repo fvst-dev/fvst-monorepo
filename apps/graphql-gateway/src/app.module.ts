@@ -1,13 +1,13 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { RemoteGraphQLDataSource } from '@apollo/gateway';
 import { Module, UnauthorizedException } from '@nestjs/common';
 import { IntrospectAndCompose } from '@apollo/gateway';
+import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
+import { HealthModule } from '@package/nestjs-health';
 
 const handleAuth = ({ req }: { req: Request }) => {
   try {
@@ -23,6 +23,8 @@ const handleAuth = ({ req }: { req: Request }) => {
 
 @Module({
   imports: [
+    HealthModule,
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
       server: {
@@ -50,7 +52,5 @@ const handleAuth = ({ req }: { req: Request }) => {
       },
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

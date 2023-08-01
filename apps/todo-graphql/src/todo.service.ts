@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@~internal/todo_graphql/client';
-import { CreateTodoInput } from './todo.entity';
 import { PrismaService } from './prisma.service';
 
 @Injectable()

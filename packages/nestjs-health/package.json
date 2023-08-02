@@ -7,7 +7,8 @@
     "@nestjs/common": "^10.0.5"
   },
   "devDependencies": {
-    "@tooling/typescript": "*"
+    "@tooling/typescript": "*",
+    "@tooling/prettier": "*"
   },
   "publishConfig": {
     "access": "restricted"

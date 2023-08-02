@@ -3,7 +3,7 @@ import { Todo, CreateTodoInput, UpdateTodoInput } from './todo.entity';
 import { TodoService } from './todo.service';
 import { UseGuards } from '@nestjs/common';
 import { User } from './types';
-import { JwtAuthGuard, CurrentUser } from '@package/auth';
+import { JwtAuthGuard, CurrentUser } from '@package/nestjs-auth';
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => Todo)

@@ -12,7 +12,8 @@
     "passport-jwt": "^4.0.1"
   },
   "devDependencies": {
-    "@tooling/typescript": "*"
+    "@tooling/typescript": "*",
+    "@tooling/prettier": "*"
   },
   "publishConfig": {
     "access": "restricted"

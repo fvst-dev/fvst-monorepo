@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-svg {
+  background-color: #290076;
+  background-image: url('/bg.svg');
+  background-size: cover;
+}

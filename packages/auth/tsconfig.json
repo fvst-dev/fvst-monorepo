@@ -1,8 +1,0 @@
-{
-  "extends": "@tooling/typescript/nestjs.json",
-  "include": ["src/**/*"],
-  "compilerOptions": {
-    "outDir": "dist"
-  },
-  "exclude": ["node_modules"]
-}

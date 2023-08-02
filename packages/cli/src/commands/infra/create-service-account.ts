@@ -6,7 +6,7 @@ export const createServiceAccount = new Command()
   .command('create-service-account')
   .description('Creates a service account with the appropriate permissions')
   .addArgument(createIamArgument())
-  .action((iam, environment) => {
+  .action((iam) => {
     const roles = [
       // Required for terraform to manage resource on GCP
       'roles/editor',

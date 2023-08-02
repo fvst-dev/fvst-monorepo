@@ -1,6 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
 
 export const CurrentUser = createParamDecorator((data, host) => {
-  const [root, args, ctx, info] = host.args;
+  const [_root, _args, ctx, _info] = host.args;
   return ctx.req.user;
 });

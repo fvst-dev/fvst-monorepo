@@ -1,5 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
-import { SetMetadata } from '@nestjs/common';
+import { Controller, Get, SetMetadata } from '@nestjs/common';
 
 @Controller('health')
 export class HealthController {

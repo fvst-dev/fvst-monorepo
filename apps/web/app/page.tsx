@@ -74,6 +74,7 @@ export default async function Home() {
                 <a
                   key={feature.name}
                   href={feature.href}
+                  target="_blank"
                   className=" font-lighth-full flex flex-col items-center justify-center space-y-12 bg-fvst-lilac shadow-xl"
                 >
                   <div className="flex w-full items-center justify-start gap-6">

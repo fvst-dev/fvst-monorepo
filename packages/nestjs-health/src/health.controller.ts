@@ -1,11 +1,11 @@
-import { Controller, Get } from "@nestjs/common";
-import { SetMetadata } from "@nestjs/common";
+import { Controller, Get } from '@nestjs/common';
+import { SetMetadata } from '@nestjs/common';
 
-@Controller("health")
+@Controller('health')
 export class HealthController {
   @Get()
-  @SetMetadata("allowUnauthorizedRequest", true)
+  @SetMetadata('allowUnauthorizedRequest', true)
   check() {
-    return { status: "UP" };
+    return { status: 'UP' };
   }
 }

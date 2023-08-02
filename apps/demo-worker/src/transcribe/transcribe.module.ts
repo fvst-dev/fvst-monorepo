@@ -12,7 +12,7 @@ import { TranscribeController } from './transcribe.controller';
       },
       {
         name: 'video',
-      },
+      }
     ),
   ],
   controllers: [TranscribeController],

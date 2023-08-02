@@ -8,13 +8,14 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "precommit:format": "prettier --write --ignore-unknown",
-    "lint": "npm run lint:prettier && npm run lint:next && npm run lint:typescript",
-    "lint:next": "next lint",
+    "format": "npm run format:prettier && npm run format:es",
+    "format:prettier": "prettier --write .",
+    "format:es": "eslint . --fix",
+    "lint": "npm run lint:prettier && npm run lint:typescript && npm run lint:es",
     "lint:typescript": "tsc --noEmit",
-    "lint:prettier": "prettier --check ./src",
-    "format": "npm run format:prettier",
-    "format:prettier": "prettier --write ./src"
+    "lint:prettier": "prettier --check .",
+    "lint:es": "eslint .",
+    "precommit:format": "prettier --write --ignore-unknown"
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",

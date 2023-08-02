@@ -41,7 +41,7 @@ export class PostService {
   async forAuthor(authorId: number) {
     return this.prisma.post.findMany({
       where: {
-        authorId: authorId,
+        authorId,
       },
       include: {
         comments: true,

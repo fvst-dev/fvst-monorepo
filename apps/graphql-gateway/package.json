@@ -8,16 +8,18 @@
   "scripts": {
     "build": "nest build",
     "dev": "nest start --watch",
-    "format": "npm run format:prettier",
-    "format:prettier": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "db:migrate:deploy": "echo no-op",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "format": "npm run format:prettier && npm run format:es",
+    "format:prettier": "prettier --write .",
+    "format:es": "eslint . --fix",
     "lint": "npm run lint:prettier && npm run lint:typescript && npm run lint:es",
     "lint:typescript": "tsc --noEmit",
-    "lint:prettier": "prettier --check ./src",
-    "lint:es": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:prettier": "prettier --check .",
+    "lint:es": "eslint .",
+    "precommit:format": "prettier --write --ignore-unknown",
     "health-check": "wait-on http://localhost:5000/health && echo Up"
   },
   "dependencies": {

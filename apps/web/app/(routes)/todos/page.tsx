@@ -1,7 +1,7 @@
 'use client';
 
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { Todo } from '../../_graphql/generated/schema';
+import { Todo } from '../../../__generated/graphql/schema';
 import { FormEvent, useState } from 'react';
 
 const GET_TODOS = gql`

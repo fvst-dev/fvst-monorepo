@@ -1,10 +1,8 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { RemoteGraphQLDataSource } from '@apollo/gateway';
+import { RemoteGraphQLDataSource, IntrospectAndCompose } from '@apollo/gateway';
 import { Module, UnauthorizedException } from '@nestjs/common';
-import { IntrospectAndCompose } from '@apollo/gateway';
 import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
 import { HealthModule } from '@package/nestjs-health';
@@ -34,11 +32,11 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
-        buildService({ name, url }) {
+        buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              request?.http?.headers.set('authorization', context['authorization']);
+              request?.http?.headers.set('authorization', context.authorization);
             },
           });
         },

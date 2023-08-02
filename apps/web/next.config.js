@@ -1,7 +1,7 @@
-// @ts-check
 const packageJSON = require('./package.json');
+const path = require('node:path');
+
 const transpilePackages = Object.keys(packageJSON.dependencies).filter((it) => it.includes('@package/'));
-const path = require('path');
 
 /**
  * Don't be scared of the generics here.

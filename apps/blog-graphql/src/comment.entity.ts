@@ -8,7 +8,7 @@ type Type<T> = T;
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class Comment {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()
@@ -17,6 +17,6 @@ export class Comment {
   @Field()
   postId: number;
 
-  @Field((type) => Post)
+  @Field(() => Post)
   post: Type<Post>;
 }

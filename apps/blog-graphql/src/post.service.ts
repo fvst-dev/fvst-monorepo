@@ -24,11 +24,7 @@ export class PostService {
     });
   }
 
-  async updatePost(params: {
-    id: number;
-    title?: string;
-    content?: string;
-  }): Promise<Post> {
+  async updatePost(params: { id: number; title?: string; content?: string }): Promise<Post> {
     const { id, ...data } = params;
     return this.prisma.post.update({
       data,

@@ -27,7 +27,7 @@ jobs:
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         id: "turborepo-cache"

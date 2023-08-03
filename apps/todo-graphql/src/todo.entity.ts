@@ -34,7 +34,7 @@ export class CreateTodoInput {
 @InputType()
 export class UpdateTodoInput {
   @Field()
-  id = 0;
+  id: number = 0;
 
   @Field({ nullable: true })
   title?: string;

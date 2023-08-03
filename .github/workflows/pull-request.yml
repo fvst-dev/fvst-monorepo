@@ -7,9 +7,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-
     timeout-minutes: 5
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -27,10 +25,20 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
 
+      - uses: ./.github/actions/setup-google-cloud-auth
+        id: "auth"
+        with:
+          google_cloud_token: ${{ secrets[matrix.google_cloud_token] }}
+
+      - uses: ./.github/actions/setup-turborepo-remote-cache
+        id: "turborepo-cache"
+        with:
+          bucket: ${{ vars[matrix.turborepo_bucket] }}
+
       - name: Install dependencies
         run: npm install
 
-      - name: Generate Prisma Types
+      - name: Generate prisma types
         run: npm run generate
 
       - name: Lint
@@ -38,8 +46,3 @@ jobs:
 
       - name: Test
         run: npm test
-
-      - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}

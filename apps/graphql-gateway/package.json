@@ -23,6 +23,7 @@
     "health-check": "wait-on http://localhost:5000/health && echo Up"
   },
   "dependencies": {
+    "@package/nestjs-health": "*",
     "@apollo/gateway": "^2.4.6",
     "@apollo/server": "^4.7.0",
     "@apollo/subgraph": "^2.4.6",

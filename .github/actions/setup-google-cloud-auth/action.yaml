@@ -1,0 +1,53 @@
+name: "Setup google cloud auth"
+description: "Setup google cloud auth"
+inputs:
+  google_cloud_token:
+    description: "Base64 encoded token from secrets"
+    required: true
+  setup_sdk:
+    description: "Should we setup the google cloud SDK"
+    required: false
+    default: "false"
+
+outputs:
+  access_token:
+    description: "Access token (for docker)"
+    value: ${{ steps.auth.outputs.access_token }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: "google-key"
+      name: "Unpack Key"
+      shell: bash
+      run: |
+        GOOGLE_CLOUD_TOKEN=$(echo ${{ inputs.google_cloud_token }} | base64 --decode)
+        echo "GOOGLE_CLOUD_TOKEN=$GOOGLE_CLOUD_TOKEN" >> $GITHUB_OUTPUT
+
+    - id: "auth"
+      name: "Authenticate to Google Cloud"
+      uses: "google-github-actions/auth@v1"
+      with:
+        token_format: "access_token"
+        credentials_json: "${{steps.google-key.outputs.GOOGLE_CLOUD_TOKEN}}"
+        export_environment_variables: true
+        create_credentials_file: true
+
+    - name: Login to Artifact Registry
+      uses: docker/login-action@v2
+      with:
+        registry: us-docker.pkg.dev
+        username: oauth2accesstoken
+        password: ${{ steps.auth.outputs.access_token }}
+
+    - name: "Set up Cloud SDK"
+      if: inputs.setup_sdk != 'false'
+      uses: "google-github-actions/setup-gcloud@v1"
+
+    - name: Info
+      if: inputs.setup_sdk != 'false'
+      shell: bash
+      run: gcloud info
+#    - name: Login to artifact repository
+#      shell: bash
+#      run: gcloud auth configure-docker us-docker.pkg.dev --quiet

@@ -99,7 +99,7 @@ jobs:
 
       - name: "Install support components"
         run: |
-          gcloud --project $PROJECT components install alpha 
+          gcloud --project $PROJECT components install alpha
           gcloud --project $PROJECT components install beta
 
       - name: "Configure billing"

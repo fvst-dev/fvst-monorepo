@@ -22,14 +22,10 @@ export class UserService {
     });
   }
 
-  async update(
-    id: number,
-    userData: Prisma.UserUpdateInput,
-  ): Promise<PrismaUser> {
+  async update(id: number, userData: Prisma.UserUpdateInput): Promise<PrismaUser> {
     // Check if user exists
     const existingUser = await this.findById(id);
-    if (!existingUser)
-      throw new NotFoundException(`User with id ${id} not found`);
+    if (!existingUser) throw new NotFoundException(`User with id ${id} not found`);
 
     return this.prisma.user.update({
       where: { id },
@@ -40,8 +36,7 @@ export class UserService {
   async delete(id: number): Promise<PrismaUser> {
     // Check if user exists
     const existingUser = await this.findById(id);
-    if (!existingUser)
-      throw new NotFoundException(`User with id ${id} not found`);
+    if (!existingUser) throw new NotFoundException(`User with id ${id} not found`);
 
     return this.prisma.user.delete({
       where: { id },

@@ -1,0 +1,45 @@
+{
+  "Modules": [
+    { "Key": "", "Source": "", "Dir": "." },
+    {
+      "Key": "blog-graphql",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "container-registry",
+      "Source": "../../modules/container-registry",
+      "Dir": "../../modules/container-registry"
+    },
+    {
+      "Key": "google",
+      "Source": "../../modules/google-services",
+      "Dir": "../../modules/google-services"
+    },
+    {
+      "Key": "google-services",
+      "Source": "../../modules/google-services",
+      "Dir": "../../modules/google-services"
+    },
+    {
+      "Key": "graphql-gateway",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "postgres",
+      "Source": "../../modules/postgres",
+      "Dir": "../../modules/postgres"
+    },
+    {
+      "Key": "redis",
+      "Source": "../../modules/redis",
+      "Dir": "../../modules/redis"
+    },
+    {
+      "Key": "secrets-manager",
+      "Source": "../../modules/secrets-manager",
+      "Dir": "../../modules/secrets-manager"
+    }
+  ]
+}

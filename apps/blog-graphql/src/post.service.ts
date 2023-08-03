@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Post } from './post.entity';
 import { Prisma } from '@~internal/blog_graphql/client';
 import { PrismaService } from './prisma.service';
 
@@ -24,11 +23,7 @@ export class PostService {
     });
   }
 
-  async updatePost(params: {
-    id: number;
-    title?: string;
-    content?: string;
-  }): Promise<Post> {
+  async updatePost(params: { id: number; title: string; content?: string | null }) {
     const { id, ...data } = params;
     return this.prisma.post.update({
       data,
@@ -45,7 +40,7 @@ export class PostService {
   async forAuthor(authorId: number) {
     return this.prisma.post.findMany({
       where: {
-        authorId: authorId,
+        authorId,
       },
       include: {
         comments: true,

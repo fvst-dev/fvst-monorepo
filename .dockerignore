@@ -1,1 +1,15 @@
+.gitignore
+.editorconfig
+.npmrc
+.nvmrc
+.env
+
+.husky
 node_modules
+.github
+infra
+docs
+
+**/node_modules
+**/dist
+**.md

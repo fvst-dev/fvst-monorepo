@@ -2,10 +2,13 @@
 import { ObjectType, Field, ID, Directive } from '@nestjs/graphql';
 import { Post } from './post.entity';
 
+// https://github.com/nestjs/graphql/issues/2568
+type Type<T> = T;
+
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class Comment {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()
@@ -14,6 +17,6 @@ export class Comment {
   @Field()
   postId: number;
 
-  @Field((type) => Post)
-  post: Post;
+  @Field(() => Post)
+  post: Type<Post>;
 }

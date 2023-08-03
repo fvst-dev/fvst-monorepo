@@ -1,1 +1,3 @@
-src/prisma/client
+.next
+coverage
+__generated/graphql/schema.ts

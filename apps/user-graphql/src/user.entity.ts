@@ -3,7 +3,7 @@ import { Directive, Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class User {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()

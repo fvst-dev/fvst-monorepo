@@ -6,7 +6,7 @@ import { Queue } from 'bull';
 export class TranscribeController {
   constructor(
     @InjectQueue('audio') private readonly audioQueue: Queue,
-    @InjectQueue('video') private readonly videoQueue: Queue,
+    @InjectQueue('video') private readonly videoQueue: Queue
   ) {}
 
   @Post('audio')

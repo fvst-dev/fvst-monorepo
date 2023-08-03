@@ -1,0 +1,43 @@
+name: "Setup turborepo remote cache"
+description: "Setup turborepo remote cache"
+inputs:
+  bucket:
+    description: "Google cloud bucket to store remote cache"
+    required: true
+outputs:
+  TURBO_TOKEN:
+    description: "TURBO_TOKEN"
+    value: ${{ steps.outputs.outputs.TURBO_TOKEN }}
+  TURBO_TEAMID:
+    description: "TURBO_TEAMID"
+    value: ${{ steps.outputs.outputs.TURBO_TEAMID }}
+  TURBO_API:
+    description: "TURBO_API"
+    value: ${{ steps.outputs.outputs.TURBO_API }}
+  TURBO_API_FOR_DOCKER:
+    description: "TURBO_API_FOR_DOCKER uses the hostname of the CI machine as the base, this allows docker build to connect to it and utilize this cache"
+    value: ${{ steps.outputs.outputs.TURBO_API_FOR_DOCKER }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: TurboRepo Remote Cache Server
+      uses: trappar/turborepo-remote-cache-gh-action@main
+      with:
+        storage-provider: google-cloud-storage
+        storage-path: ${{ inputs.bucket }}
+        team-id: team_fvst
+        host: http://0.0.0.0
+      env:
+        LOG_LEVEL: "debug"
+        BODY_LIMIT: "104857600"
+        STORAGE_PATH_USE_TMP_FOLDER: "false"
+    - name: Setup outputs
+      id: outputs
+      shell: bash
+      run: |
+        TURBO_API_FOR_DOCKER=${TURBO_API/0.0.0.0/$(hostname -I | awk '{print $1}')}
+        echo "TURBO_TOKEN=$TURBO_TOKEN" >> $GITHUB_OUTPUT
+        echo "TURBO_TEAMID=$TURBO_TEAM" >> $GITHUB_OUTPUT
+        echo "TURBO_API=$TURBO_API" >> $GITHUB_OUTPUT
+        echo "TURBO_API_FOR_DOCKER=$TURBO_API_FOR_DOCKER" >> $GITHUB_OUTPUT

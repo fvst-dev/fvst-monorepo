@@ -1,2 +1,2 @@
-src/graphql/generated/schema.ts
-src/prisma/client
+dist
+coverage

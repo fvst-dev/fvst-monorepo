@@ -1,4 +1,3 @@
-// post.entity.ts
 import { ObjectType, Field, ID, Directive, Int } from '@nestjs/graphql';
 import { Comment } from './comment.entity';
 import { User } from './user.entity';
@@ -6,7 +5,7 @@ import { User } from './user.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class Post {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()
@@ -18,12 +17,12 @@ export class Post {
   @Field()
   published: boolean;
 
-  @Field((type) => Int, { nullable: true })
+  @Field(() => Int, { nullable: true })
   authorId: number;
 
-  @Field((type) => User, { nullable: true })
+  @Field(() => User, { nullable: true })
   user?: User;
 
-  @Field((type) => [Comment], { nullable: true })
+  @Field(() => [Comment], { nullable: true })
   comments?: Comment[];
 }

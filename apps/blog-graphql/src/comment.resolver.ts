@@ -1,10 +1,4 @@
-import {
-  Args,
-  Mutation,
-  Query,
-  Resolver,
-  ResolveReference,
-} from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver, ResolveReference } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { Comment } from './comment.entity';
 
@@ -23,10 +17,7 @@ export class CommentResolver {
   }
 
   @Mutation(() => Comment)
-  async createComment(
-    @Args('text') text: string,
-    @Args('postId') postId: number,
-  ) {
+  async createComment(@Args('text') text: string, @Args('postId') postId: number) {
     return this.commentService.createComment({
       text,
       post: {

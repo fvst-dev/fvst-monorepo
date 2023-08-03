@@ -1,0 +1,26 @@
+{
+  "name": "@package/nestjs-health",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "private": true,
+  "scripts": {
+    "format": "npm run format:prettier && npm run format:es",
+    "format:prettier": "prettier --write .",
+    "format:es": "eslint . --fix",
+    "lint": "npm run lint:prettier && npm run lint:typescript && npm run lint:es",
+    "lint:typescript": "tsc --noEmit",
+    "lint:prettier": "prettier --check .",
+    "lint:es": "eslint .",
+    "precommit:format": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.5"
+  },
+  "devDependencies": {
+    "@tooling/typescript": "*",
+    "@tooling/prettier": "*"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

@@ -1,13 +1,11 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { RemoteGraphQLDataSource } from '@apollo/gateway';
+import { RemoteGraphQLDataSource, IntrospectAndCompose } from '@apollo/gateway';
 import { Module, UnauthorizedException } from '@nestjs/common';
-import { IntrospectAndCompose } from '@apollo/gateway';
+import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
+import { HealthModule } from '@package/nestjs-health';
 
 const handleAuth = ({ req }: { req: Request }) => {
   try {
@@ -17,30 +15,28 @@ const handleAuth = ({ req }: { req: Request }) => {
       };
     }
   } catch (err) {
-    throw new UnauthorizedException(
-      'User unauthorized with invalid authorization Headers',
-    );
+    throw new UnauthorizedException('User unauthorized with invalid authorization Headers');
   }
 };
 
 @Module({
   imports: [
+    HealthModule,
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
       server: {
         context: handleAuth,
         playground: false,
+        introspection: true,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
-        buildService({ name, url }) {
+        buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              request?.http?.headers.set(
-                'authorization',
-                context['authorization'],
-              );
+              request?.http?.headers.set('authorization', context.authorization);
             },
           });
         },
@@ -54,7 +50,5 @@ const handleAuth = ({ req }: { req: Request }) => {
       },
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

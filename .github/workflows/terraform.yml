@@ -1,5 +1,5 @@
 name: Terraform
-on: [push]
+on: [workflow_dispatch]
 
 env:
   REGION: ${{ vars.FVST_PROJECT_REGION }}

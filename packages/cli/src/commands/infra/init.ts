@@ -9,7 +9,7 @@ import { projectName } from './util/projectName';
 const getBillingAccounts = () => {
   try {
     const [stdout] = safeExec('gcloud beta billing accounts list --format json');
-    return JSON.parse(stdout).map(({ displayName, name }: any) => ({
+    return JSON.parse(stdout).map(({ displayName, name }: { displayName: string; name: string }) => ({
       title: displayName,
       value: name.split('/')[1],
     }));

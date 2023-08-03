@@ -20,7 +20,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.12",
     "@clerk/nextjs": "^4.16.4",
-    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@heroicons/react": "^2.0.18",
     "@package/nextjs-header": "*",
     "graphql": "^16.7.1",
     "next": "^13.4.12",
@@ -29,11 +29,11 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
-    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@tooling/eslint-config-custom": "*",
     "@tooling/jest": "*",
+    "@tooling/prettier": "*",
     "@tooling/typescript": "*",
-    "@types/node": "^18.7.20",
     "@types/react": "^18.0.9",
     "autoprefixer": "^10.4.14",
     "tailwindcss": "^3.3.3",

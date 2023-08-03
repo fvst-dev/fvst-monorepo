@@ -7,7 +7,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
-  ignorePatterns: ["dist/*", "src/prisma/client/*"],
+  ignorePatterns: ["dist/*"],
   plugins: ["@typescript-eslint"],
   rules: {
     "no-useless-constructor": "off",

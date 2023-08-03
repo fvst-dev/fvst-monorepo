@@ -24,7 +24,8 @@
   "devDependencies": {
     "@tooling/typescript": "*",
     "@tooling/eslint-config-custom": "*",
-    "@tooling/prettier": "*"
+    "@tooling/prettier": "*",
+    "@types/passport-jwt": "^3.0.9"
   },
   "publishConfig": {
     "access": "restricted"

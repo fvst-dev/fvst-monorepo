@@ -154,7 +154,7 @@ export type Todo = {
 
 export type UpdateTodoInput = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  id?: Scalars['Float']['input'];
+  id: Scalars['Float']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
 };
 

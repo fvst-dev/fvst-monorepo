@@ -15,4 +15,4 @@ runs:
     - name: lowercase
       shell: bash
       run: |
-        echo "lowercase=${input.string,,}" >> $GITHUB_OUTPUT
+        echo "lowercase=${inputs.string,,}" >> $GITHUB_OUTPUT

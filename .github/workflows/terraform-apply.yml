@@ -1,14 +1,14 @@
-name: Terraform
+name: Terraform apply
 on:
   push:
     branches:
       - develop
       - main
-#    paths:
-#      - 'infra/**'
+    paths:
+      - "infra/**"
 
 jobs:
-  deploy-staging:
+  staging:
     if: ${{ github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
 
-  deploy-production:
+  production:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
@@ -35,11 +35,11 @@ jobs:
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_PRODUCTION }}
 
       - uses: ./.github/actions/terraform-apply
         with:
-          environment: "staging"
-          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
+          environment: "production"
+          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION }}
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}

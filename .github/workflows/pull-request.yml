@@ -1,7 +1,9 @@
-name: Pull Request
+name: Pull request
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - develop
 
 jobs:
   verify:
@@ -25,12 +27,10 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
 
       - uses: ./.github/actions/setup-google-cloud-auth
-        id: "auth"
         with:
           google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
-        id: "turborepo-cache"
         with:
           bucket: ${{ vars.FVST_PROJECT_TURBOREPO_BUCKET_STAGING }}
 

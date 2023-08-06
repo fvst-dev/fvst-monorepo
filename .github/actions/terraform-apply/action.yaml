@@ -15,11 +15,14 @@ inputs:
     required: true
 runs:
   using: "composite"
-  env:
-    TF_VAR_project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{inputs.environment}}
-    TF_VAR_region: ${{ vars.FVST_PROJECT_REGION }}
   steps:
+    - name: Setup terraform project variables
+      shell: bash
+      run: |
+        echo "TF_VAR_project=${{ inputs.prefix }}-fvst-${{ inputs.environment }}" >> $GITHUB_ENV
+        echo "TF_VAR_region=${{ inputs.region }}" >> $GITHUB_ENV
     - name: Setup terraform remote and configuration
+      shell: bash
       run: |
         cat <<EOT >> "./infra/envs/${{inputs.environment}}/backend.tf"
           terraform {
@@ -30,7 +33,9 @@ runs:
         EOT
     - name: Terraform init
       working-directory: ./infra/envs/${{inputs.environment}}
+      shell: bash
       run: terraform init
     - name: Terraform apply
       working-directory: ./infra/envs/${{inputs.environment}}
+      shell: bash
       run: terraform apply -auto-approve

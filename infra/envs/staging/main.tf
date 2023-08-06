@@ -69,6 +69,7 @@ module "user-graphql" {
   }
 }
 
+
 module "graphql-gateway" {
   name                = "graphql-gateway"
   source              = "../../modules/cloud-run"

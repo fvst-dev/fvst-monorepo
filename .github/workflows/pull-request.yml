@@ -43,14 +43,16 @@ jobs:
       - name: Test
         run: npm run test
 
-      - uses: dorny/paths-filter@v2
+      - name: "Check if infra folder has changes"
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             infra:
               - 'infra/**'
 
-      - uses: ./.github/actions/terraform-plan
+      - name: "Run terraform plan against production"
+        uses: ./.github/actions/terraform-plan
         if: steps.changes.outputs.infra == 'true' && github.head_ref == 'main'
         with:
           environment: "production"
@@ -58,7 +60,8 @@ jobs:
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
 
-      - uses: ./.github/actions/terraform-plan
+      - name: "Run terraform plan against staging"
+        uses: ./.github/actions/terraform-plan
         if: steps.changes.outputs.infra == 'true' && github.head_ref == 'develop'
         with:
           environment: "staging"

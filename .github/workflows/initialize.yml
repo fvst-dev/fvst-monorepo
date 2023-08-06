@@ -52,6 +52,7 @@ jobs:
 
     env:
       REGISTRY: us-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
+      GOOGLE_CLOUD_TOKEN_KEY: GOOGLE_CLOUD_TOKEN_{{ inputs.environment }}
 
     steps:
       - uses: "actions/checkout@v3"
@@ -59,7 +60,7 @@ jobs:
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          google_cloud_token: ${{ secrets["GOOGLE_CLOUD_TOKEN_{{ inputs.environment }}"] }}
+          google_cloud_token: ${{ secrets[env.GOOGLE_CLOUD_TOKEN_KEY] }}
 
       - uses: ./.github/actions/setup-turborepo-remote-cache
         id: "turborepo-cache"

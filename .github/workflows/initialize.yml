@@ -1,0 +1,87 @@
+name: Initialize environment
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: "choice"
+        description: "What environment should we initialize"
+        required: true
+        default: "STAGING"
+        options:
+          - "STAGING"
+          - "PRODUCTION"
+env:
+  DOCKER_TAG: gh-run-${{ github.run_number }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - service: "blog-graphql"
+            dockerfile: "tooling/docker/nest/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+          - service: "todo-graphql"
+            dockerfile: "tooling/docker/nest/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+          - service: "user-graphql"
+            dockerfile: "tooling/docker/nest/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+          - service: "graphql-gateway"
+            dockerfile: "tooling/docker/nest/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+          - service: "web"
+            dockerfile: "tooling/docker/next/Dockerfile"
+            environment: "staging"
+            google_cloud_token: "GOOGLE_CLOUD_TOKEN_STAGING"
+            turborepo_bucket: "FVST_PROJECT_TURBOREPO_BUCKET_STAGING"
+
+    env:
+      REGISTRY: us-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{matrix.environment}}/registry
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - uses: ./.github/actions/setup-google-cloud-auth
+        id: "auth"
+        with:
+          google_cloud_token: ${{ secrets["GOOGLE_CLOUD_TOKEN_{{ inputs.environment }}"] }}
+
+      - uses: ./.github/actions/setup-turborepo-remote-cache
+        id: "turborepo-cache"
+        with:
+          bucket: ${{ vars[matrix.turborepo_bucket] }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          config: .github/buildkitd.toml
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
+          file: ${{ matrix.dockerfile }}
+          cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max,compression=zstd
+          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
+          build-args: |
+            APP_NAME=${{ matrix.service }}
+            TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}
+            TURBO_TEAMID=${{ steps.turborepo-cache.outputs.TURBO_TEAMID }}
+            TURBO_API=${{ steps.turborepo-cache.outputs.TURBO_API_FOR_DOCKER }}

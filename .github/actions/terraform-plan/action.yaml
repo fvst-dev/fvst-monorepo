@@ -13,6 +13,9 @@ inputs:
   prefix:
     description: "The unix prefix we set up"
     required: true
+  gh-token:
+    description: "The github token to leave the terraform plan as a comment"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -21,6 +24,10 @@ runs:
       run: |
         echo "TF_VAR_project=${{ inputs.prefix }}-fvst-${{ inputs.environment }}" >> $GITHUB_ENV
         echo "TF_VAR_region=${{ inputs.region }}" >> $GITHUB_ENV
+    - name: Setup github token
+      shell: bash
+      run: |
+        echo "GITHUB_TOKEN=${{ inputs.gh-token }}" >> $GITHUB_ENV
     - name: Setup terraform remote and configuration
       shell: bash
       run: |

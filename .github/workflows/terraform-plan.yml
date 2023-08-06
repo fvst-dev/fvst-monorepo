@@ -7,7 +7,8 @@ on:
     paths:
       - "infra/**"
 jobs:
-  terraform-plan:
+  staging-plan:
+    if: github.base_ref == 'develop'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -20,7 +21,6 @@ jobs:
 
       - name: "Run terraform plan against staging"
         uses: ./.github/actions/terraform-plan
-        if: github.base_ref == 'develop'
         with:
           environment: "staging"
           terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
@@ -28,9 +28,20 @@ jobs:
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
 
+  production-plan:
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup-google-cloud-auth
+        with:
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_PRODUCTION }}
+
       - name: "Run terraform plan against production"
         uses: ./.github/actions/terraform-plan
-        if: github.base_ref == 'main'
         with:
           environment: "production"
           terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION }}

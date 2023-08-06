@@ -48,6 +48,6 @@ variable env {
       })
     })))
   }))
-  default = {}
+  default = []
   description = "Environment variables to inject into container instances."
 }

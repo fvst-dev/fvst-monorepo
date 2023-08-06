@@ -29,6 +29,9 @@ jobs:
           - service: "user-graphql"
             dockerfile: "tooling/docker/nest/Dockerfile"
 
+          - service: "demo-worker"
+            dockerfile: "tooling/docker/nest/Dockerfile"
+
           - service: "graphql-gateway"
             dockerfile: "tooling/docker/nest/Dockerfile"
 

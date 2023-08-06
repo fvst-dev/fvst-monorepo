@@ -49,6 +49,7 @@ jobs:
 
       - name: Build registry url
         run: |
+          echo ${{ steps.string.outputs.lowercase }}
           echo "REGISTRY=us-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{steps.string.outputs.lowercase}}/registry" >>${GITHUB_ENV}
 
       - uses: ./.github/actions/setup-google-cloud-auth

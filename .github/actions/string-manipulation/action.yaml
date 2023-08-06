@@ -7,12 +7,12 @@ inputs:
 outputs:
   lowercase:
     description: "Input string converted to lowercase"
-    value: ${{ steps.auth.outputs.access_token }}
-
+    value: ${{ steps.lowercase.outputs.lowercase }}
 runs:
   using: "composite"
   steps:
     - name: lowercase
+      id: lowercase
       shell: bash
       run: |
         echo "lowercase=$(echo "${{ inputs.string }}" | awk '{print tolower($0)}')" >> $GITHUB_OUTPUT

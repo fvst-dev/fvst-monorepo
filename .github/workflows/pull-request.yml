@@ -52,7 +52,7 @@ jobs:
               - 'infra/**'
 
       - name: "Testing"
-        run: echo ${{ github.head_ref }}
+        run: echo ${{ github.base_ref }}
 
       - name: "Run terraform plan against production"
         uses: ./.github/actions/terraform-plan

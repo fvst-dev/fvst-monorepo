@@ -24,6 +24,26 @@ resource google_cloud_run_service default {
           }
         }
 
+        dynamic "env" {
+          for_each = try(var.env, [])
+
+          content {
+            name  = try(env.value.name, null)
+            value = try(env.value.value, null)
+
+            dynamic "value_from" {
+              for_each = try([env.value.value_from], [])
+
+              content {
+                secret_key_ref {
+                  name = value_from.value.secret_key_ref.name
+                  key  = value_from.value.secret_key_ref.key
+                }
+              }
+            }
+          }
+        }
+
       }
     }
     metadata {

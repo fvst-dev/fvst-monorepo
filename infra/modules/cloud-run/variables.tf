@@ -38,7 +38,16 @@ variable annotations {
 }
 
 variable env {
-  type = map(string)
+  type = list(object({
+    name = string
+    value = optional(string)
+    value_from = optional(set(object({
+      secret_key_ref = object({
+        name = string
+        key = string
+      })
+    })))
+  }))
   default = {}
   description = "Environment variables to inject into container instances."
 }

@@ -7,7 +7,7 @@ on:
     paths:
       - "infra/**"
 jobs:
-  staging-plan:
+  staging:
     if: github.base_ref == 'develop'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -28,7 +28,7 @@ jobs:
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
 
-  production-plan:
+  production:
     if: github.base_ref == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 5

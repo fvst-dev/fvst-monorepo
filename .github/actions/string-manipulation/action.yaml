@@ -1,0 +1,18 @@
+name: "String manipulation"
+description: "Utility action to convert a string between cases"
+inputs:
+  string:
+    description: "String in any case"
+    required: true
+outputs:
+  lowercase:
+    description: "Input string converted to lowercase"
+    value: ${{ steps.auth.outputs.access_token }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: lowercase
+      shell: bash
+      run: |
+        echo "lowercase=${input.string,,}" >> $GITHUB_OUTPUT

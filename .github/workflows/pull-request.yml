@@ -51,6 +51,9 @@ jobs:
             infra:
               - 'infra/**'
 
+      - name: "Testing"
+        run: echo ${{ github.head_ref }}
+
       - name: "Run terraform plan against production"
         uses: ./.github/actions/terraform-plan
         if: steps.changes.outputs.infra == 'true' && github.head_ref == 'main'

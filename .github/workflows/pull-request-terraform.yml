@@ -1,4 +1,4 @@
-name: Pull request terraform plan
+name: Pull request terraform
 on:
   pull_request:
     branches:

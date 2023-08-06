@@ -35,7 +35,11 @@ runs:
       working-directory: ./infra/envs/${{inputs.environment}}
       shell: bash
       run: terraform init
+    #    - name: Terraform plan
+    #      working-directory: ./infra/envs/${{inputs.environment}}
+    #      shell: bash
+    #      run: terraform plan
     - name: Terraform plan
-      working-directory: ./infra/envs/${{inputs.environment}}
-      shell: bash
-      run: terraform plan
+      uses: dflook/terraform-plan@v1
+      with:
+        path: ./infra/envs/${{inputs.environment}}

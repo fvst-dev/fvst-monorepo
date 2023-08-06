@@ -51,23 +51,20 @@ jobs:
             infra:
               - 'infra/**'
 
-      - name: "Testing"
-        run: echo ${{ github.base_ref }}
-
-      - name: "Run terraform plan against production"
-        uses: ./.github/actions/terraform-plan
-        if: steps.changes.outputs.infra == 'true' && github.head_ref == 'main'
-        with:
-          environment: "production"
-          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION }}
-          region: ${{ vars.FVST_PROJECT_REGION }}
-          prefix: ${{ vars.FVST_PROJECT_PREFIX }}
-
       - name: "Run terraform plan against staging"
         uses: ./.github/actions/terraform-plan
-        if: steps.changes.outputs.infra == 'true' && github.head_ref == 'develop'
+        if: steps.changes.outputs.infra == 'true' && github.base_ref == 'develop'
         with:
           environment: "staging"
           terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
+          region: ${{ vars.FVST_PROJECT_REGION }}
+          prefix: ${{ vars.FVST_PROJECT_PREFIX }}
+
+      - name: "Run terraform plan against production"
+        uses: ./.github/actions/terraform-plan
+        if: steps.changes.outputs.infra == 'true' && github.base_ref == 'main'
+        with:
+          environment: "production"
+          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION }}
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}

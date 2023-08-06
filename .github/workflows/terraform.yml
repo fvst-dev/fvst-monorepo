@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy-staging:
-    if: ${{ github.ref === 'refs/heads/develop' }}
+    if: ${{ github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v3"
@@ -27,7 +27,7 @@ jobs:
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
 
   deploy-production:
-    if: ${{ github.ref === 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v3"

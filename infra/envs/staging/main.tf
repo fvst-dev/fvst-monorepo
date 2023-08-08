@@ -4,6 +4,7 @@ module "google-services" {
 
 module "secrets-manager" {
   source     = "../../modules/secrets-manager"
+  project_id = var.project
   location   = var.region
   depends_on = [module.google-services]
 }
@@ -19,54 +20,36 @@ module "postgres" {
 }
 
 module "blog-graphql" {
-  name     = "blog-graphql"
-  source   = "../../modules/cloud-run"
-  location = var.region
-  image    = "${local.registry}/blog-graphql:latest"
-  env = [
-    { name: "NODE_ENV", value: "production" },
-    { name: "CLERK_ISSUER", value: module.secrets-manager.CLERK_ISSUER },
-    { name: "CLERK_JWSK_URL", value: module.secrets-manager.CLERK_JWSK_URL },
-    { name: "DATABASE_URL", value: module.postgres.DATABASE_URL_BLOG },
-  ]
+  name = "blog-graphql"
+  source   = "../../services/blog-graphql"
+  project = var.project
+  region = var.region
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  shared_secrets = module.secrets-manager.SHARED_SECRETS
   depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
 }
 
 module "todo-graphql" {
-  name     = "todo-graphql"
-  source   = "../../modules/cloud-run"
-  location = var.region
-  image    = "${local.registry}/todo-graphql:latest"
-  env = [
-    { name: "NODE_ENV", value: "production" },
-    { name: "CLERK_ISSUER", value: module.secrets-manager.CLERK_ISSUER },
-    { name: "CLERK_JWSK_URL", value: module.secrets-manager.CLERK_JWSK_URL },
-    { name: "DATABASE_URL", value: module.postgres.DATABASE_URL_TODO },
-  ]
+  source   = "../../services/todo-graphql"
+  name = "todo-graphql"
+  project = var.project
+  region = var.region
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  shared_secrets = module.secrets-manager.SHARED_SECRETS
   depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
 }
 
 module "user-graphql" {
-  name     = "user-graphql"
-  source   = "../../modules/cloud-run"
-  location = var.region
-  image    = "${local.registry}/user-graphql:latest"
-  env = [
-    { name: "NODE_ENV", value: "production" },
-    { name: "CLERK_ISSUER", value: module.secrets-manager.CLERK_ISSUER },
-    { name: "CLERK_JWSK_URL", value: module.secrets-manager.CLERK_JWSK_URL },
-    { name: "DATABASE_URL", value: module.postgres.DATABASE_URL_USER },
-  ]
+  source   = "../../services/user-graphql"
+  name = "user-graphql"
+  project = var.project
+  region = var.region
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  shared_secrets = module.secrets-manager.SHARED_SECRETS
   depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
 }
 
 
@@ -75,6 +58,7 @@ module "graphql-gateway" {
   source              = "../../modules/cloud-run"
   location            = var.region
   image               = "${local.registry}/graphql-gateway:latest"
+  service_account_name = module.secrets-manager.shared_secrets_service_account
   env = [
     { name: "NODE_ENV", value: "production" },
     { name: "TODO_SERVICE_URL", value: "${module.todo-graphql.url}/graphql" },

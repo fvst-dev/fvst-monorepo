@@ -5,6 +5,9 @@ resource google_cloud_run_service default {
 
   template {
     spec {
+
+      service_account_name = var.service_account_name
+
       containers {
         image = var.image
         resources {
@@ -14,13 +17,14 @@ resource google_cloud_run_service default {
           }
         }
 
-        # Populate straight environment variables.
-        dynamic env {
-          for_each = var.env
+        startup_probe {
+          failure_threshold     = 5
+          initial_delay_seconds = 10
+          timeout_seconds       = 3
+          period_seconds        = 3
 
-          content {
-            name = env.key
-            value = env.value
+          http_get {
+            path = "/health"
           }
         }
 
@@ -32,12 +36,12 @@ resource google_cloud_run_service default {
             value = try(env.value.value, null)
 
             dynamic "value_from" {
-              for_each = try([env.value.value_from], [])
+              for_each = env.value.value_from != null ? [env.value.value_from] : []
 
               content {
                 secret_key_ref {
-                  name = value_from.value.secret_key_ref.name
-                  key  = value_from.value.secret_key_ref.key
+                  key  = value_from.value.key
+                  name = value_from.value.name
                 }
               }
             }

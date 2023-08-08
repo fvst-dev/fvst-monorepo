@@ -22,6 +22,7 @@ import { ConfigModule } from '@nestjs/config';
       buildSchemaOptions: {
         orphanedTypes: [User],
       },
+      csrfPrevention: false,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       introspection: true,

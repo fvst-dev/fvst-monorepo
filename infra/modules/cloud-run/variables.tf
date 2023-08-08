@@ -8,6 +8,11 @@ variable location {
   description = "Location of the service."
 }
 
+variable "service_account_name" {
+  type = string
+  description = "The service account to use"
+}
+
 variable image {
   type = string
   description = "Docker image name."
@@ -41,12 +46,12 @@ variable env {
   type = list(object({
     name = string
     value = optional(string)
-    value_from = optional(set(object({
-      secret_key_ref = object({
+    value_from = optional(
+      object({
         name = string
         key = string
       })
-    })))
+    )
   }))
   default = []
   description = "Environment variables to inject into container instances."

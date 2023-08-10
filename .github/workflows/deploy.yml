@@ -38,4 +38,4 @@ jobs:
           tag: ${{ env.DOCKER_TAG }}
       - name: Deploy
         run: |
-          gcloud --project ${{ env.project }} run deploy ${{ matrix.service }} --image ${{ env.registry }}/${{ env.service }}:$DOCKER_TAG --region ${{ vars.FVST_PROJECT_REGION }}
+          gcloud --project ${{ env.project }} run deploy ${{ matrix.service }} --image ${{ env.registry }}/${{ matrix.service }}:$DOCKER_TAG --region ${{ vars.FVST_PROJECT_REGION }}

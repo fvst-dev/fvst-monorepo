@@ -10,6 +10,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
+      - uses: "actions/checkout@v3"
       - uses: ./.github/actions/services-matrix
         id: "matrix"
 
@@ -20,5 +21,6 @@ jobs:
       fail-fast: false
       matrix: ${{fromJSON(needs.prebuild.outputs.matrix)}}
     steps:
+      - uses: "actions/checkout@v3"
       - name: running
         run: echo "running job with ${{ matrix.service }} ${{ matrix.dockerfile }}"

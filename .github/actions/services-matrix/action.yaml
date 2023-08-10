@@ -17,5 +17,4 @@ runs:
         demo='{ "service": "demo-graphql", "dockerfile": "tooling/docker/nest/Dockerfile" }'
         gateway='{ "service": "graphql-gateway", "dockerfile": "tooling/docker/nest/Dockerfile" }'
         web='{ "service": "web", "dockerfile": "tooling/docker/next/Dockerfile" }'
-
-        echo "matrix=[$blog, $todo, $user, $demo, $gateway, $web]" >> $GITHUB_OUTPUT
+        echo "matrix={\"include\":[$blog, $todo, $user, $demo, $gateway, $web]}" >> $GITHUB_OUTPUT

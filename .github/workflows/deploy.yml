@@ -32,7 +32,7 @@ jobs:
         with:
           google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
           turborepo_cache_bucket: ${{ vars.FVST_PROJECT_TURBOREPO_BUCKET_STAGING }}
-          registry: ${{ env.project }}
+          registry: ${{ env.registry }}
           service: ${{ matrix.service }}
           dockerfile: ${{ matrix.dockerfile }}
           tag: ${{ env.DOCKER_TAG }}

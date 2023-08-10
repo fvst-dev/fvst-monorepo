@@ -1,0 +1,54 @@
+name: "Build docker container"
+description: "Builds a docker container"
+inputs:
+  google_cloud_token:
+    description: "google cloud token"
+    required: true
+  turborepo_cache_bucket:
+    description: "turborepo cache bucket"
+    required: true
+  registry:
+    description: "registry to push too"
+    required: true
+  service:
+    description: "service"
+    required: true
+  dockerfile:
+    description: "service"
+    required: true
+  tag:
+    description: "service"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/setup-google-cloud-auth
+      id: "auth"
+      with:
+        google_cloud_token: ${{ inputs.google_cloud_token }}
+
+    - uses: ./.github/actions/setup-turborepo-remote-cache
+      id: "turborepo-cache"
+      with:
+        bucket: ${{ inputs.turborepo_cache_bucket }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        config: .github/buildkitd.toml
+
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        context: .
+        tags: ${{ inputs.registry }}/${{ inputs.service }}:${{ inputs.tag }},${{ inputs.registry }}/${{ inputs.service }}:latest
+        file: ${{ inputs.dockerfile }}
+        cache-to: type=registry,ref=${{ inputs.registry }}/${{ inputs.service }}:buildcache,mode=max,compression=zstd
+        cache-from: type=registry,ref=${{ inputs.registry }}/${{ inputs.service }}:buildcache
+        build-args: |
+          APP_NAME=${{ inputs.service }}
+          TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}
+          TURBO_TEAMID=${{ steps.turborepo-cache.outputs.TURBO_TEAMID }}
+          TURBO_API=${{ steps.turborepo-cache.outputs.TURBO_API_FOR_DOCKER }}

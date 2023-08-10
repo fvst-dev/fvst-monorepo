@@ -14,21 +14,25 @@ jobs:
       - uses: ./.github/actions/services-matrix
         id: "matrix"
 
-  deploy2:
+  deploy-staging:
     needs: prebuild
     runs-on: ubuntu-latest
-    steps:
-      - uses: "actions/checkout@v3"
-      - name: running
-        run: echo "running job with ${{ needs.prebuild.outputs.matrix }}"
-
-  deploy:
-    needs: prebuild
-    runs-on: ubuntu-latest
+    env:
+      project: ${{ vars.FVST_PROJECT_PREFIX }}-fvst-staging
+      registry: us-docker.pkg.dev/${{ env.PROJECT }}/registry
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
     steps:
       - uses: "actions/checkout@v3"
-      - name: running
-        run: echo "running job with ${{ matrix.service }} ${{ matrix.dockerfile }}"
+      - uses: ./.github/actions/build-docker-container
+        with:
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
+          turborepo_cache_bucket: ${{ vars.FVST_PROJECT_TURBOREPO_BUCKET_STAGING }}
+          registry: ${{ env.project }}
+          service: ${{ matrix.service }}
+          dockerfile: ${{ matrix.dockerfile }}
+          tag: ${{ env.DOCKER_TAG }}
+      - name: Deploy
+        run: |
+          gcloud --project ${{ env.project }} run deploy ${{ matrix.service }} --image ${{ env.registry }}/${{ env.service }}:$DOCKER_TAG --region ${{ vars.FVST_PROJECT_REGION }}

@@ -2,7 +2,7 @@ name: Deploy
 on: push
 
 env:
-  DOCKER_TAG: gh-run-${{ github.run_number }}
+  DOCKER_TAG: deploy-run-${{ github.run_number }}
 
 jobs:
   prebuild:

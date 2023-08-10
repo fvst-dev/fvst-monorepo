@@ -10,6 +10,9 @@ inputs:
   region:
     description: "The region we are deploying too"
     required: true
+  docker-tag:
+    description: "The docker tag we are deploying"
+    required: true
   prefix:
     description: "The unix prefix we set up"
     required: true
@@ -21,6 +24,7 @@ runs:
       run: |
         echo "TF_VAR_project=${{ inputs.prefix }}-fvst-${{ inputs.environment }}" >> $GITHUB_ENV
         echo "TF_VAR_region=${{ inputs.region }}" >> $GITHUB_ENV
+        echo "TF_VAR_docker_tag=${{ inputs.docker-tag }}"
     - name: Setup terraform remote and configuration
       shell: bash
       run: |

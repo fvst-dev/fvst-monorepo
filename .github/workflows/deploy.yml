@@ -40,9 +40,6 @@ jobs:
   deploy-staging:
     needs: build-staging
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
     steps:
       - uses: "actions/checkout@v3"
 
@@ -57,3 +54,4 @@ jobs:
           terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
+          docker-tag: ${{ env.DOCKER_TAG }}

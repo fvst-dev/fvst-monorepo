@@ -17,17 +17,6 @@ resource google_cloud_run_service default {
           }
         }
 
-        startup_probe {
-          failure_threshold     = 5
-          initial_delay_seconds = 10
-          timeout_seconds       = 3
-          period_seconds        = 3
-
-          http_get {
-            path = "/health"
-          }
-        }
-
         dynamic "env" {
           for_each = try(var.env, [])
 
@@ -52,7 +41,7 @@ resource google_cloud_run_service default {
     }
     metadata {
       annotations = merge({
-        "run.googleapis.com/execution-environment" = "gen2"
+        "run.googleapis.com/execution-environment" = "gen2",
       }, var.annotations)
     }
   }

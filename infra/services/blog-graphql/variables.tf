@@ -8,6 +8,11 @@ variable region {
   description = "Region"
 }
 
+variable "docker_tag" {
+  type = string
+  default = "latest"
+}
+
 variable project {
   type = string
   description = "Project id"

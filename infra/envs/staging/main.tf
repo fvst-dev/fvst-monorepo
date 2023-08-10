@@ -22,6 +22,7 @@ module "postgres" {
 module "blog-graphql" {
   name = "blog-graphql"
   source   = "../../services/blog-graphql"
+  docker_tag = var.docker_tag
   project = var.project
   region = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
@@ -33,6 +34,7 @@ module "blog-graphql" {
 module "todo-graphql" {
   source   = "../../services/todo-graphql"
   name = "todo-graphql"
+  docker_tag = var.docker_tag
   project = var.project
   region = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
@@ -44,6 +46,7 @@ module "todo-graphql" {
 module "user-graphql" {
   source   = "../../services/user-graphql"
   name = "user-graphql"
+  docker_tag = var.docker_tag
   project = var.project
   region = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
@@ -52,13 +55,11 @@ module "user-graphql" {
   depends_on = [module.secrets-manager, module.google-services, module.postgres]
 }
 
-
 module "graphql-gateway" {
   name                = "graphql-gateway"
   source              = "../../modules/cloud-run"
   location            = var.region
   image               = "${local.registry}/graphql-gateway:latest"
-  service_account_name = module.secrets-manager.shared_secrets_service_account
   env = [
     { name: "NODE_ENV", value: "production" },
     { name: "TODO_SERVICE_URL", value: "${module.todo-graphql.url}/graphql" },
@@ -67,4 +68,13 @@ module "graphql-gateway" {
   ]
   depends_on = [module.blog-graphql, module.todo-graphql, module.user-graphql, module.google-services]
   allow_public_access = true
+}
+
+module "web" {
+  source   = "../../services/web"
+  name = "web"
+  project = var.project
+  region = var.region
+  graphql_gateway = "${module.graphql-gateway.url}/graphql"
+  depends_on = [module.google-services, module.graphql-gateway]
 }

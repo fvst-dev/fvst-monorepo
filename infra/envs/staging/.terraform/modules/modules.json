@@ -70,6 +70,26 @@
       "Key": "user-graphql.user-graphql",
       "Source": "../../modules/cloud-run",
       "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "web",
+      "Source": "../../services/web",
+      "Dir": "../../services/web"
+    },
+    {
+      "Key": "web.clerk_publishable_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "web.clerk_secret_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "web.service",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
     }
   ]
 }

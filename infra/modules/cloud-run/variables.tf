@@ -10,6 +10,7 @@ variable location {
 
 variable "service_account_name" {
   type = string
+  default = null
   description = "The service account to use"
 }
 

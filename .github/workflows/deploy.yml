@@ -6,18 +6,19 @@ env:
 
 jobs:
   pre-build:
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: ./.github/actions/services-matrix
         id: "matrix"
 
-deploy:
-  needs: prebuild
-  runs-on: ubuntu-latest
-  strategy:
-    fail-fast: false
-    matrix: ${{fromJSON(needs.prebuild.outputs.matrix)}}
-  steps:
-    - name: running
-      run: echo "running job with ${{ matrix.service }} ${{ matrix.dockerfile }}"
+  deploy:
+    needs: prebuild
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJSON(needs.prebuild.outputs.matrix)}}
+    steps:
+      - name: running
+        run: echo "running job with ${{ matrix.service }} ${{ matrix.dockerfile }}"

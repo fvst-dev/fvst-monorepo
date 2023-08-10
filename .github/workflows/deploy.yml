@@ -44,17 +44,16 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
     steps:
-      steps:
-        - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v3"
 
-        - uses: ./.github/actions/setup-google-cloud-auth
-          id: "auth"
-          with:
-            google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
+      - uses: ./.github/actions/setup-google-cloud-auth
+        id: "auth"
+        with:
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
 
-        - uses: ./.github/actions/terraform-apply
-          with:
-            environment: "staging"
-            terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
-            region: ${{ vars.FVST_PROJECT_REGION }}
-            prefix: ${{ vars.FVST_PROJECT_PREFIX }}
+      - uses: ./.github/actions/terraform-apply
+        with:
+          environment: "staging"
+          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
+          region: ${{ vars.FVST_PROJECT_REGION }}
+          prefix: ${{ vars.FVST_PROJECT_PREFIX }}

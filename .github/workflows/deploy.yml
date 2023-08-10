@@ -24,8 +24,10 @@ jobs:
       - uses: "actions/checkout@v3"
       - name: "Configure env variables"
         run: |
-          echo "project=${{ vars.FVST_PROJECT_PREFIX }}-fvst-staging" >> $GITHUB_ENV
-          echo "registry=us-docker.pkg.dev/${{ env.project }}/registry" >> $GITHUB_ENV
+          $project="${{ vars.FVST_PROJECT_PREFIX }}-fvst-staging"
+          $registry="us-docker.pkg.dev/${{ project }}/registry"
+          echo "project=${{ project }}" >> $GITHUB_ENV
+          echo "registry=${{ registry }}" >> $GITHUB_ENV
       - uses: ./.github/actions/build-docker-container
         with:
           google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}

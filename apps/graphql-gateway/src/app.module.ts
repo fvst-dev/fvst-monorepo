@@ -36,6 +36,10 @@ const handleAuth = ({ req }: { req: Request }) => {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
+              console.log('url', url);
+              console.log('context', context);
+              console.log('request.http', request?.http);
+
               request?.http?.headers.set('authorization', context.authorization);
             },
           });

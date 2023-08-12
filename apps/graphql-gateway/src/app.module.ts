@@ -37,6 +37,7 @@ const handleAuth = ({ req }: { req: Request }) => {
       gateway: {
         fetcher: async (url, init) => {
           const headers = await auth.getRequestHeaders();
+          console.log('headers', headers);
           const response = await fetch(url, {
             ...init,
             headers: {

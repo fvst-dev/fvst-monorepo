@@ -32,18 +32,11 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
+        debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              console.log('url', url);
-              console.log('context', context);
-              console.log('request.http.headers.authorization', request?.http?.headers.get('authorization'));
-              const iterator = request?.http?.headers.entries();
-              for (let n = iterator?.next(); !n?.done; n = iterator?.next()) {
-                console.log('request.http.headers', n?.value);
-              }
-
               request?.http?.headers.set('authorization', context.authorization);
             },
           });

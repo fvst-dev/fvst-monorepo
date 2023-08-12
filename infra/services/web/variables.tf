@@ -10,7 +10,6 @@ variable region {
 
 variable "docker_tag" {
   type = string
-  default = "latest"
 }
 
 variable project {

@@ -43,6 +43,10 @@ resource google_cloud_run_service default {
       annotations = merge({
         "run.googleapis.com/execution-environment" = "gen2",
       }, var.annotations)
+
+      labels = {
+        "run.googleapis.com/startupProbeType" = "Default"
+      }
     }
   }
 

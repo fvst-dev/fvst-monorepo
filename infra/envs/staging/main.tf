@@ -57,22 +57,27 @@ module "user-graphql" {
 
 module "graphql-gateway" {
   name                = "graphql-gateway"
-  source              = "../../modules/cloud-run"
+  source              = "../../services/graphql-gateway"
   location            = var.region
-  image               = "${local.registry}/graphql-gateway:latest"
+  project = var.project
+  docker_tag = var.docker_tag
   env = [
-    { name: "NODE_ENV", value: "production" },
     { name: "TODO_SERVICE_URL", value: "${module.todo-graphql.url}/graphql" },
     { name: "BLOG_SERVICE_URL", value: "${module.blog-graphql.url}/graphql" },
     { name: "USER_SERVICE_URL", value: "${module.user-graphql.url}/graphql" },
   ]
+  services = {
+    todo: { project: var.project, location: var.region, service_name: module.todo-graphql.name },
+    blog: { project: var.project, location: var.region, service_name: module.blog-graphql.name },
+    user: { project: var.project, location: var.region, service_name: module.user-graphql.name },
+  }
   depends_on = [module.blog-graphql, module.todo-graphql, module.user-graphql, module.google-services]
-  allow_public_access = true
 }
 
 module "web" {
   source   = "../../services/web"
   name = "web"
+  docker_tag = var.docker_tag
   project = var.project
   region = var.region
   graphql_gateway = "${module.graphql-gateway.url}/graphql"

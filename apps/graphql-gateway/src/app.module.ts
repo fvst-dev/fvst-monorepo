@@ -6,6 +6,9 @@ import { Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
 import { HealthModule } from '@package/nestjs-health';
+import { GoogleAuth } from 'google-auth-library';
+
+const auth = new GoogleAuth();
 
 const handleAuth = ({ req }: { req: Request }) => {
   try {
@@ -32,6 +35,17 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
+        fetcher: async (url, init) => {
+          const headers = await auth.getRequestHeaders();
+          const response = await fetch(url, {
+            ...init,
+            headers: {
+              ...init?.headers,
+              ...headers,
+            },
+          });
+          return response.json();
+        },
         debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({

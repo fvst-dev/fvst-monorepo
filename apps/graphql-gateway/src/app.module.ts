@@ -12,19 +12,21 @@ import { FetcherRequestInit } from '@apollo/utils.fetcher';
 const auth = new GoogleAuth();
 
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
-  const { Authorization, ...rest } = await auth.getRequestHeaders();
+  const { Authorization, ...rest } = await auth.getRequestHeaders(url);
   const headers = {
     'X-Serverless-Authorization': Authorization,
     ...rest,
   };
-  console.log(headers);
-  return await fetch(url, {
+  const customInit = {
     ...init,
     headers: {
       ...init?.headers,
       ...headers,
     },
-  });
+  };
+  console.log('headers', headers);
+  console.log('customInit', customInit);
+  return await fetch(url, customInit);
 };
 
 const handleAuth = ({ req }: { req: Request }) => {
@@ -52,7 +54,7 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
-        // fetcher,
+        fetcher,
         debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
@@ -62,7 +64,7 @@ const handleAuth = ({ req }: { req: Request }) => {
                 request?.http?.headers.set('authorization', context.authorization);
               }
             },
-            // fetcher,
+            fetcher,
           });
         },
         supergraphSdl: new IntrospectAndCompose({

@@ -9,24 +9,31 @@ import { HealthModule } from '@package/nestjs-health';
 import { GoogleAuth } from 'google-auth-library';
 import { FetcherRequestInit } from '@apollo/utils.fetcher';
 
-const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
-  const auth = new GoogleAuth({
-    scopes: 'https://www.googleapis.com/auth/cloud-platform',
-  });
-  const headers = await auth.getRequestHeaders(url);
-  const credentialBody = await auth.getCredentials();
-  const { credential } = await auth.getApplicationDefault();
+const auth = new GoogleAuth({
+  scopes: 'https://www.googleapis.com/auth/cloud-platform',
+});
 
+const getGoogleCloudToken = async (url: string) => {
+  try {
+    const client = await auth.getIdTokenClient(url);
+    const token = await client.idTokenProvider.fetchIdToken(url);
+    return token;
+  } catch (e) {
+    return null;
+  }
+};
+
+const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
+  const token = await getGoogleCloudToken(url);
+
+  console.log(token);
   const customInit = {
     ...init,
     headers: {
       ...init?.headers,
-      'X-Serverless-Authorization': `Bearer ${credential.credentials.id_token}`,
+      'X-Serverless-Authorization': `Bearer ${token}`,
     },
   };
-  console.log('credentialBody', credentialBody);
-  console.log('credential, projectId', credential.credentials.id_token);
-  console.log('headers', headers);
   console.log('customInit', customInit);
   return await fetch(url, customInit);
 };

@@ -13,6 +13,13 @@ const auth = new GoogleAuth({
   scopes: 'https://www.googleapis.com/auth/cloud-platform',
 });
 
+/**
+ * Since gateway is the only public service and all services behind the gateway are private we need to add an id token
+ * to every request to allow fetches.
+ *
+ * This is not needed on local development, so we default to null.
+ * @param url
+ */
 const getGoogleCloudToken = async (url: string) => {
   try {
     const client = await auth.getIdTokenClient(url);
@@ -25,17 +32,17 @@ const getGoogleCloudToken = async (url: string) => {
 
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
   const token = await getGoogleCloudToken(url);
-
-  console.log(token);
-  const customInit = {
-    ...init,
-    headers: {
-      ...init?.headers,
-      'X-Serverless-Authorization': `Bearer ${token}`,
-    },
-  };
-  console.log('customInit', customInit);
-  return await fetch(url, customInit);
+  if (token) {
+    const customInit = {
+      ...init,
+      headers: {
+        ...init?.headers,
+        'X-Serverless-Authorization': `Bearer ${token}`,
+      },
+    };
+    return await fetch(url, customInit);
+  }
+  return fetch(url, init);
 };
 
 const handleAuth = ({ req }: { req: Request }) => {

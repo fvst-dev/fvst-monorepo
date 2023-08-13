@@ -7,5 +7,5 @@ module "service" {
   env = concat([
     { name: "NODE_ENV", value: "production" },
   ], var.env)
-#  allow_public_access = true
+  allow_public_access = true
 }

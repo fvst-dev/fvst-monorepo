@@ -17,6 +17,7 @@ const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promi
     'X-Serverless-Authorization': Authorization,
     ...rest,
   };
+  console.log(headers);
   return await fetch(url, {
     ...init,
     headers: {
@@ -51,7 +52,7 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
-        fetcher,
+        // fetcher,
         debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
@@ -61,7 +62,7 @@ const handleAuth = ({ req }: { req: Request }) => {
                 request?.http?.headers.set('authorization', context.authorization);
               }
             },
-            fetcher,
+            // fetcher,
           });
         },
         supergraphSdl: new IntrospectAndCompose({

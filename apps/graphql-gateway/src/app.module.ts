@@ -13,6 +13,8 @@ const auth = new GoogleAuth();
 
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
   const { Authorization, ...rest } = await auth.getRequestHeaders(url);
+  const credentialBody = await auth.getCredentials();
+
   const headers = {
     'X-Serverless-Authorization': Authorization,
     ...rest,
@@ -24,6 +26,7 @@ const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promi
       ...headers,
     },
   };
+  console.log('credentialBody', credentialBody);
   console.log('headers', headers);
   console.log('customInit', customInit);
   return await fetch(url, customInit);

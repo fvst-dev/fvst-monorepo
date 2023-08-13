@@ -7,8 +7,24 @@ import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
 import { HealthModule } from '@package/nestjs-health';
 import { GoogleAuth } from 'google-auth-library';
+import { FetcherRequestInit } from '@apollo/utils.fetcher';
 
 const auth = new GoogleAuth();
+
+const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
+  const { Authorization, ...rest } = await auth.getRequestHeaders();
+  const headers = {
+    'X-Serverless-Authorization': Authorization,
+    ...rest,
+  };
+  return await fetch(url, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      ...headers,
+    },
+  });
+};
 
 const handleAuth = ({ req }: { req: Request }) => {
   try {
@@ -35,25 +51,17 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
-        fetcher: async (url, init) => {
-          const headers = await auth.getRequestHeaders();
-          console.log('headers', headers);
-          const response = await fetch(url, {
-            ...init,
-            headers: {
-              ...init?.headers,
-              ...headers,
-            },
-          });
-          return response.json();
-        },
+        fetcher,
         debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              request?.http?.headers.set('authorization', context.authorization);
+              if (context.authorization) {
+                request?.http?.headers.set('authorization', context.authorization);
+              }
             },
+            fetcher,
           });
         },
         supergraphSdl: new IntrospectAndCompose({

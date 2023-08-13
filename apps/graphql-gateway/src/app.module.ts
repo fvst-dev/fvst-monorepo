@@ -12,13 +12,9 @@ import { FetcherRequestInit } from '@apollo/utils.fetcher';
 const auth = new GoogleAuth();
 
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
-  const { Authorization, ...rest } = await auth.getRequestHeaders(url);
+  const headers = await auth.getRequestHeaders(url);
   const credentialBody = await auth.getCredentials();
 
-  const headers = {
-    'X-Serverless-Authorization': Authorization,
-    ...rest,
-  };
   const customInit = {
     ...init,
     headers: {

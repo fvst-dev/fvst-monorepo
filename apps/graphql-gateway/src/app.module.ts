@@ -9,20 +9,23 @@ import { HealthModule } from '@package/nestjs-health';
 import { GoogleAuth } from 'google-auth-library';
 import { FetcherRequestInit } from '@apollo/utils.fetcher';
 
-const auth = new GoogleAuth();
-
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
+  const auth = new GoogleAuth({
+    scopes: 'https://www.googleapis.com/auth/cloud-platform',
+  });
   const headers = await auth.getRequestHeaders(url);
   const credentialBody = await auth.getCredentials();
+  const { credential } = await auth.getApplicationDefault();
 
   const customInit = {
     ...init,
     headers: {
       ...init?.headers,
-      ...headers,
+      'X-Serverless-Authorization': `Bearer ${credential.credentials.id_token}`,
     },
   };
   console.log('credentialBody', credentialBody);
+  console.log('credential, projectId', credential.credentials.id_token);
   console.log('headers', headers);
   console.log('customInit', customInit);
   return await fetch(url, customInit);

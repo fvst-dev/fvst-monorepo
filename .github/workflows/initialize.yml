@@ -1,86 +1,98 @@
 name: Initialize environment
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: "choice"
-        description: "What environment should we initialize"
-        required: true
-        default: "STAGING"
-        options:
-          - "STAGING"
-          - "PRODUCTION"
+on: [workflow_dispatch]
 env:
-  DOCKER_TAG: gh-run-${{ github.run_number }}
+  DOCKER_TAG: initialize-run-${{ github.run_number }}
 
 jobs:
-  build:
+  prebuild:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        include:
-          - service: "blog-graphql"
-            dockerfile: "tooling/docker/nest/Dockerfile"
-
-          - service: "todo-graphql"
-            dockerfile: "tooling/docker/nest/Dockerfile"
-
-          - service: "user-graphql"
-            dockerfile: "tooling/docker/nest/Dockerfile"
-
-          - service: "demo-worker"
-            dockerfile: "tooling/docker/nest/Dockerfile"
-
-          - service: "graphql-gateway"
-            dockerfile: "tooling/docker/nest/Dockerfile"
-
-          - service: "web"
-            dockerfile: "tooling/docker/next/Dockerfile"
-
-    env:
-      GOOGLE_CLOUD_TOKEN_KEY: GOOGLE_CLOUD_TOKEN_${{ inputs.environment }}
-      TURBOREPO_BUCKET_KEY: FVST_PROJECT_TURBOREPO_BUCKET_${{ inputs.environment }}
-
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: "actions/checkout@v3"
+      - uses: ./.github/actions/services-matrix
+        id: "matrix"
 
-      - uses: ./.github/actions/string-manipulation
-        id: "string"
-        with:
-          string: ${{ inputs.environment }}
-
-      - name: Build registry url
+  build-staging:
+    needs: prebuild
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
+    steps:
+      - uses: "actions/checkout@v3"
+      - name: "Configure env variables"
         run: |
-          echo ${{ steps.string.outputs.lowercase }}
-          echo "REGISTRY=us-docker.pkg.dev/${{ vars.FVST_PROJECT_PREFIX }}-fvst-${{steps.string.outputs.lowercase}}/registry" >>${GITHUB_ENV}
+          project="${{ vars.FVST_PROJECT_PREFIX }}-fvst-staging"
+          registry="us-docker.pkg.dev/$project/registry"
+          echo "project=$project" >> $GITHUB_ENV
+          echo "registry=$registry" >> $GITHUB_ENV
+      - uses: ./.github/actions/build-docker-container
+        with:
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
+          turborepo_cache_bucket: ${{ vars.FVST_PROJECT_TURBOREPO_BUCKET_STAGING }}
+          registry: ${{ env.registry }}
+          service: ${{ matrix.service }}
+          dockerfile: ${{ matrix.dockerfile }}
+          tag: ${{ env.DOCKER_TAG }}
+
+  deploy-staging:
+    needs: build-staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v3"
 
       - uses: ./.github/actions/setup-google-cloud-auth
         id: "auth"
         with:
-          google_cloud_token: ${{ secrets[env.GOOGLE_CLOUD_TOKEN_KEY] }}
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_STAGING }}
 
-      - uses: ./.github/actions/setup-turborepo-remote-cache
-        id: "turborepo-cache"
+      - uses: ./.github/actions/terraform-apply
         with:
-          bucket: ${{ vars[env.TURBOREPO_BUCKET_KEY] }}
+          environment: "staging"
+          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_STAGING }}
+          region: ${{ vars.FVST_PROJECT_REGION }}
+          prefix: ${{ vars.FVST_PROJECT_PREFIX }}
+          docker-tag: ${{ env.DOCKER_TAG }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+  build-production:
+    needs: prebuild
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
+    steps:
+      - uses: "actions/checkout@v3"
+      - name: "Configure env variables"
+        run: |
+          project="${{ vars.FVST_PROJECT_PREFIX }}-fvst-production"
+          registry="us-docker.pkg.dev/$project/registry"
+          echo "project=$project" >> $GITHUB_ENV
+          echo "registry=$registry" >> $GITHUB_ENV
+      - uses: ./.github/actions/build-docker-container
         with:
-          config: .github/buildkitd.toml
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_PRODUCTION }}
+          turborepo_cache_bucket: ${{ vars.FVST_PROJECT_TURBOREPO_BUCKET_PRODUCTION }}
+          registry: ${{ env.registry }}
+          service: ${{ matrix.service }}
+          dockerfile: ${{ matrix.dockerfile }}
+          tag: ${{ env.DOCKER_TAG }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
+  deploy-production:
+    needs: build-production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - uses: ./.github/actions/setup-google-cloud-auth
+        id: "auth"
         with:
-          push: true
-          context: .
-          tags: ${{env.REGISTRY}}/${{matrix.service}}:${{env.DOCKER_TAG}},${{env.REGISTRY}}/${{matrix.service}}:latest
-          file: ${{ matrix.dockerfile }}
-          cache-to: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache,mode=max,compression=zstd
-          cache-from: type=registry,ref=${{env.REGISTRY}}/${{matrix.service}}:buildcache
-          build-args: |
-            APP_NAME=${{ matrix.service }}
-            TURBO_TOKEN=${{ steps.turborepo-cache.outputs.TURBO_TOKEN }}
-            TURBO_TEAMID=${{ steps.turborepo-cache.outputs.TURBO_TEAMID }}
-            TURBO_API=${{ steps.turborepo-cache.outputs.TURBO_API_FOR_DOCKER }}
+          google_cloud_token: ${{ secrets.GOOGLE_CLOUD_TOKEN_PRODUCTION }}
+
+      - uses: ./.github/actions/terraform-apply
+        with:
+          environment: "production"
+          terraform-bucket: ${{ vars.FVST_PROJECT_TF_STATE_BUCKET_PRODUCTION }}
+          region: ${{ vars.FVST_PROJECT_REGION }}
+          prefix: ${{ vars.FVST_PROJECT_PREFIX }}
+          docker-tag: ${{ env.DOCKER_TAG }}

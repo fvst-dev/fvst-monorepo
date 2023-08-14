@@ -3,9 +3,9 @@ variable name {
   description = "Google cloud run name as well as docker container name"
 }
 
-variable region {
+variable location {
   type = string
-  description = "Region"
+  description = "Region/location"
 }
 
 variable "docker_tag" {
@@ -27,7 +27,7 @@ variable postgres_connection_name {
   description = "postgres_connection_name"
 }
 
-variable "shared_secrets" {
+variable "clerk_api_secrets" {
   type = list(object({
     name = string
     value_from = object({

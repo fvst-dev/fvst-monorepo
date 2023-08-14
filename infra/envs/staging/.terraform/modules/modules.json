@@ -12,6 +12,31 @@
       "Dir": "../../modules/cloud-run"
     },
     {
+      "Key": "clerk-secrets",
+      "Source": "../../modules/clerk-secrets",
+      "Dir": "../../modules/clerk-secrets"
+    },
+    {
+      "Key": "clerk-secrets.clerk_issuer",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_jwsk_url",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_publishable_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_secret_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
       "Key": "container-registry",
       "Source": "../../modules/container-registry",
       "Dir": "../../modules/container-registry"

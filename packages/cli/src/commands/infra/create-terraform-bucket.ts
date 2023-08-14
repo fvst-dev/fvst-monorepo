@@ -17,4 +17,5 @@ export const createTerraformBucket = new Command()
       } --location=${githubRunnerRegionGroup} --placement=${githubRunnerRegionList.join(',')}`
     );
     safeExec(`gh variable set 'FVST_PROJECT_TF_STATE_BUCKET_${iam.environment.toUpperCase()}' --body ${bucket}`);
+    safeExec(`fvst infra configure-terraform-bucket-locally ${iam} ${bucket}`, false);
   });

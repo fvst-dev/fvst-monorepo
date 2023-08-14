@@ -2,10 +2,8 @@ module "google-services" {
   source = "../../modules/google-services"
 }
 
-module "secrets-manager" {
-  source     = "../../modules/secrets-manager"
-  project_id = var.project
-  location   = var.region
+module "clerk-secrets" {
+  source     = "../../modules/clerk-secrets"
   depends_on = [module.google-services]
 }
 
@@ -24,11 +22,11 @@ module "blog-graphql" {
   source   = "../../services/blog-graphql"
   docker_tag = var.docker_tag
   project = var.project
-  region = var.region
+  location = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
   postgres_connection_name = module.postgres.CONNECTION_NAME
-  shared_secrets = module.secrets-manager.SHARED_SECRETS
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "todo-graphql" {
@@ -36,11 +34,11 @@ module "todo-graphql" {
   name = "todo-graphql"
   docker_tag = var.docker_tag
   project = var.project
-  region = var.region
+  location = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
   postgres_connection_name = module.postgres.CONNECTION_NAME
-  shared_secrets = module.secrets-manager.SHARED_SECRETS
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "user-graphql" {
@@ -48,11 +46,11 @@ module "user-graphql" {
   name = "user-graphql"
   docker_tag = var.docker_tag
   project = var.project
-  region = var.region
+  location = var.region
   postgres_instance_name = module.postgres.INSTANCE_NAME
   postgres_connection_name = module.postgres.CONNECTION_NAME
-  shared_secrets = module.secrets-manager.SHARED_SECRETS
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "graphql-gateway" {
@@ -79,7 +77,8 @@ module "web" {
   name = "web"
   docker_tag = var.docker_tag
   project = var.project
-  region = var.region
+  location = var.region
   graphql_gateway = "${module.graphql-gateway.url}/graphql"
-  depends_on = [module.google-services, module.graphql-gateway]
+  clerk_web_secrets = module.clerk-secrets.web_secrets
+  depends_on = [module.google-services, module.graphql-gateway, module.clerk-secrets]
 }

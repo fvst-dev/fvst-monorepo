@@ -112,6 +112,7 @@ export const init = new Command()
         safeExec(`fvst infra create-terraform-bucket ${iam}`, false);
         safeExec(`fvst infra create-turborepo-bucket ${iam}`, false);
         safeExec(`fvst infra create-container-registry ${iam}`, false);
+        safeExec(`fvst infra configure-terraform-vars-locally ${iam} ${region}`, false);
       } catch (e) {
         console.error('Failed configuring project access, deleting created project');
         safeExec(`gcloud projects delete ${project} --quiet`, false);

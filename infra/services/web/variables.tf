@@ -3,9 +3,9 @@ variable name {
   description = "Google cloud run name as well as docker container name"
 }
 
-variable region {
+variable location {
   type = string
-  description = "Region"
+  description = "Region/location"
 }
 
 variable "docker_tag" {
@@ -20,4 +20,14 @@ variable project {
 variable graphql_gateway {
   type = string
   description = "graphql gateway url"
+}
+variable "clerk_web_secrets" {
+  type = list(object({
+    name = string
+    value_from = object({
+      name = string
+      key = string
+    })
+  }))
+  description = "Shared secrets"
 }

@@ -2,13 +2,14 @@
 import { useAuth } from '@clerk/nextjs';
 import { PropsWithChildren, useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, from } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, from, createHttpLink } from '@apollo/client';
 
-const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY,
-});
-export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
+export const ApolloProviderWrapper = ({ children, gateway }: PropsWithChildren<{ gateway: string }>) => {
   const { getToken } = useAuth();
+
+  const httpLink = createHttpLink({
+    uri: gateway,
+  });
 
   const client = useMemo(() => {
     const authMiddleware = setContext(async (_, { headers }) => {

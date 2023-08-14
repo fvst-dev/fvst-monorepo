@@ -12,12 +12,12 @@ export const setupProject = new Command()
     try {
       console.log('Configuring project');
       const commands = [
+        // Linking billing account to the project
+        `gcloud beta billing projects link ${project} --billing-account=${billingAccountId}`,
         // This is needed for terraform to work
         `gcloud services enable cloudresourcemanager.googleapis.com --project=${project}`,
         `gcloud services enable sqladmin.googleapis.com --project=${project}`,
         `gcloud services enable secretmanager.googleapis.com --project=${project}`,
-        // Linking billing account to the project
-        `gcloud beta billing projects link ${project} --billing-account=${billingAccountId}`,
       ];
       commands.map((c) => safeExec(c));
     } catch (e) {

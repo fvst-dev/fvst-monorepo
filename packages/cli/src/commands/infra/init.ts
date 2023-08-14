@@ -105,14 +105,20 @@ export const init = new Command()
     environments.forEach((environment) => {
       const project = projectName(prefix, environment);
       const iam = `github-actions@${project}.iam.gserviceaccount.com`;
+      const bucket = `${project}-terraform-state-${Math.random().toString(36).substring(2, 10)}`;
+
       safeExec(`fvst infra setup-project ${project} ${billingAccountId}`, false);
       try {
         safeExec(`fvst infra create-service-account ${iam}`, false);
         safeExec(`fvst infra create-service-account-keys ${iam}`, false);
-        safeExec(`fvst infra create-terraform-bucket ${iam}`, false);
+        safeExec(`fvst infra create-terraform-bucket ${iam} ${bucket}`, false);
         safeExec(`fvst infra create-turborepo-bucket ${iam}`, false);
         safeExec(`fvst infra create-container-registry ${iam}`, false);
+        /**
+         * Setup terraform locally
+         */
         safeExec(`fvst infra configure-terraform-vars-locally ${iam} ${region}`, false);
+        safeExec(`fvst infra configure-terraform-bucket-locally ${iam} ${bucket}`, false);
       } catch (e) {
         console.error('Failed configuring project access, deleting created project');
         safeExec(`gcloud projects delete ${project} --quiet`, false);

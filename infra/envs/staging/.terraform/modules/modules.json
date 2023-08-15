@@ -3,8 +3,38 @@
     { "Key": "", "Source": "", "Dir": "." },
     {
       "Key": "blog-graphql",
+      "Source": "../../services/blog-graphql",
+      "Dir": "../../services/blog-graphql"
+    },
+    {
+      "Key": "blog-graphql.service",
       "Source": "../../modules/cloud-run",
       "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "clerk-secrets",
+      "Source": "../../modules/clerk-secrets",
+      "Dir": "../../modules/clerk-secrets"
+    },
+    {
+      "Key": "clerk-secrets.clerk_issuer",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_jwsk_url",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_publishable_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "clerk-secrets.clerk_secret_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
     },
     {
       "Key": "container-registry",
@@ -23,6 +53,11 @@
     },
     {
       "Key": "graphql-gateway",
+      "Source": "../../services/graphql-gateway",
+      "Dir": "../../services/graphql-gateway"
+    },
+    {
+      "Key": "graphql-gateway.service",
       "Source": "../../modules/cloud-run",
       "Dir": "../../modules/cloud-run"
     },
@@ -40,6 +75,61 @@
       "Key": "secrets-manager",
       "Source": "../../modules/secrets-manager",
       "Dir": "../../modules/secrets-manager"
+    },
+    {
+      "Key": "secrets-manager.clerk_issuer",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "secrets-manager.clerk_jwsk_url",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "todo-graphql",
+      "Source": "../../services/todo-graphql",
+      "Dir": "../../services/todo-graphql"
+    },
+    {
+      "Key": "todo-graphql.service",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "user-graphql",
+      "Source": "../../services/user-graphql",
+      "Dir": "../../services/user-graphql"
+    },
+    {
+      "Key": "user-graphql.service",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "user-graphql.user-graphql",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
+    },
+    {
+      "Key": "web",
+      "Source": "../../services/web",
+      "Dir": "../../services/web"
+    },
+    {
+      "Key": "web.clerk_publishable_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "web.clerk_secret_key",
+      "Source": "../../modules/secret",
+      "Dir": "../../modules/secret"
+    },
+    {
+      "Key": "web.service",
+      "Source": "../../modules/cloud-run",
+      "Dir": "../../modules/cloud-run"
     }
   ]
 }

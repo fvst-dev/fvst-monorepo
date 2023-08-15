@@ -19,13 +19,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`bg-svg ${lexend.className}`}>
         <div className="mx-auto max-w-7xl p-6">
           <ClerkProvider
+            publishableKey={process.env.CLERK_PUBLISHABLE_KEY}
             appearance={{
               variables: {
                 borderRadius: '0px',
               },
             }}
           >
-            <ApolloProviderWrapper>
+            <ApolloProviderWrapper gateway={process.env.GRAPHQL_GATEWAY as string}>
               <Header />
               <main>{children}</main>
             </ApolloProviderWrapper>

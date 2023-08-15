@@ -1,4 +1,4 @@
-name: Initialize environment
+name: Initialize environments
 on: [workflow_dispatch]
 env:
   DOCKER_TAG: initialize-run-${{ github.run_number }}
@@ -17,7 +17,6 @@ jobs:
     needs: prebuild
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
     steps:
       - uses: "actions/checkout@v3"
@@ -59,7 +58,6 @@ jobs:
     needs: prebuild
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix: ${{ fromJSON(needs.prebuild.outputs.matrix) }}
     steps:
       - uses: "actions/checkout@v3"

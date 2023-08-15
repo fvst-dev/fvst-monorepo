@@ -26,7 +26,7 @@ export const ApolloProviderWrapper = ({ children, gateway }: PropsWithChildren<{
       link: from([authMiddleware, httpLink]),
       cache: new InMemoryCache(),
     });
-  }, [getToken]);
+  }, [getToken, httpLink]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

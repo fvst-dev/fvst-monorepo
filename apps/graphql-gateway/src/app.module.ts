@@ -29,11 +29,11 @@ const getGoogleCloudToken = async (url: string) => {
     return null;
   }
 };
-
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
   const token = await getGoogleCloudToken(url);
   if (token) {
-    console.log('Applying security token', token);
+    console.log('Applying security token');
     const customInit = {
       ...init,
       headers: {

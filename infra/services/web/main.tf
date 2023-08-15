@@ -8,5 +8,5 @@ module "service" {
     { name: "GRAPHQL_GATEWAY", value: var.graphql_gateway },
   ], var.clerk_web_secrets)
   allow_public_access = true
-  depends_on = [google_project_iam_member.secret_manager_binding]
+  depends_on = [null_resource.iam_depends_on]
 }

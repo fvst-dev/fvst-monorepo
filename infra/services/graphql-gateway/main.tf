@@ -8,4 +8,6 @@ module "service" {
     { name: "NODE_ENV", value: "production" },
   ], var.env)
   allow_public_access = true
+  depends_on = [null_resource.iam_depends_on]
+
 }

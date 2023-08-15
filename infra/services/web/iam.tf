@@ -7,3 +7,6 @@ resource "google_project_iam_member" "secret_manager_binding" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
   role    = "roles/secretmanager.secretAccessor"
 }
+resource "null_resource" "iam_depends_on" {
+  depends_on = [google_project_iam_member.secret_manager_binding]
+}

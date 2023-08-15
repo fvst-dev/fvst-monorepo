@@ -11,4 +11,5 @@ module "service" {
   annotations = {
     "run.googleapis.com/cloudsql-instances" = var.postgres_connection_name,
   }
+  depends_on = [null_resource.iam_depends_on]
 }

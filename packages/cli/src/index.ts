@@ -8,6 +8,8 @@ import { createServiceAccount } from './commands/infra/create-service-account';
 import { createTerraformBucket } from './commands/infra/create-terraform-bucket';
 import { createContainerRegistry } from './commands/infra/create-container-registry';
 import { createTurborepoBucket } from './commands/infra/create-turborepo-bucket';
+import { configureTerraformBucketLocally } from './commands/infra/configure-terraform-bucket-locally';
+import { configureTerraformVarsLocally } from './commands/infra/configure-terraform-vars-locally';
 
 const program = new Command();
 
@@ -20,6 +22,8 @@ const infra = program.command('infra');
   createTerraformBucket,
   createTurborepoBucket,
   createContainerRegistry,
+  configureTerraformBucketLocally,
+  configureTerraformVarsLocally,
 ].forEach((c) => {
   infra.addCommand(c);
 });

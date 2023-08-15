@@ -6,6 +6,45 @@ import { Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Request } from 'express';
 import { HealthModule } from '@package/nestjs-health';
+import { GoogleAuth } from 'google-auth-library';
+import { FetcherRequestInit } from '@apollo/utils.fetcher';
+
+const auth = new GoogleAuth({
+  scopes: 'https://www.googleapis.com/auth/cloud-platform',
+});
+
+/**
+ * Since gateway is the only public service and all services behind the gateway are private we need to add an id token
+ * to every request to allow fetches.
+ *
+ * This is not needed on local development, so we default to null.
+ * @param url
+ */
+const getGoogleCloudToken = async (url: string) => {
+  try {
+    const client = await auth.getIdTokenClient(url);
+    const token = await client.idTokenProvider.fetchIdToken(url);
+    return token;
+  } catch (e) {
+    return null;
+  }
+};
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
+  const token = await getGoogleCloudToken(url);
+  if (token) {
+    console.log('Applying security token');
+    const customInit = {
+      ...init,
+      headers: {
+        ...init?.headers,
+        'X-Serverless-Authorization': `Bearer ${token}`,
+      },
+    };
+    return await fetch(url, customInit);
+  }
+  return fetch(url, init);
+};
 
 const handleAuth = ({ req }: { req: Request }) => {
   try {
@@ -32,12 +71,17 @@ const handleAuth = ({ req }: { req: Request }) => {
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
       },
       gateway: {
+        fetcher,
+        debug: true,
         buildService({ url }) {
           return new RemoteGraphQLDataSource({
             url,
             willSendRequest({ context, request }) {
-              request?.http?.headers.set('authorization', context.authorization);
+              if (context.authorization) {
+                request?.http?.headers.set('authorization', context.authorization);
+              }
             },
+            fetcher,
           });
         },
         supergraphSdl: new IntrospectAndCompose({

@@ -2,9 +2,8 @@ module "google-services" {
   source = "../../modules/google-services"
 }
 
-module "secrets-manager" {
-  source     = "../../modules/secrets-manager"
-  location   = var.region
+module "clerk-secrets" {
+  source     = "../../modules/clerk-secrets"
   depends_on = [module.google-services]
 }
 
@@ -19,67 +18,67 @@ module "postgres" {
 }
 
 module "blog-graphql" {
-  name     = "blog-graphql"
-  source   = "../../modules/cloud-run"
+  name = "blog-graphql"
+  source   = "../../services/blog-graphql"
+  docker_tag = var.docker_tag
+  project = var.project
   location = var.region
-  image    = "${local.registry}/blog-graphql:latest"
-  env = {
-    NODE_ENV: "production",
-    CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
-    CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
-    DATABASE_URL : module.postgres.DATABASE_URL_BLOG,
-  }
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "todo-graphql" {
-  name     = "todo-graphql"
-  source   = "../../modules/cloud-run"
+  source   = "../../services/todo-graphql"
+  name = "todo-graphql"
+  docker_tag = var.docker_tag
+  project = var.project
   location = var.region
-  image    = "${local.registry}/todo-graphql:latest"
-  env = {
-    NODE_ENV: "production",
-    CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
-    CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
-    DATABASE_URL : module.postgres.DATABASE_URL_TODO,
-  }
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "user-graphql" {
-  name     = "user-graphql"
-  source   = "../../modules/cloud-run"
+  source   = "../../services/user-graphql"
+  name = "user-graphql"
+  docker_tag = var.docker_tag
+  project = var.project
   location = var.region
-  image    = "${local.registry}/user-graphql:latest"
-  env = {
-    NODE_ENV: "production",
-    CLERK_ISSUER : module.secrets-manager.CLERK_ISSUER,
-    CLERK_JWSK_URL : module.secrets-manager.CLERK_JWSK_URL,
-    DATABASE_URL : module.postgres.DATABASE_URL_USER,
-  }
-  depends_on = [module.secrets-manager, module.google-services, module.postgres]
-  annotations = {
-    "run.googleapis.com/cloudsql-instances" = module.postgres.CONNECTION_NAME,
-  }
+  postgres_instance_name = module.postgres.INSTANCE_NAME
+  postgres_connection_name = module.postgres.CONNECTION_NAME
+  clerk_api_secrets = module.clerk-secrets.api_secrets
+  depends_on = [module.google-services, module.postgres, module.clerk-secrets]
 }
 
 module "graphql-gateway" {
   name                = "graphql-gateway"
-  source              = "../../modules/cloud-run"
+  source              = "../../services/graphql-gateway"
   location            = var.region
-  image               = "${local.registry}/graphql-gateway:latest"
-  env = {
-    NODE_ENV: "production",
-    TODO_SERVICE_URL : "${module.todo-graphql.url}/graphql"
-    BLOG_SERVICE_URL : "${module.blog-graphql.url}/graphql"
-    USER_SERVICE_URL : "${module.user-graphql.url}/graphql"
+  project = var.project
+  docker_tag = var.docker_tag
+  env = [
+    { name: "TODO_SERVICE_URL", value: "${module.todo-graphql.url}/graphql" },
+    { name: "BLOG_SERVICE_URL", value: "${module.blog-graphql.url}/graphql" },
+    { name: "USER_SERVICE_URL", value: "${module.user-graphql.url}/graphql" },
+  ]
+  services = {
+    todo: { project: var.project, location: var.region, service_name: module.todo-graphql.name },
+    blog: { project: var.project, location: var.region, service_name: module.blog-graphql.name },
+    user: { project: var.project, location: var.region, service_name: module.user-graphql.name },
   }
   depends_on = [module.blog-graphql, module.todo-graphql, module.user-graphql, module.google-services]
-  allow_public_access = true
+}
+
+module "web" {
+  source   = "../../services/web"
+  name = "web"
+  docker_tag = var.docker_tag
+  project = var.project
+  location = var.region
+  graphql_gateway = "${module.graphql-gateway.url}/graphql"
+  clerk_web_secrets = module.clerk-secrets.web_secrets
+  depends_on = [module.google-services, module.graphql-gateway, module.clerk-secrets]
 }

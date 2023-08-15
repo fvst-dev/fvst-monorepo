@@ -1,0 +1,45 @@
+name: "Runs terraform apply in the appropriate environment"
+description: "Runs terraform apply in the appropriate environment"
+inputs:
+  environment:
+    description: "Environment name in lower case"
+    required: true
+  terraform-bucket:
+    description: "The bucket we store the terraform state in"
+    required: true
+  region:
+    description: "The region we are deploying too"
+    required: true
+  docker-tag:
+    description: "The docker tag we are deploying"
+    required: true
+  prefix:
+    description: "The unix prefix we set up"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup terraform project variables
+      shell: bash
+      run: |
+        echo "TF_VAR_project=${{ inputs.prefix }}-fvst-${{ inputs.environment }}" >> $GITHUB_ENV
+        echo "TF_VAR_region=${{ inputs.region }}" >> $GITHUB_ENV
+        echo "TF_VAR_docker_tag=${{ inputs.docker-tag }}"
+    - name: Setup terraform remote and configuration
+      shell: bash
+      run: |
+        cat <<EOT >> "./infra/envs/${{inputs.environment}}/backend.tf"
+          terraform {
+            backend "gcs" {
+              bucket = "${{ inputs.terraform-bucket }}"
+            }
+        }
+        EOT
+    - name: Terraform init
+      working-directory: ./infra/envs/${{inputs.environment}}
+      shell: bash
+      run: terraform init
+    - name: Terraform apply
+      working-directory: ./infra/envs/${{inputs.environment}}
+      shell: bash
+      run: terraform apply -auto-approve

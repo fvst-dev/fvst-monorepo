@@ -5,6 +5,9 @@ resource google_cloud_run_service default {
 
   template {
     spec {
+
+      service_account_name = var.service_account_name
+
       containers {
         image = var.image
         resources {
@@ -14,13 +17,23 @@ resource google_cloud_run_service default {
           }
         }
 
-        # Populate straight environment variables.
-        dynamic env {
-          for_each = var.env
+        dynamic "env" {
+          for_each = try(var.env, [])
 
           content {
-            name = env.key
-            value = env.value
+            name  = try(env.value.name, null)
+            value = try(env.value.value, null)
+
+            dynamic "value_from" {
+              for_each = env.value.value_from != null ? [env.value.value_from] : []
+
+              content {
+                secret_key_ref {
+                  key  = value_from.value.key
+                  name = value_from.value.name
+                }
+              }
+            }
           }
         }
 
@@ -28,8 +41,12 @@ resource google_cloud_run_service default {
     }
     metadata {
       annotations = merge({
-        "run.googleapis.com/execution-environment" = "gen2"
+        "run.googleapis.com/execution-environment" = "gen2",
       }, var.annotations)
+
+      labels = {
+        "run.googleapis.com/startupProbeType" = "Default"
+      }
     }
   }
 

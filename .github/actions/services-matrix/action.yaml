@@ -1,0 +1,20 @@
+name: "Service matrix"
+description: "Builds a matrix of all the services"
+outputs:
+  matrix:
+    description: "matrix of services and their docker file"
+    value: ${{ steps.matrix.outputs.matrix }}
+runs:
+  using: "composite"
+  steps:
+    - name: matrix
+      id: matrix
+      shell: bash
+      run: |
+        blog='{ "service": "blog-graphql", "dockerfile": "tooling/docker/nest/Dockerfile" }'
+        todo='{ "service": "todo-graphql", "dockerfile": "tooling/docker/nest/Dockerfile" }'
+        user='{ "service": "user-graphql", "dockerfile": "tooling/docker/nest/Dockerfile" }'
+        demo='{ "service": "demo-worker", "dockerfile": "tooling/docker/nest/Dockerfile" }'
+        gateway='{ "service": "graphql-gateway", "dockerfile": "tooling/docker/nest/Dockerfile" }'
+        web='{ "service": "web", "dockerfile": "tooling/docker/next/Dockerfile" }'
+        echo "matrix={\"include\":[$blog, $todo, $user, $demo, $gateway, $web]}" >> $GITHUB_OUTPUT

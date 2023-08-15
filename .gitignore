@@ -36,3 +36,4 @@ tsconfig.tsbuildinfo
 
 .env
 schema.graphql
+turbo-*.log

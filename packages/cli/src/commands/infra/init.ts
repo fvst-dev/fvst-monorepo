@@ -134,5 +134,7 @@ export const init = new Command()
     ];
     commands.map((command) => safeExec(command));
     // TODO: Once this is merged, we should change this code to link to the file on github or even better, run it automatically
-    console.log('Projects created, please run the `terraform.yml` script in GitHub actions');
+    console.log('Projects created, running workflow to setup environments in google cloud');
+    safeExec('gh workflow run initialize.yml --ref main');
+    safeExec('gh workflow view initialize.yml --web');
   });

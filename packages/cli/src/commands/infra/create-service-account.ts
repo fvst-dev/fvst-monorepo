@@ -20,6 +20,8 @@ export const createServiceAccount = new Command()
       'roles/run.admin',
       // Giving permissiosn to create a token so that we can login to the artifact registry on github actions when using docker buildx (caching)
       'roles/iam.serviceAccountTokenCreator',
+      // Gives access to manage IAM policies
+      'roles/resourcemanager.projectIamAdmin',
     ];
     console.log(`Creating service account ${iam.account} with roles ${roles} for ${iam.project}`);
     const commands = [

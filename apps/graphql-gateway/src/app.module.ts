@@ -33,6 +33,7 @@ const getGoogleCloudToken = async (url: string) => {
 const fetcher = async (url: string, init: FetcherRequestInit | undefined): Promise<any> => {
   const token = await getGoogleCloudToken(url);
   if (token) {
+    console.log('Applying security token', token);
     const customInit = {
       ...init,
       headers: {

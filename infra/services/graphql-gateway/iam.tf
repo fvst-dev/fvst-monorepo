@@ -21,5 +21,8 @@ resource "google_cloud_run_service_iam_policy" "access_to_service" {
 
 resource "null_resource" "iam_depends_on" {
   depends_on = [google_cloud_run_service_iam_policy.access_to_service]
+  provisioner "local-exec" {
+    command = "sleep 3"
+  }
 }
 

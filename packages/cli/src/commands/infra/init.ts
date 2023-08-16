@@ -133,7 +133,6 @@ export const init = new Command()
       `gh secret set GH_TOKEN --app actions --body '${githubAuthToken}'`,
     ];
     commands.map((command) => safeExec(command));
-    // TODO: Once this is merged, we should change this code to link to the file on github or even better, run it automatically
     console.log('Projects created, running workflow to setup environments in google cloud');
     safeExec('gh workflow run initialize.yml --ref main');
     safeExec('gh workflow view initialize.yml --web');

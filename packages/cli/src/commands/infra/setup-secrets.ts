@@ -18,11 +18,11 @@ export const setupSecrets = new Command()
     const prefix = safeExec(`gh variable list | grep FVST_PROJECT_PREFIX |awk -F ' ' '{print $2}'`).join('').trim();
     const project = `${prefix}-fvst-${environment}`;
     console.log(`Setting up secret values for ${project}`);
-    const questions = Object.keys(secretMap).map((env_value): prompts.PromptObject<string> => {
+    const questions = Object.keys(secretMap).map((envValue): prompts.PromptObject<string> => {
       return {
         type: 'text',
-        name: env_value,
-        message: `[${environment}] Please enter the value for ${env_value}`,
+        name: envValue,
+        message: `[${environment}] Please enter the value for ${envValue}`,
         format: (val) => val.trim(),
       };
     });
@@ -31,9 +31,9 @@ export const setupSecrets = new Command()
         process.exit(1);
       },
     });
-    Object.keys(secretMap).forEach((env_value) => {
+    Object.keys(secretMap).forEach((envValue) => {
       safeExec(
-        `printf "${answers[env_value]}" | gcloud secrets versions add ${secretMap[env_value]} --project=${project} --data-file=-`
+        `printf "${answers[envValue]}" | gcloud secrets versions add ${secretMap[envValue]} --project=${project} --data-file=-`
       );
     });
   });

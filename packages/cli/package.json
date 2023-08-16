@@ -5,6 +5,7 @@
   "dependencies": {
     "@commander-js/extra-typings": "^11.0.0",
     "commander": "^11.0.0",
+    "envfile": "^6.18.0",
     "prompts": "^2.4.2",
     "shelljs": "^0.8.5",
     "ts-node": "^10.9.1"
@@ -26,8 +27,8 @@
     "access": "restricted"
   },
   "devDependencies": {
-    "@tooling/prettier": "*",
     "@tooling/eslint-config-custom": "*",
+    "@tooling/prettier": "*",
     "@types/prompts": "^2.4.4",
     "@types/shelljs": "^0.8.12"
   }

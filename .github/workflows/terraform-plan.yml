@@ -4,8 +4,6 @@ on:
     branches:
       - main
       - develop
-    paths:
-      - "infra/**"
 jobs:
   staging:
     if: github.base_ref == 'develop'
@@ -27,6 +25,7 @@ jobs:
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
+          docker-tag: "latest"
 
   production:
     if: github.base_ref == 'main'
@@ -48,3 +47,4 @@ jobs:
           region: ${{ vars.FVST_PROJECT_REGION }}
           prefix: ${{ vars.FVST_PROJECT_PREFIX }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
+          docker-tag: "latest"

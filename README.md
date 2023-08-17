@@ -23,13 +23,13 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
 
 ![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/0c0d572c-75a1-4c5f-aa48-dda5841d7b77/ascreenshot.jpeg?tl_px=1245,561&br_px=2965,1522&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=524,277)
 
-**4. Click the Repository text field**
+**4. Give your repository a name**
 
 ![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/3539b28c-8db7-444b-b199-c789ab218192/ascreenshot.jpeg?tl_px=1457,759&br_px=3177,1720&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=524,277)
 
-**5. Give your repository a name**
-
 **6. Click "Create repository"**
+
+**7. Checkout your repository**
 
 ### Install global dependencies
 
@@ -44,16 +44,16 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
 - `npx fvst infra init` - This CLI script will guide you through setting up the infrastructure on GCP.
   - You have to set up a billing account - follow the tutorial at https://cloud.google.com/billing/docs/how-to/create-billing-account - this step asks for a credit card, but GCP will not charge the account when the free trial runs out.
   - This step will take some time, it will create 2 projects (staging/production), build docker containers and deploy them.
-- Setup a clerk.com account following the tutorial at [Setup Clerk application](docs/clerk/Setup Clerk application.md)
+- Setup a clerk.com account following the tutorial at [Setup Clerk application](./docs/clerk/Setup Clerk application.md)
   - You should have one account for staging and one account for production
 - Wait for the `npx fvst infra init` script and the workflow it starts on GitHub actions to finish
   - The workflow will fail - we're unsure why it fails, it seems like GCP IAM policy is not applied on the first run.
   - This is ok, we still need to configure the secrets for Clerk
 - `npx fvst infra setup-secrets staging` - This scripts updates the secret values for the staging environment, you should do the same for production.
-  - [How to get the CLERK_ISSUER value](docs/clerk/Get CLERK_ISSUERS value.md)
-  - [How to get the CLERK_JWSK_URL value](docs/clerk/Get CLERK_JWSK_URL value.md)
-  - [How to get the CLERK_PUBLISHABLE_KEY value](docs/clerk/Get CLERK_PUBLISHABLE_KEY value.md)
-  - [How to get the CLERK_SECRET_KEY value](docs/clerk/Get CLERK_SECRET_KEY value.md)
+  - [How to get the CLERK_ISSUER value](./docs/clerk/Get CLERK_ISSUERS value.md)
+  - [How to get the CLERK_JWSK_URL value](./docs/clerk/Get CLERK_JWSK_URL value.md)
+  - [How to get the CLERK_PUBLISHABLE_KEY value](./docs/clerk/Get CLERK_PUBLISHABLE_KEY value.md)
+  - [How to get the CLERK_SECRET_KEY value](./docs/clerk/Get CLERK_SECRET_KEY value.md)
 - Rerun the failed jobs from the Github Actions workflow
 - Open `https://console.cloud.google.com/welcome/`
   - Choose one of the projects created from the top

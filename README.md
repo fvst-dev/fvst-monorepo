@@ -9,6 +9,28 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
 
 ## Getting started
 
+### Copy this repository template
+
+**1. Click "Use this template"**
+
+![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/2a6445cf-d3a9-4765-bd37-fe333c8df258/ascreenshot.jpeg?tl_px=1736,324&br_px=3456,1285&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=538,276)
+
+**2. Click Create new repository**
+
+![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/c3ba8cd7-c5f3-44cf-9618-aa7a9f548ba4/ascreenshot.jpeg?tl_px=1736,372&br_px=3456,1333&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=540,277)
+
+**3. Include all branches**
+
+![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/0c0d572c-75a1-4c5f-aa48-dda5841d7b77/ascreenshot.jpeg?tl_px=1245,561&br_px=2965,1522&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=524,277)
+
+**4. Click the Repository text field**
+
+![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-17/3539b28c-8db7-444b-b199-c789ab218192/ascreenshot.jpeg?tl_px=1457,759&br_px=3177,1720&force_format=png&width=1120.0&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=524,277)
+
+**5. Give your repository a name**
+
+**6. Click "Create repository"**
+
 ### Install global dependencies
 
 - Github CLI - `brew install gh` - Used for managing secrets and variables in Github actions

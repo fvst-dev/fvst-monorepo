@@ -1,13 +1,49 @@
 # FVST Monorepo
 
-The FVST Monorepo is a monorepository project based on Turborepo. You can read more about Turborepo
-[here](https://turbo.build/repo/docs).
+Most startups start with a monolithical application and when their business picks up and they outgrow
+the monolith the migration to microservices starts. This migration is usually painful.
 
-The core applications are based on [NestJS](https://docs.nestjs.com/) for the backend
-and [NextJS](https://nextjs.org/docs) for the frontend. For the backend demo application we show both REST and GraphQL
-implementations for constructing and communicating with the front end. Our GraphQL implementation is based on Apollo,
-and we use [Federation](https://www.apollographql.com/docs/federation) to join different services and their respective
-sub-graphs together.
+This repositories goal is to simplify microservices architecture and enable companies to still start with a monolith, but have an easy path to add new services without having to change much.
+
+We use GCP as the cloud provider - it provides an extensive free tier to get started - https://cloud.google.com/free/
+
+## Getting started
+
+### Install global dependencies
+
+- Github CLI - `brew install gh` - Used for managing secrets and variables in Github actions
+- Google cloud SDK - `brew install --cask google-cloud-sdk` - Used to setup projects on GCP.
+  - Make sure the SDK is up to date by running `gcloud components update`
+- Terraform `brew install terraform` - Used to manage infrastructure as code
+
+### Setup GCP
+
+- `npm install`
+- `npx fvst infra init` - This CLI script will guide you through setting up the infrastructure on GCP.
+  - You have to set up a billing account - follow the tutorial at https://cloud.google.com/billing/docs/how-to/create-billing-account - this step asks for a credit card, but GCP will not charge the account when the free trial runs out.
+  - This step will take some time, it will create 2 projects (staging/production), build docker containers and deploy them.
+- Setup a clerk.com account following the tutorial at [Setup Clerk application](docs/clerk/Setup Clerk application.md)
+  - You should have one account for staging and one account for production
+- Wait for the `npx fvst infra init` script and the workflow it starts on GitHub actions to finish
+  - The workflow will fail - we're unsure why it fails, it seems like GCP IAM policy is not applied on the first run.
+  - This is ok, we still need to configure the secrets for Clerk
+- `npx fvst infra setup-secrets staging` - This scripts updates the secret values for the staging environment, you should do the same for production.
+  - [How to get the CLERK_ISSUER value](docs/clerk/Get CLERK_ISSUERS value.md)
+  - [How to get the CLERK_JWSK_URL value](docs/clerk/Get CLERK_JWSK_URL value.md)
+  - [How to get the CLERK_PUBLISHABLE_KEY value](docs/clerk/Get CLERK_PUBLISHABLE_KEY value.md)
+  - [How to get the CLERK_SECRET_KEY value](docs/clerk/Get CLERK_SECRET_KEY value.md)
+- Rerun the failed jobs from the Github Actions workflow
+- Open `https://console.cloud.google.com/welcome/`
+  - Choose one of the projects created from the top
+  - Choose `Cloud run` from the navigation menu on the left
+  - You should be greeted with the following screen ![](https://gcdnb.pbrd.co/images/hlHko6NmevNp.png?o=1)
+
+### Setup local development
+
+- `npx fvst dev init` - This scripts loads the secret values from staging and populates the .env files with them for local development
+- `docker compose up` - Brings up postgres & redis
+- `npm run dev` - brings up all applications
+- Go to `http://localhost:3000/` and you should be greeted with the following screen ![](https://gcdnb.pbrd.co/images/qfIur8N7nytk.png?o=1)
 
 ## Folder structure
 
@@ -23,52 +59,10 @@ logic.
 
 ## NPM Scripts
 
-| Command         | Description                                  |
-| --------------- | -------------------------------------------- |
-| npm run lint    | Runs prettier, eslint and tsc (checks types) |
-| npm run format  | Runs prettier and eslint --fix               |
-| npm run dev     | Starts the dev environment for all apps      |
-| npm run build   | Builds all the apps and packages             |
-| npm run test    | Runs the test suite                          |
-| npm run prepare | Prepares Husky in the repository             |
-
-## Set up
-
-The application scripts are set up in [package.json](package.json) with additional Turborepo related addons declared
-in [turbo.json](turbo.json). As such, commands can be run both inside separate applications and from the root directory.
-If run from the application directory, then it affects only the application and when run from the root, it will affect
-all applications that have the script with the same name in their definitions.
-
-By default, all npm scripts in the root run the respective turbo scripts which run all application scripts.
-
-To start, install all npm packages with `npm install` from the root directory. Run `docker compose up` to run the
-required Postgres/Redis instances.
-
-Next go to each application in the `/apps` directory and copy their respective `.env.example` files into `.env` files.
-
-> Note that **NextJS** uses both **.env** and **.env.local** as the files it checks for environment variables. It is
-> better to use **.env.local** as that is the first preferred location for NextJS to look.
-
-To run all applications, just run `npm run dev` and that will start all the applications. You can also run each
-application separately if you navigate into the directory of the application and run the command directly from there.
-
-### Authentication
-
-Go to https://clerk.com/ and:
-
-- Register an account
-- Open their dashboard
-- Add a new application
-- Go to `JWT Templates` and add a new `Blank` template
-  - Under `Claims` add `{ "userId": "{{user.id}}" }`
-  - The `Issuer` field value goes under `process.env.CLERK_ISSUER`
-  - The `JWKS Endpoint` field value goes under `process.env.CLERK_JWSK_URL`
-
-## Troubleshooting
-
-When adding new applications/tooling/packages, changing their directory names or moving them, npm can get confused on
-where the package itself is located. To remedy these situations it is required sometime after these actions to delete
-all the `node_modules` directories as well as the `package-lock.json` file in the root of the monorepository.
-
-After that, run `npm install` at the root of the mono repository and an updated `package-lock.json` file will be
-generated representing the new Monorepo structure.
+| Command        | Description                                  |
+| -------------- | -------------------------------------------- |
+| npm run lint   | Runs prettier, eslint and tsc (checks types) |
+| npm run format | Runs prettier and eslint --fix               |
+| npm run dev    | Starts the dev environment for all apps      |
+| npm run build  | Builds all the apps and packages             |
+| npm run test   | Runs the test suite                          |

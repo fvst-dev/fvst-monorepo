@@ -45,5 +45,3 @@
 **13. Click "APPLY CHANGES"**
 
 ![](https://ajeuwbhvhr.cloudimg.io/colony-recorder.s3.amazonaws.com/files/2023-08-16/f8a31fab-c256-45ce-a746-44176550479a/ascreenshot.jpeg?tl_px=1700,834&br_px=2560,1315&force_format=png&width=860&wat_scale=76&wat=1&wat_opacity=0.7&wat_gravity=northwest&wat_url=https://colony-recorder.s3.us-west-1.amazonaws.com/images/watermarks/FB923C_standard.png&wat_pad=723,418)
-
-

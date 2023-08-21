@@ -10,6 +10,9 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
 ## Features
 
 - 100% customizable to your needs - just copy this repository template and make your own changes.
+- Community driven
+  - Have an idea to make it better for everyone? Start a [discussion](https://github.com/fvst-dev/fvst-monorepo/discussions) or open a [PR](https://github.com/fvst-dev/fvst-monorepo/pulls)!
+  - Not sure how to achieve something or confused on how something is built? Ask a [question](https://github.com/fvst-dev/fvst-monorepo/discussions/categories/q-a) and we'll help you out!
 - [Monorepo](https://semaphoreci.com/blog/what-is-monorepo) pattern to keep all your code in one place and have your team work on a single source of truth.
   - Easy to add new services without the headache of configuring a new repository
   - Easy to share code between services without having to manage separate NPM libraries

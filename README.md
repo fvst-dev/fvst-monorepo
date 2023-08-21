@@ -13,6 +13,7 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
 - [Monorepo](https://semaphoreci.com/blog/what-is-monorepo) pattern to keep all your code in one place and have your team work on a single source of truth.
   - Easy to add new services without the headache of configuring a new repository
   - Easy to share code between services without having to manage separate NPM libraries
+  - Easy to run locally, just start the docker compose file and run npm run dev to bring the entire stack up.
 - CLI baked into the repository to automate complex workflows.
   - Easy to add your own custom commands that your team can utilize.
 - Infrastructure as code, allowing you to easily and quickly set up your environments. We leverage the following in our infrastrucutre:
@@ -36,6 +37,8 @@ We use GCP as the cloud provider - it provides an extensive free tier to get sta
   - [Dockerfiles](https://spacelift.io/blog/dockerfile), [ESLint](https://eslint.org/), [Jest](https://jestjs.io/), [Prettier](https://prettier.io/), [Typescript](https://www.typescriptlang.org/)
 - Example services implemented using popular technologies
   - [NextJS](https://nextjs.org/), [NestJS](https://nestjs.com/), [Prisma](https://www.prisma.io/), [Bull MQ](https://github.com/taskforcesh/bullmq), [Graphql](https://www.apollographql.com/apollo-client)
+- DX
+  - We format modified code on each commit, and it's easy to extend this behaviour to add your own pre-commit validation.
 
 ## Documentation
 

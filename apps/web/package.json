@@ -22,7 +22,7 @@
     "@clerk/nextjs": "^4.16.4",
     "@heroicons/react": "^2.0.18",
     "@package/nextjs-header": "*",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "next": "^13.4.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
